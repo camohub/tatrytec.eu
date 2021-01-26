@@ -1,0 +1,182 @@
+.fS05 {
+	font-size: 0.5em;
+}
+.fS09 {
+	font-size: 0.9em;
+}
+.fS12 {
+	font-size: 1.2em;
+}
+.fS15 {
+	font-size: 1.5em;
+}
+.fS17 {
+	font-size: 1.7em;
+}
+.fS2 {
+	font-size: 2em;
+}
+.fWB {
+	font-weight: bold;
+}
+.fL {
+	float: left;
+}
+.fR {
+	float: right;
+}
+.w75 {
+	width: 75px;
+}
+.w150 {
+	width: 150px;
+}
+.w200 {
+	width: 200px;
+}
+.w300 {
+	width: 300px;
+}
+.w400 {
+	width: 400px;
+}
+.w500 {
+	width: 500px;
+}
+.w50P {
+	width: 50%;
+}
+.w75P {
+	width: 75%;
+}
+.w100P {
+	width: 100%;
+}
+.w95P {
+	width: 95%;
+}
+.w25P {
+	width: 25%;
+}
+.w33P {
+	width: 33.3%;
+}
+.maxW75 {
+	max-width: 75px;
+}
+.maxW130 {
+	max-width: 130px;
+}
+.h100P {
+	height: 100%;
+}
+.h60 {
+	height: 60px;
+}
+.h15E {
+	height: 1.5em;
+}
+.h13E {
+	height: 1.3em;
+}
+.dI {
+	display: inline;
+}
+.dB {
+	display: block;
+}
+.dN {
+	display: none;
+}
+.dIB {
+	display: inline-block;
+}
+.vH {
+	visibility: hidden;
+}
+.small1 {
+	font-size: 0.8em !important;
+}
+.small2 {
+	font-size: 0.65em !important;
+}
+.clear {
+	clear: both;
+}
+
+/*.bgI2 { background:@c25 url('@{images}/stars2.png') right -90px  no-repeat; }*/
+
+.lSTN {
+	list-style-type: none;
+}
+.pR {
+	position: relative;
+}
+.pA {
+	position: absolute;
+}
+.tL0 {
+	top: 0;
+	left: 0;
+}
+.tR0 {
+	top: 0;
+	right: 0;
+}
+.bL0 {
+	bottom: 0;
+	left: 0;
+}
+.vAT,
+.vAT td {
+	vertical-align: top;
+}
+.vAB,
+.vAB td {
+	vertical-align: bottom;
+}
+.vAM,
+.vAM td {
+	vertical-align: middle;
+}
+.tAC {
+	text-align: center;
+}
+.tAL {
+	text-align: left;
+}
+.tAR {
+	text-align: right;
+}
+.oH {
+	overflow: hidden;
+}
+.tSN {
+	text-shadow: 0 0 0 #023;
+	/* unset text-shadow from .main */
+}
+.tS1 {
+	text-shadow: 0 0 4px #000;
+}
+.bS1 {
+	box-shadow: 0 1px 5px 0 #344;
+}
+/*.bS2 {
+	box-shadow: inset 0px -22px 7px -22px #000;
+}*/
+.bS3 {
+	box-shadow: 1px 3px 5px 0 #676767;
+}
+.td25 td,
+.td th {
+	width: 25%;
+}
+.zI10 {
+	z-index: 10;
+}
+.zI100 {
+	z-index: 100;
+}
+.cP {
+	cursor: pointer;
+}

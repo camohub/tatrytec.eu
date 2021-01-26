@@ -1,0 +1,23 @@
+#main ul.pagination, ul.pagination {
+	margin-top: 50px;
+
+	li.page-item {
+		margin: 0 5px 0 0px;
+
+		&.active {
+			background-color: #b63c3c;
+			border-color: #903030;
+
+			.page-link {
+				background-color: #b63c3c;
+				border-color: #903030;
+				color: #fff;
+			}
+		}
+
+		.page-link {
+			color: #b63c3c;
+			border-color: #e6dede;
+		}
+	}
+}

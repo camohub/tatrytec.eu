@@ -1,0 +1,57 @@
+#fbLogin {
+	padding: 1px 6px 1px 1px;
+	font-size: 16px;
+	line-height: 24px; /* bacause of 1px padding */
+	height: 26px;
+	display: inline-block;
+	background-color: #1877f2;
+	color: #fff;
+	cursor: pointer;
+
+	img {
+		float: left;
+		margin: 0 4px 0 0;
+		padding: 0;
+		width: 24px;
+		height: 24px;
+	}
+}
+
+#gLogin {
+	padding: 1px 6px 1px 1px;
+	font-size: 16px;
+	line-height: 24px;
+	height: 26px;
+	display: inline-block;
+	background-color: #222;
+	color: #fff;
+	cursor: pointer;
+
+	img {
+		float: left;
+		margin: 0 4px 0 0;
+		padding: 0;
+		width: 24px;
+		height: 24px;
+	}
+}
+
+#githubLogin {
+	padding: 0 6px 0 1px;  /* because github btn has border */
+	font-size: 16px;
+	line-height: 24px;
+	height: 26px;
+	display: inline-block;
+	background-color: #fff;
+	color: #000;
+	border: 1px solid #000;
+
+	img {
+		float: left;
+		margin: 0 4px 0 0;
+		padding: 0;
+		width: 24px;
+		height: 24px;
+		background-color: #fff;
+	}
+}

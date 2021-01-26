@@ -1,0 +1,47 @@
+.form-control {
+	line-height: 1.8rem;
+}
+
+.formEl,
+input,
+textarea {
+	display: inline-block;
+	padding: 5px;
+	border-radius: 3px;
+	border: 3px solid #81C5B3;
+	background-color: #f9faff;
+}
+/*.formElB,
+input[type=submit] {
+	display: block;
+	font-weight: bold;
+	padding: 2px 20px;
+	cursor: pointer;
+	border: 0 solid transparent;
+	border-radius: 3px;
+	background-color: #81C5B3;
+	color: #fff;
+}*/
+label {
+	font-weight: bold;
+}
+form td,
+form th {
+	padding: 7px 7px;
+	min-width: 80px;
+	vertical-align: middle;
+	font-weight: normal;
+}
+form th {
+	text-align: right;
+}
+form .required label {
+	font-weight: bold;
+}
+.button1,
+a.button1 {
+	background: url('https://web.php5.sk/www/images/button1.jpg') left center repeat-x;
+	color: #fff;
+	border-radius: 3px;
+	cursor: pointer;
+}

@@ -1,0 +1,38 @@
+.fa.fa-lg {
+	padding-left: 10px;
+	line-height: 1em;
+	vertical-align: 0;
+	cursor: pointer;
+}
+.ico {
+	padding-left: 20px;
+	display: inline-block;
+	min-height: 20px;
+	cursor: pointer;
+}
+.ico_modify {
+	background: url('https://web.php5.sk/www/images/icons/Modify.png') 2px center no-repeat;
+}
+.ico_comment {
+	background: url('https://web.php5.sk/www/images/icons/Comment.png') 2px center no-repeat;
+}
+.fa-minus-circle,
+.fa-trash-o {
+	color: #b63c3c;
+}
+.fa-check-circle,
+.fa-pencil {
+	color: green;
+}
+.ico_trash {
+	background: url('https://web.php5.sk/www/images/icons/Trash.png') 2px center no-repeat;
+}
+.ico_add {
+	background: url('https://web.php5.sk/www/images/icons/Add.png') 2px center no-repeat;
+}
+.ico_help {
+	background: url('https://web.php5.sk/www/images/icons/Help book.png') 2px center no-repeat;
+}
+.ico_hint {
+	background: url('https://web.php5.sk/www/images/icons/Hint.png') 2px center no-repeat;
+}
