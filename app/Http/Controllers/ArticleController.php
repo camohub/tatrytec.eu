@@ -25,7 +25,7 @@ class ArticleController extends BaseController
 		{
 			session([self::SESS_ID => $category->id]);
 
-			$articles = $this->getArticles( $category->getCategoryIds() );
+			$articles = $this->getArticles($category->getCategoryIds());
 
 			$view = [
 				'articles' => $articles,
