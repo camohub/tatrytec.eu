@@ -35,11 +35,14 @@ Route::get('/profil/id', 'UserController@detail')->name('user.detail');
 /////////////////////////////////////////////////////////////////////////////////
 Route::get('/{slug?}', 'ArticleController@index')->name('articles');
 
+
 ///////////////////////////////////////////////////////////////////////////////////
 // Admin /////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////
-Route::prefix('admin')->group(function () {
-	Route::name('admin.')->group(function () {
-		Route::get('/articles', 'ArticleController@index')->name('articles');
+Route::middleware('auth')->group(function() {
+	Route::prefix('admin')->group(function () {
+		Route::name('admin.')->group(function () {
+			Route::get('/articles', 'ArticleController@index')->name('articles');
+		});
 	});
 });
