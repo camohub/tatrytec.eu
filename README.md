@@ -8,3 +8,7 @@
 * chown -R www-data:www-data ./vendor/*
 * npm run build
 * chown -R www-data:ww-data ./node_modules/*
+
+
+### MIDDLEWARE ###
+Admin.php + Kernel.php + $routeMiddleware

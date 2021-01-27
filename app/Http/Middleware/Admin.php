@@ -19,7 +19,7 @@ class Admin
 	{
 		$user = $request->user();
 
-		if( !$user || (!$user->isInRole(Role::ROLE_ADMIN) && !$user->isInRole(Role::ROLE_REDACTOR)) )
+		if( !$user || !$user->hasRole([Role::ROLE_ADMIN, Role::ROLE_REDACTOR]) )
 		{
 			flash('Nemáte oprávnenie vstupovať do adminsitrácie.')->error()->important();
 			return redirect()->route('articles');

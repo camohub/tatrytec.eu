@@ -3,11 +3,10 @@
 namespace App\Http\Controllers;
 
 
-use App\Mail\RegisterEmailConfirmation;
 use App\Models\Entities\Article;
 use App\Models\Entities\Category;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+
 
 class ArticleController extends BaseController
 {

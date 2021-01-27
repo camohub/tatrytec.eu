@@ -52,10 +52,19 @@ class User extends Authenticatable
 	}
 
 
-	public function isInRole($role)
+	public function hasRole($roles)
 	{
-		return $this->roles->first(function ($value, $key) use ($role) {
-			return mb_strtolower($value->name) == mb_strtolower($role);
-		});
+		$roles = (array)$roles;
+
+		foreach ($roles as $role)
+		{
+			$hasRole = $this->roles->first(function ($value, $key) use ($role) {
+				return mb_strtolower($value->name) == mb_strtolower($role);
+			});
+
+			if( $hasRole ) return TRUE;
+		}
+
+		return FALSE;
 	}
 }

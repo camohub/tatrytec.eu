@@ -29,7 +29,7 @@
 
 				<ul>
 					@auth
-						@if(Auth::user()->isInRole('admin'))
+						@if(Auth::user()->hasRole('admin'))
 							{{--<li><a {{route('drom')}}>Drom</a></li>--}}
 							{{--<li><a href="{{route('admin.default')}}" rel="nofollow">Administrácia</a></li>--}}
 						@endif
