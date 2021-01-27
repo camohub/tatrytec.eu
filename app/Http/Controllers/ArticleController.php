@@ -61,7 +61,8 @@ class ArticleController extends BaseController
 			->join('articles_categories', function ($join) use ($categoriesIds) {
 				$join->on('articles.id', '=', 'articles_categories.article_id')
 					->whereIn('articles_categories.category_id', $categoriesIds);
-			});
+			})
+			->orderBy('id', 'DESC');
 
 		return $articles->paginate(self::PAGE_ITEMS)->onEachSide(1);
 	}
