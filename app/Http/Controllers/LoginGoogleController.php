@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\Entities\Role;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Contracts\User as SocialUser;
