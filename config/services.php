@@ -33,19 +33,19 @@ return [
 	'github' => [
 		'client_id' => env('GITHUB_CLIENT_ID'),
 		'client_secret' => env('GITHUB_CLIENT_SECRET'),
-		'redirect' => 'http://tatrytec.eu/github/login/callback',  // Needs to be rewritten on production version also on Github
+		'redirect' => 'https://tatrytec.eu/github/login/callback',  // Needs to be rewritten on production version also on Github
 	],
 
 	'google' => [
 		'client_id' => env('GOOGLE_CLIENT_ID'),
 		'client_secret' => env('GOOGLE_CLIENT_SECRET'),
-		'redirect' => 'http://tatrytec.eu/google/login/callback',  // Needs to be rewritten on production version also on Google
+		'redirect' => 'https://tatrytec.eu/google/login/callback',  // Needs to be rewritten on production version also on Google
 	],
 
 	'facebook' => [
 		'client_id' => env('FACEBOOK_CLIENT_ID'),
 		'client_secret' => env('FACEBOOK_CLIENT_SECRET'),
-		'redirect' => 'http://tatrytec.eu/facebook/login/callback',  // Needs to be rewritten on production version also on Facebook
+		'redirect' => 'https://tatrytec.eu/facebook/login/callback',  // Needs to be rewritten on production version also on Facebook
 	],
 
 ];
