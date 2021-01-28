@@ -1,3 +1,38 @@
 .pointer {
 	cursor: pointer;
 }
+
+.nbsp {
+	white-space: nowrap;
+}
+
+.area400 {
+	width: 400px;
+	height: 60px;
+}
+.area500 {
+	height: 500px;
+}
+.area600 {
+	height: 600px;
+}
+
+.hover1:hover {
+	background-color: #F0F5BF;
+}
+.hover2:hover {
+	background-color: #f3f5d3;
+}
+.hover3:hover {
+	background-color: #e9eaf5;
+}
+
+.hr {
+	margin-top: 40px;
+	padding-top: 20px;
+	border-top: 1px dotted #889999;
+}
+
+.control {
+	color: #fff;
+}

@@ -1,0 +1,14 @@
+
+#ajax-spinner {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	margin-left: -25px;
+	margin-top: -25px;
+	width: 50px;
+	height: 50px;
+	background: transparent url('/imgs/spinner.gif') no-repeat 50% 50%;
+	font-size: 0;
+	z-index: 12345;
+	display: none;
+}

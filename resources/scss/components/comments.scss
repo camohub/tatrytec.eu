@@ -1,0 +1,15 @@
+
+#addCommentForm {
+
+	.help {
+		color: $green2;
+	}
+
+	.helpContent {
+		position: absolute;
+		display: none;
+		background-color: $white;
+		box-shadow: $box-shadow-1;
+		padding: 5px;
+	}
+}

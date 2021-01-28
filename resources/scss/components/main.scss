@@ -1,19 +1,8 @@
-html,
-body,
-textarea,
-ul,
-li,
-h1,
-h2,
-h3,
-h4,
-h5,
-form {
+html, body, textarea, ul, li, h1, h2, h3, h4, h5, form {
 	margin: 0;
 	padding: 0;
 }
-html,
-body {
+html, body {
 	width: 100%;
 	height: 100%;
 	background: #fff;
@@ -32,20 +21,14 @@ body {
 	margin-bottom: -5em;
 	/* makes footer visible cause 100% push it outside of window */
 }
-table,
-tbody,
-thead,
-tr,
-th,
-td {
+table, tbody, thead, tr, th, td {
 	border-collapse: collapse;
 }
 p {
 	margin: 0 0 14px;
 	padding: 5px 0;
 }
-b,
-strong {
+b, strong {
 	color: #444;
 }
 h1 {
@@ -55,17 +38,16 @@ h1 {
 	font-weight: bold;
 	letter-spacing: -1px;
 	margin-bottom: 15px;
+
+	a {
+		color: #b63c3c;
+
+		&:active {
+			color: #3aa391;
+		}
+	}
 }
-h1 a {
-	color: #b63c3c;
-}
-h1 a:active {
-	color: #3aa391;
-}
-/*h1 a { color: @c3; }*/
-h2,
-h3,
-h4 {
+h2, h3, h4 {
 	font-weight: bold;
 	font-family: "Helvetica Neue", Trebuchet MS, verdana;
 	margin: 14px 0 0;
@@ -119,67 +101,6 @@ a:active,
 a:visited {
 	text-decoration: none;
 }
-ul li ul li a:hover {
-	color: #3aa391;
-}
-
-.control {
-	color: #fff;
-}
-ul.pagination {
-	margin: 0;
-	padding: 0;
-}
-.hr {
-	margin-top: 40px;
-	padding-top: 20px;
-	border-top: 1px dotted #889999;
-}
-.nbsp {
-	white-space: nowrap;
-}
-.area400 {
-	width: 400px;
-	height: 60px;
-}
-.area500 {
-	height: 500px;
-}
-.area600 {
-	height: 600px;
-}
-div.g-signin2 {
-	display: inline-block;
-}
-/* Google sign in button */
-#ajax-spinner {
-	position: fixed;
-	top: 50%;
-	left: 50%;
-	margin-left: -25px;
-	margin-top: -25px;
-	width: 50px;
-	height: 50px;
-	background: transparent url('/www/images/spinner.gif') no-repeat 50% 50%;
-	font-size: 0;
-	z-index: 12345;
-	display: none;
-}
-
-a[href^="error:"] {
-	background: red;
-	color: white;
-}
-/* form errors */
-.error,
-ul.error li {
-	color: #df5148;
-	margin: 0;
-	padding: 3px;
-	font-weight: bold;
-	list-style-type: none;
-}
-/* end form errors */
 table.datagrid {
 	background-color: #f5f5f5;
 	color: #3d4f61;
@@ -192,37 +113,9 @@ table.datagrid th {
 	padding: 7px;
 	border: 1px solid #3aa391;
 }
+
 html.js .jshidden {
 	display: none;
-}
-#tracy-debug h1 {
-	/* seká sa to s csskom zo stránky */
-	letter-spacing: 0;
-	text-shadow: 0 0 0 #fff;
-}
-#main ul.breadcrumbs {
-	padding-left: 0;
-}
-li.breadcrumbs {
-	display: inline-block;
-	padding: 5px 0;
-	color: #3aa391;
-	font-weight: bold;
-}
-li.breadcrumbs a {
-	color: #3aa391;
-}
-li.breadcrumbs a:hover {
-	color: #27D2BD;
-}
-.hover1:hover {
-	background-color: #F0F5BF;
-}
-.hover2:hover {
-	background-color: #f3f5d3;
-}
-.hover3:hover {
-	background-color: #e9eaf5;
 }
 
 pre.prettyprint.custom {
