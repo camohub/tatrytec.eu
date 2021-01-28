@@ -23,15 +23,12 @@ class LoginController extends BaseController
 		{
 			$request->session()->regenerate();
 			flash('Vitajte na palube '. Auth::user()->name .'.')->success();
-			// The intended method provided by Laravel's redirector will redirect the user to the URL they were attempting to access
-			// before being intercepted by the authentication middleware.
-			// A fallback URI may be given to this method in case the intended destination is not available.
-			return redirect()->intended('/');
+			return back();
 		}
 		else if (User::where('email', $email)->whereNotNull('register_token')->first())
 		{
 			return back()->with('showModal', 'loginModal')->withErrors([
-				'email' => 'Váš email nieje overený. Skontrolujte prosím doručenú poštu.',
+				'email' => 'Váš email ešte nebol overený. Skontrolujte si prosím doručenú poštu.',
 			]);
 		}
 

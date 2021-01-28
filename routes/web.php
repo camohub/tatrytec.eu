@@ -43,6 +43,7 @@ Route::middleware('admin')->group(function() {
 	Route::prefix('admin')->group(function () {
 		Route::name('admin.')->group(function () {
 			Route::get('/articles', 'ArticleController@index')->name('articles');
+			Route::get('/articles/edit/{id}', 'ArticleController@edit')->name('articles.edit');
 		});
 	});
 });

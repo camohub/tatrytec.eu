@@ -19,7 +19,13 @@ class Admin
 	{
 		$user = $request->user();
 
-		if( !$user || !$user->hasRole([Role::ROLE_ADMIN, Role::ROLE_REDACTOR]) )
+		if( !$user )
+		{
+			flash()->error('Pred vstupom do adminstrácie sa musíte pruhlásiť.');
+			session()->flash('showModal', 'loginModal');
+			return redirect()->route('articles');
+		}
+		elseif( !$user->hasRole([Role::ROLE_ADMIN, Role::ROLE_REDACTOR]) )
 		{
 			flash('Nemáte oprávnenie vstupovať do adminsitrácie.')->error()->important();
 			return redirect()->route('articles');
