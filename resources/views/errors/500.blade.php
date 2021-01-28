@@ -1,4 +1,4 @@
-@extends('email-base')
+@extends('base')
 
 <div class="error-404">
 	<div class="content">

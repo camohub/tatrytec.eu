@@ -2,7 +2,6 @@
 
 <div class="error-404">
 	<div class="content">
-		<div class="text">419<br>Time expired</div>
+		<div class="text">401<br>Unauthorized</div>
 	</div>
 </div>
-
