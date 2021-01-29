@@ -44,7 +44,7 @@ class CommentsService
 		$text = htmlspecialchars($text, ENT_QUOTES | ENT_HTML401);
 		$text = preg_replace('/\*([^*]+)\*/', '<b>$1</b>', $text);
 		$text = preg_replace_callback('/```([^`]+)```/', function($m) {
-			return '<pre class="prettyprint custom"><code>' . trim($m[1], PHP_EOL) . '</code></pre>';
+			return '<pre class="prettyprint custom"><code>' . trim($m[1], "\r\n") . '</code></pre>';
 		}, $text);
 
 		return $text;
