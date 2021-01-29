@@ -20,7 +20,7 @@ class Comments extends Migration
 			$table->unsignedBigInteger('user_id');
 			$table->string('user_name', 50);
 			$table->string('email', 50);
-			$table->text('content', 255);
+			$table->text('text', 255);
 			$table->timestamps();
 			$table->softDeletes();
 		});
