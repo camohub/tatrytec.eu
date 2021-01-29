@@ -3,9 +3,11 @@
 @import "abstracts/variables.scss";
 @import "abstracts/classes";
 
+@import "components/ajax-spinner";
 @import "components/animations";
 @import "components/borders";
 @import "components/colors";
+@import "components/comments";
 @import "components/edit-menu";
 @import "components/flashes";
 @import "components/footer";

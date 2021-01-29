@@ -15,6 +15,7 @@ class Comments extends Migration
 	{
 		Schema::create('comments', function (Blueprint $table) {
 			$table->engine = 'InnoDB';
+			$table->id();
 			$table->unsignedBigInteger('article_id');
 			$table->unsignedBigInteger('user_id');
 			$table->string('user_name', 50);

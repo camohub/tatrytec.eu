@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Entities\Article;
+use App\Models\Entities\Comment;
 use App\Models\Entities\Role;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -49,6 +50,11 @@ class User extends Authenticatable
 	public function articles()
 	{
 		return $this->hasMany(Article::class);
+	}
+
+	public function comments()
+	{
+		return $this->hasMany(Comment::class);
 	}
 
 

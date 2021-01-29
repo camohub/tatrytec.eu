@@ -35,27 +35,14 @@
 </head>
 <body>
 
-<!-- Google Tag Manager (noscript) -->
+{{-- Google Tag Manager (noscript) --}}
 <noscript>
 	<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K3ZF82J" height="0" width="0" style="display:none;visibility:hidden"></iframe>
 </noscript>
-<!-- End Google Tag Manager (noscript) -->
-
-{{-- flexiFlash --}}
-@if(!empty($flexiFlash))
-    <div  class="flexiFlash">
-        @foreach($flexiFlash as $fflash)
-            <div class="alert alert-dismissible fade in @if($fflash[1] == 'error') alert-danger @else alert-success @endif">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>{{$fflash[0]}}
-            </div>
-        @endforeach
-    </div>
-@endif
+{{-- End Google Tag Manager (noscript) --}}
 
 
 @yield('body')
-
-<div id="ajax-spinner"> </div>
 
 
 <script type="text/javascript" src="{{mix('js/app.js')}}"></script>
@@ -72,9 +59,17 @@
 @include('components.register-form-modal')
 
 
+{{-- ALERTS --}}
 <div id="alerts-wrapper">
 	@include('flash::message')
+	<script>
+		$('div.alert').not('.alert-important').delay(7000).fadeOut(350);
+	</script>
 </div>
+
+
+{{-- SPINNER --}}
+<div id="ajax-spinner"> </div>
 
 </body>
 </html>

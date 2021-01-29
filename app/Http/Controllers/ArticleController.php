@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 
+use App\Http\Requests\CommentsRequest;
 use App\Models\Entities\Article;
 use App\Models\Entities\Category;
+use App\Models\Entities\Comment;
+use App\Models\Services\CommentsService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 
 class ArticleController extends BaseController
@@ -50,6 +54,44 @@ class ArticleController extends BaseController
 		}
 
 		return view('article.index', $view);
+	}
+
+
+	public function addComment( CommentsRequest $request, CommentsService $commentService )
+	{
+		try
+		{
+			$commentService->createComment( $request );
+			$result = ['success' => 'Komentár bol pridaný.'];
+		}
+		catch ( \Exception $e )
+		{
+			Log::error($e);
+			$result = ['error' => 'Pri ukladaní došlo k chybe. Skúste to prosím ešte raz, alebo kontaktujte administrátora.'];
+		}
+
+		return response()->json($result);
+	}
+
+
+	public function showComments( Request $request )
+	{
+		$articleId = $request->get( 'articleId' );
+
+		$comments = Comment::where('article_id', $articleId)
+			->with('user')
+			->orderBy('id', 'desc')
+			->paginate(2)
+			->onEachSide(1)
+			->setPath(route('show-comments'));
+
+		if ( $request->ajax() )
+		{
+			return response()->json( [
+				'comments'   => $comments,
+				'pagination' => $comments->appends( request()->query() ) . "",
+			], 200 );
+		}
 	}
 
 

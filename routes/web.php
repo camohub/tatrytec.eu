@@ -13,8 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/add-comment', 'ArticleController@addComment')->name('add-comment');
-
 ///////////////////////////////////////////////////////////////////////////////////
 // Login, logout, register, profil ///////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////
@@ -29,6 +27,10 @@ Route::get('/logout', 'LoginController@logout')->name('logout');
 Route::post('/register', 'RegisterController@register')->name('register');
 Route::get('/register/confirm-email/{id}/{token}', 'RegisterController@confirmEmail')->name('register.confirm-email');
 Route::get('/profil/id', 'UserController@detail')->name('user.detail');
+
+// Comments ///////////////////////////////////////////////////////////////////////
+Route::post( 'show-comments', 'ArticleController@showComments' )->name( 'show-comments' );
+Route::post('/add-comment', 'ArticleController@addComment')->name('add-comment');
 
 ///////////////////////////////////////////////////////////////////////////////////
 // Placeholder routes ////////////////////////////////////////////////////////////

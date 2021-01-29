@@ -5,11 +5,107 @@
 		color: $green2;
 	}
 
-	.helpContent {
+	#commentHelp {
 		position: absolute;
 		display: none;
 		background-color: $white;
 		box-shadow: $box-shadow-1;
-		padding: 5px;
+		padding: 14px;
+		border-radius: 4px;
+		z-index: 10000;
+	}
+}
+
+#commentsPaginationWrapper {
+	margin: 50px 0 50px 0;
+
+	ul.pagination {
+		padding-left: 0;
+	}
+}
+
+.comment-item {
+	display: flex;
+	align-items: flex-start;
+	padding: 10px 0;
+	border-bottom: 1px solid #f5f6fb;
+	margin-bottom: 16px;
+
+	.comment-img {
+		width: 52px;
+		height: 52px;
+		border-radius: 50%;
+		object-fit: cover;
+	}
+
+	.comment-body {
+		margin-left: 20px;
+	}
+
+	@media (min-width: 767.98px) {
+		.comment-body {
+			margin-left: 30px;
+		}
+	}
+
+
+	@media (min-width: 767.98px) {
+		.comment-body-top {
+			display: flex;
+			justify-content: space-between;
+			align-items: flex-start;
+			margin-bottom: 7px;
+
+			.product-rating {
+				margin-bottom: 0;
+			}
+		}
+	}
+
+	.comment-body-top {
+	}
+
+	.comment-body-top-texts {
+		display: flex;
+		margin-bottom: 7px;
+	}
+
+	@media (min-width: 767.98px) {
+		.comment-body-top-texts {
+			margin-bottom: 0;
+		}
+	}
+
+	.comment-author {
+		font-size: 0.875rem;
+		font-weight: 600;
+		color: $black;
+		margin-right: 10px;
+		margin-bottom: 0;
+	}
+
+	.comment-date {
+		display: flex;
+		align-items: center;
+		font-size: 0.75rem;
+		color: $gray;
+	}
+
+	.comment-body-content {
+
+		p {
+			font-size: 0.6875rem;
+			margin-bottom: 0;
+		}
+
+		@media (min-width: 767.98px) {
+			p {
+				font-size: 0.875rem;
+			}
+		}
+	}
+
+	.btn-link {
+		font-size: 0.875rem;
 	}
 }

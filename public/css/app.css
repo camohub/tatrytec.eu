@@ -10007,6 +10007,59 @@ h3 {
   cursor: pointer;
 }
 
+.nbsp {
+  white-space: nowrap;
+}
+
+.area400 {
+  width: 400px;
+  height: 60px;
+}
+
+.area500 {
+  height: 500px;
+}
+
+.area600 {
+  height: 600px;
+}
+
+.hover1:hover {
+  background-color: #F0F5BF;
+}
+
+.hover2:hover {
+  background-color: #f3f5d3;
+}
+
+.hover3:hover {
+  background-color: #e9eaf5;
+}
+
+.hr {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px dotted #889999;
+}
+
+.control {
+  color: #fff;
+}
+
+#ajax-spinner {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin-left: -25px;
+  margin-top: -25px;
+  width: 50px;
+  height: 50px;
+  background: transparent url("/imgs/spinner.gif") no-repeat 50% 50%;
+  font-size: 0;
+  z-index: 12345;
+  display: none;
+}
+
 .translateInit {
   transform: translate(350px, 0px);
   opacity: 0;
@@ -10125,6 +10178,94 @@ a.c0 {
 .bgI2 {
 	background: #373734 url('/header-bg.jpg');
 }*/
+#addCommentForm .help {
+  color: #5cb19c;
+}
+#addCommentForm #commentHelp {
+  position: absolute;
+  display: none;
+  background-color: #fff;
+  box-shadow: 0px 0px 7px #757575;
+  padding: 14px;
+  border-radius: 4px;
+  z-index: 10000;
+}
+
+#commentsPaginationWrapper {
+  margin: 50px 0 50px 0;
+}
+#commentsPaginationWrapper ul.pagination {
+  padding-left: 0;
+}
+
+.comment-item {
+  display: flex;
+  align-items: flex-start;
+  padding: 10px 0;
+  border-bottom: 1px solid #f5f6fb;
+  margin-bottom: 16px;
+}
+.comment-item .comment-img {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.comment-item .comment-body {
+  margin-left: 20px;
+}
+@media (min-width: 767.98px) {
+  .comment-item .comment-body {
+    margin-left: 30px;
+  }
+}
+@media (min-width: 767.98px) {
+  .comment-item .comment-body-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 7px;
+  }
+  .comment-item .comment-body-top .product-rating {
+    margin-bottom: 0;
+  }
+}
+.comment-item .comment-body-top-texts {
+  display: flex;
+  margin-bottom: 7px;
+}
+@media (min-width: 767.98px) {
+  .comment-item .comment-body-top-texts {
+    margin-bottom: 0;
+  }
+}
+.comment-item .comment-author {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #000;
+  margin-right: 10px;
+  margin-bottom: 0;
+}
+.comment-item .comment-date {
+  display: flex;
+  align-items: center;
+  font-size: 0.75rem;
+  color: #757575;
+}
+.comment-item .comment-body-content p {
+  font-size: 0.6875rem;
+  margin-bottom: 0;
+}
+@media (min-width: 767.98px) {
+  .comment-item .comment-body-content p {
+    font-size: 0.875rem;
+  }
+}
+.comment-item .btn-link {
+  font-size: 0.875rem;
+}
+
 #adminEditMenu ul.sortable,
 #sortableListsBase {
   margin-left: 0;
@@ -10183,6 +10324,7 @@ div.flexiFlash div {
   right: 10px;
   width: 100%;
   max-width: 350px;
+  z-index: 10000;
 }
 #alerts-wrapper .alert {
   padding: 2rem 1.5rem;
@@ -10411,23 +10553,12 @@ a.button1 {
   background: url("https://web.php5.sk/www/images/icons/Hint.png") 2px center no-repeat;
 }
 
-html,
-body,
-textarea,
-ul,
-li,
-h1,
-h2,
-h3,
-h4,
-h5,
-form {
+html, body, textarea, ul, li, h1, h2, h3, h4, h5, form {
   margin: 0;
   padding: 0;
 }
 
-html,
-body {
+html, body {
   width: 100%;
   height: 100%;
   background: #fff;
@@ -10449,12 +10580,7 @@ body {
   /* makes footer visible cause 100% push it outside of window */
 }
 
-table,
-tbody,
-thead,
-tr,
-th,
-td {
+table, tbody, thead, tr, th, td {
   border-collapse: collapse;
 }
 
@@ -10463,8 +10589,7 @@ p {
   padding: 5px 0;
 }
 
-b,
-strong {
+b, strong {
   color: #444;
 }
 
@@ -10476,19 +10601,14 @@ h1 {
   letter-spacing: -1px;
   margin-bottom: 15px;
 }
-
 h1 a {
   color: #b63c3c;
 }
-
 h1 a:active {
   color: #3aa391;
 }
 
-/*h1 a { color: @c3; }*/
-h2,
-h3,
-h4 {
+h2, h3, h4 {
   font-weight: bold;
   font-family: "Helvetica Neue", Trebuchet MS, verdana;
   margin: 14px 0 0;
@@ -10548,77 +10668,6 @@ a:visited {
   text-decoration: none;
 }
 
-ul li ul li a:hover {
-  color: #3aa391;
-}
-
-.control {
-  color: #fff;
-}
-
-ul.pagination {
-  margin: 0;
-  padding: 0;
-}
-
-.hr {
-  margin-top: 40px;
-  padding-top: 20px;
-  border-top: 1px dotted #889999;
-}
-
-.nbsp {
-  white-space: nowrap;
-}
-
-.area400 {
-  width: 400px;
-  height: 60px;
-}
-
-.area500 {
-  height: 500px;
-}
-
-.area600 {
-  height: 600px;
-}
-
-div.g-signin2 {
-  display: inline-block;
-}
-
-/* Google sign in button */
-#ajax-spinner {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  margin-left: -25px;
-  margin-top: -25px;
-  width: 50px;
-  height: 50px;
-  background: transparent url("/www/images/spinner.gif") no-repeat 50% 50%;
-  font-size: 0;
-  z-index: 12345;
-  display: none;
-}
-
-a[href^="error:"] {
-  background: red;
-  color: white;
-}
-
-/* form errors */
-.error,
-ul.error li {
-  color: #df5148;
-  margin: 0;
-  padding: 3px;
-  font-weight: bold;
-  list-style-type: none;
-}
-
-/* end form errors */
 table.datagrid {
   background-color: #f5f5f5;
   color: #3d4f61;
@@ -10636,43 +10685,6 @@ table.datagrid th {
 
 html.js .jshidden {
   display: none;
-}
-
-#tracy-debug h1 {
-  /* seká sa to s csskom zo stránky */
-  letter-spacing: 0;
-  text-shadow: 0 0 0 #fff;
-}
-
-#main ul.breadcrumbs {
-  padding-left: 0;
-}
-
-li.breadcrumbs {
-  display: inline-block;
-  padding: 5px 0;
-  color: #3aa391;
-  font-weight: bold;
-}
-
-li.breadcrumbs a {
-  color: #3aa391;
-}
-
-li.breadcrumbs a:hover {
-  color: #27D2BD;
-}
-
-.hover1:hover {
-  background-color: #F0F5BF;
-}
-
-.hover2:hover {
-  background-color: #f3f5d3;
-}
-
-.hover3:hover {
-  background-color: #e9eaf5;
 }
 
 pre.prettyprint.custom {

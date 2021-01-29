@@ -1858,14 +1858,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var bootstrap__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(bootstrap__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _components_alert__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/alert */ "./resources/js/components/alert.js");
 /* harmony import */ var _components_alert__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_components_alert__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _components_init_animations__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/init-animations */ "./resources/js/components/init-animations.js");
-/* harmony import */ var _components_init_animations__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_components_init_animations__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _components_menu__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/menu */ "./resources/js/components/menu.js");
-/* harmony import */ var _components_menu__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_components_menu__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _components_modals__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/modals */ "./resources/js/components/modals.js");
-/* harmony import */ var _components_modals__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_components_modals__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _components_pretty_print__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/pretty-print */ "./resources/js/components/pretty-print.js");
-/* harmony import */ var _components_pretty_print__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_components_pretty_print__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _components_comments__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/comments */ "./resources/js/components/comments.js");
+/* harmony import */ var _components_comments__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_components_comments__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _components_init_animations__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/init-animations */ "./resources/js/components/init-animations.js");
+/* harmony import */ var _components_init_animations__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_components_init_animations__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _components_menu__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/menu */ "./resources/js/components/menu.js");
+/* harmony import */ var _components_menu__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_components_menu__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _components_modals__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/modals */ "./resources/js/components/modals.js");
+/* harmony import */ var _components_modals__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_components_modals__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _components_pretty_print__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/pretty-print */ "./resources/js/components/pretty-print.js");
+/* harmony import */ var _components_pretty_print__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_components_pretty_print__WEBPACK_IMPORTED_MODULE_6__);
 //window.$ = window.jQuery = require('jquery');
 window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /**
@@ -1876,6 +1878,7 @@ window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
 
 
 
@@ -1909,6 +1912,125 @@ $(function () {
   $(document).on('click', '.x', function () {
     $(this).closest('div').css('display', 'none');
   });
+});
+
+/***/ }),
+
+/***/ "./resources/js/components/comments.js":
+/*!*********************************************!*\
+  !*** ./resources/js/components/comments.js ***!
+  \*********************************************/
+/***/ (() => {
+
+$(function () {
+  if (typeof showComments !== 'undefined' && showComments) {
+    var getCommnents = function getCommnents(url) {
+      url = url || '/show-comments?page=1';
+      $.ajax({
+        url: url,
+        type: 'POST',
+        data: {
+          articleId: detailArticleId
+        },
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function success(response) {
+          console.log(response);
+          var commentsHtml = '';
+          $.each(response.comments.data, function (index, item) {
+            commentsHtml += getCommentTemplate(item);
+          });
+          commentsWrapper.empty().append(commentsHtml);
+          commentsPagination.find('.active').removeClass('active');
+          commentsPagination.html(response.pagination);
+          console.log(response.pagination);
+          createPaginationHandlers();
+        }
+      });
+    };
+
+    var addComment = function addComment() {
+      if (addCommentForm.find('#commentText').val().trim() == '') {
+        addCommentForm.find('#commentFormErrors').text('Vložte prosím text recenzie.');
+        setTimeout(function () {
+          commentFormErrors.text('');
+        }, 3500);
+        return;
+      }
+
+      var url = addCommentForm.attr('action');
+      $.ajax({
+        url: url,
+        type: 'POST',
+        data: addCommentForm.serialize(),
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function success(response) {
+          console.log(response);
+          addCommentForm.trigger("reset"); // clear inputs
+
+          if (response.success) commentFormSuccess.text(response.success);else if (response.error) commentFormErrors.text(response.success);
+          setTimeout(function () {
+            commentFormSuccess.text('');
+            commentFormErrors.text('');
+          }, 3500);
+          getCommnents();
+        }
+      });
+    };
+
+    var createPaginationHandlers = function createPaginationHandlers() {
+      var page = parseInt(commentsPagination.find('.page-item.active span').first().text());
+      commentsPagination.find('a').click(function (e) {
+        e.preventDefault();
+        var li = $(this).closest('li');
+        var link = $(this);
+        if (li.hasClass("disabled")) return;
+        var lastActiveItem = commentsPagination.find('.page-item.active');
+        lastActiveItem.removeClass("active");
+        var isRight = link.attr("rel") === "next";
+        var isLeft = link.attr("rel") === "prev";
+        if (isRight) lastActiveItem.next().addClass("active");else if (isLeft) lastActiveItem.prev().addClass("active");else li.addClass("active");
+        getCommnents(link.attr('href'));
+      });
+    };
+
+    var getCommentTemplate = function getCommentTemplate(item) {
+      var _item$user, _item$user$image, _item$user2, _item$user2$image;
+
+      return "\n\t\t\t\t<div class=\"comment-item\">\n\t\t\t\t\t<img src=\"".concat((_item$user = item.user) !== null && _item$user !== void 0 && (_item$user$image = _item$user.image) !== null && _item$user$image !== void 0 && _item$user$image.url ? (_item$user2 = item.user) === null || _item$user2 === void 0 ? void 0 : (_item$user2$image = _item$user2.image) === null || _item$user2$image === void 0 ? void 0 : _item$user2$image.url : '/imgs/empty/empty_square.png', "\" alt=\"\" class=\"comment-img\">\n\t\t\t\t\t<div class=\"comment-body\">\n\t\t\t\t\t\t<div class=\"comment-body-top\">\n\t\t\t\t\t\t\t<div class=\"comment-body-top-texts\">\n\t\t\t\t\t\t\t\t<b class=\"comment-author commentUserName\">").concat(item.user.name, "</b>&nbsp;&nbsp;&nbsp; \n\t\t\t\t\t\t\t\t<small class=\"comment-date\">").concat(item.created, "</small>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"comment-body-content\">\n\t\t\t\t\t\t\t<p>").concat(item.text, "</p>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t");
+    }; // Arrow func. does not handle $(this) as ES5 func.
+
+
+    var commentsWrapper = $('#commnentsWrapper');
+    var commentsPagination = $('#commentsPaginationWrapper');
+    var addCommentForm = $('#addCommentForm');
+    var commentFormErrors = $('#commentFormErrors'); // Error message block
+
+    var commentFormSuccess = $('#commentFormSuccess'); // Success message block
+
+    var commentText = $('#commentText'); // Textarea
+
+    var showCommentHelp = $('#showCommentHelp'); // Nápoveda icona
+
+    var commentHelp = $('#commentHelp'); // Nápoveda
+
+    addCommentForm.submit(function (e) {
+      e.preventDefault();
+      addComment();
+    });
+    getCommnents();
+    commentsWrapper.on('click', '.commentUserName', function () {
+      commentText.val(commentText.val() + '*@' + $(this).text() + '* ').focus();
+    });
+    showCommentHelp.on('mouseenter', function () {
+      return commentHelp.css('display', 'block');
+    }).on('mouseleave', function () {
+      return commentHelp.css('display', 'none');
+    });
+  }
 });
 
 /***/ }),
