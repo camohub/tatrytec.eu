@@ -33,19 +33,31 @@ Route::post( 'show-comments', 'ArticleController@showComments' )->name( 'show-co
 Route::post('/add-comment', 'ArticleController@addComment')->name('add-comment');
 
 ///////////////////////////////////////////////////////////////////////////////////
-// Placeholder routes ////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////
-Route::get('/{slug?}', 'ArticleController@index')->name('articles');
-
-
-///////////////////////////////////////////////////////////////////////////////////
 // Admin /////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////
 Route::middleware('admin')->group(function() {
 	Route::prefix('admin')->group(function () {
 		Route::name('admin.')->group(function () {
-			Route::get('/articles', 'ArticleController@index')->name('articles');
-			Route::get('/articles/edit/{id}', 'ArticleController@edit')->name('articles.edit');
+			Route::namespace('Admin')->group(function () {
+				Route::get('/', 'DefaultController@index')->name('index');
+				Route::get('/articles', 'ArticleController@index')->name('articles');
+				Route::get('/articles/create', 'ArticleController@create')->name('articles.create');
+				Route::post('/articles/create', 'ArticleController@create')->name('articles.create');
+				Route::get('/articles/edit/{id}', 'ArticleController@edit')->name('articles.edit');
+
+				Route::get('/categories', 'CategoryController@index')->name('categories');
+
+				Route::get('/images', 'ImageController@index')->name('images');
+
+				Route::get('/users', 'UserController@index')->name('users');
+
+				Route::get('/drom', 'DromController@index')->name('drom');
+			});
 		});
 	});
 });
+
+///////////////////////////////////////////////////////////////////////////////////
+// Placeholder routes ////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////
+Route::get('/{slug?}', 'ArticleController@index')->name('articles');

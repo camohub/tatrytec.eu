@@ -29,11 +29,11 @@
 
 				<ul>
 					@auth
-						@if(Auth::user()->hasRole('admin'))
-							{{--<li><a {{route('drom')}}>Drom</a></li>--}}
-							{{--<li><a href="{{route('admin.default')}}" rel="nofollow">Administrácia</a></li>--}}
-						@endif
 						<li class="hr pH0"><a href="{{route('logout')}}" rel="nofollow">Odhlásiť</a></li>
+						@if(Auth::user()->hasRole(['admin', 'redactor']))
+							{{--<li><a {{route('drom')}}>Drom</a></li>--}}
+							<li><a href="{{route('admin.index')}}" rel="nofollow">Administrácia</a></li>
+						@endif
 						<li>
 							<a href="{{route('user.detail')}}" rel="nofollow" class="small1 c1">Prihlásený: {{Auth::user()->name}}</a>
 						</li>
