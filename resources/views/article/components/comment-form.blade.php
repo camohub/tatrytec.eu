@@ -10,7 +10,7 @@
 						<label for="commentText">Vložte komentár</label>
 						<i id="showCommentHelp" class="fa fa-lg fa-question-circle"></i>
 					</span>
-					<div id="commentHelp">*<b>Tučný text</b>*<br>```Kód programu```</div>
+					<div id="commentHelp">*<b>Tučný text</b>*<br>```Kód programu```<br><b>Klik na meno</b> vloží meno</div>
 				</div>
 				<div class="col-12">
 					<div class="mb-2 text-danger" id="commentFormErrors">
