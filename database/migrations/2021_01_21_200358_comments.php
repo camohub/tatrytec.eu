@@ -23,6 +23,9 @@ class Comments extends Migration
 			$table->text('text', 255);
 			$table->timestamps();
 			$table->softDeletes();
+
+			$table->foreign('article_id')->references('id')->on('articles')->onDelete('cascade')->onUpdate('cascade');
+			$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
 		});
 	}
 
