@@ -21,7 +21,7 @@ class Admin
 
 		if( !$user )
 		{
-			flash()->error('Pred vstupom do adminstrácie sa musíte pruhlásiť.');
+			flash()->error('Pred vstupom do adminstrácie sa musíte prihlásiť.');
 			session()->flash('showModal', 'loginModal');
 			return redirect()->route('articles');
 		}

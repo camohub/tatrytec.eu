@@ -40,10 +40,12 @@ Route::middleware('admin')->group(function() {
 		Route::name('admin.')->group(function () {
 			Route::namespace('Admin')->group(function () {
 				Route::get('/', 'DefaultController@index')->name('index');
-				Route::get('/articles', 'ArticleController@index')->name('articles');
+				Route::match(['get', 'post'], '/articles', 'ArticleController@index')->name('articles');
 				Route::get('/articles/create', 'ArticleController@create')->name('articles.create');
 				Route::post('/articles/create', 'ArticleController@create')->name('articles.create');
 				Route::get('/articles/edit/{id}', 'ArticleController@edit')->name('articles.edit');
+				Route::get('/articles/visibility/{id}', 'ArticleController@visibility')->name('articles.visibility');
+				Route::get('/articles/comments/{id}', 'ArticleController@comments')->name('articles.comments');
 
 				Route::get('/categories', 'CategoryController@index')->name('categories');
 

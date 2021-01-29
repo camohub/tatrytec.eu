@@ -7,7 +7,7 @@
             </a>
 
             @if($item->children->count())
-                @include('components.menu.menu-section', ['categories' => $item->children])
+                @include('components.sidebar.sidebar-section', ['categories' => $item->children])
             @endif
         </li>
     @endforeach

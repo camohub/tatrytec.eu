@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 
 use App\Http\Controllers\BaseController;
+use App\Models\Entities\Article;
+use App\Models\Services\ArticlesFilterService;
 
 
 class ArticleController extends BaseController
@@ -25,32 +27,14 @@ class ArticleController extends BaseController
 	protected $filteredArticles;
 
 
+	const SESS_FILTER = self::class . '_filter';
 
-	public function startup()
+
+	public function index(ArticlesFilterService $articlesFilterService)
 	{
-		parent::startup();
-		$this['breadcrumbs']->add( 'Články', ':Admin:Blog:Articles:default' );
-	}
+		$articles = $articlesFilterService->getFilteredArticles()->get();
 
-
-
-	public function renderDefault()
-	{
-		// filter is relevant only for admin if he sets some in ArticlesFilterForm
-		// $filter == $form->getValues()
-		if ( $filter = $this->getSession( 'Admin:Blog:Articles' )->filter )
-		{
-			$this->template->articles = $this->articles->findBy( $filter['criteria'], $filter['order'], NULL, NULL, 'admin' );
-
-			if ( ! isset( $filter['remember'] ) )  // if filter is not in session, settings will be lost for every redirect to renderDefault
-			{
-				unset( $this->getSession( 'Admin:Blog:Articles' )->filter );
-			}
-		}
-		else
-		{
-			$this->template->articles = $this->articles->findBy( [ 'user.id =' => $this->user->id ], [ 'created' => 'DESC' ], NULL, NULL, 'admin' );
-		}
+		return view('admin.articles.index', ['articles' => $articles]);
 	}
 
 

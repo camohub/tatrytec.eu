@@ -25,7 +25,7 @@
 
 			@include('components.sidebar.sidebar')
 
-			<div id="main" class="translateInit translate-2 col-xs-12 col-sm-8 col-md-9 col-lg-7">
+			<div id="main" class="translateInit translate-2 col-xs-12 col-sm-8 col-md-9">
 
 				@yield('content')
 
