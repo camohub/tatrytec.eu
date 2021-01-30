@@ -15,7 +15,7 @@ class LoginController extends BaseController
 	 */
 	public function authenticate(Request $request)
 	{
-		$email = $request->get('email');;
+		$email = $request->get('email');
 		$password = $request->get('password');
 
 		//if (Auth::attempt($credentials))

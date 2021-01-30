@@ -1909,9 +1909,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /***/ (() => {
 
 $(function () {
-  $(document).on('click', '.x', function () {
-    $(this).closest('div').css('display', 'none');
-  });
+  $('div.alert').not('.alert-important').delay(7000).fadeOut(350);
 });
 
 /***/ }),

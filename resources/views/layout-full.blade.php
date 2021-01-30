@@ -38,8 +38,4 @@
 
 </div>
 
-<div id="footer">
-	<strong>Created & designed by Tatrytec.eu 2020</strong>
-</div>
-
 @endsection

@@ -21,9 +21,8 @@ class Admin
 
 		if( !$user )
 		{
-			flash()->error('Pred vstupom do adminstrácie sa musíte prihlásiť.');
 			session()->flash('showModal', 'loginModal');
-			return redirect()->route('articles');
+			return redirect()->route('articles')->withErrors(['login' => 'You have to log in to access admin module.']);
 		}
 		elseif( !$user->hasRole([Role::ROLE_ADMIN, Role::ROLE_REDACTOR]) )
 		{

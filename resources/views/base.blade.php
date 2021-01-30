@@ -45,6 +45,11 @@
 @yield('body')
 
 
+<div id="footer">
+	<strong>Created & designed by Tatrytec.eu 2020</strong>
+</div>
+
+
 <script type="text/javascript" src="{{mix('js/app.js')}}"></script>
 
 @yield('scripts')
@@ -62,9 +67,6 @@
 {{-- ALERTS --}}
 <div id="alerts-wrapper">
 	@include('flash::message')
-	<script>
-		$('div.alert').not('.alert-important').delay(7000).fadeOut(350);
-	</script>
 </div>
 
 
