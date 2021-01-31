@@ -84,7 +84,7 @@ class ArticlesFilterService
 
 	private function addIntervalFilter($articles, int $interval)
 	{
-		return $articles->where('created_at', '<', date('Y-m-d H:i:s', time() - $interval * 60 * 60 * 24));
+		return $articles->where('articles.created_at', '>=', date('Y-m-d H:i:s', time() - $interval * 60 * 60 * 24));
 	}
 
 
@@ -92,39 +92,40 @@ class ArticlesFilterService
 	{
 		switch ($sort) {
 			case "title ASC":
-				return $articles->orderBy('title', 'asc');
+				return $articles->orderBy('title', 'ASC');
 			case "title DESC":
-				return $articles->orderBy('title', 'asc');
+				return $articles->orderBy('title', 'DESC');
 			case "user.name ASC":
-				return $articles->orderBy('user.name', 'asc');
+				return $articles->join('users', 'articles.user_id', '=', 'users.id')->orderBy('users.name', 'ASC');
 			case "user.name DESC":
-				return $articles->orderBy('user.name', 'asc');
+				return $articles->join('users', 'articles.user_id', '=', 'users.id')->orderBy('users.name', 'DESC');
 			case "created_at ASC":
-				return $articles->orderBy('id', 'asc');
+				return $articles->orderBy('articles.id', 'ASC');
 			case "created_at DESC":
-				return $articles->orderBy('id', 'desc');
+				return $articles->orderBy('articles.id', 'DESC');
 			default:
-				return $articles->orderBy('id', 'desc');
+				return $articles->orderBy('articles.id', 'DESC');
 		}
 	}
 
 
 	private function setSession()
 	{
-		$title = $this->request->get('title');
-		$users = $this->request->get('users');
-		$interval = $this->request->get('interval');
-		$sort = $this->request->get('sort');
-
-		$remember = $this->request->get('remember');
+		$remember = $this->request->get('remember', NULL);
+		$title = $this->request->get('title', NULL);
+		$interval = $this->request->get('interval', NULL);
+		$users = $this->request->get('users', []);
+		$sort = $this->request->get('sort', NULL);
 
 		$filter = [
-			'title' => $remember ? $title : NULL,
-			'users' => $remember ? $users : [],
-			'interval' => $remember ? $interval : NULL,
-			'sort' => $remember ? $sort : [],
 			'remember' => $remember ? $remember : NULL,
+			'title' => $remember ? $title : NULL,
+			'interval' => $remember ? $interval : NULL,
+			'users' => $remember ? $users : [],
+			'sort' => $remember ? $sort : NULL,
 		];
+
+		debug($filter);
 
 		session([self::SESS_FILTER => (object)$filter]);
 	}
