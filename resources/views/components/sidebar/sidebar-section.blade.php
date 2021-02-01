@@ -1,7 +1,7 @@
 <ul>
     @foreach($categories as $item)
         <li id="{{$item->id}}">
-            <a href="{{route('articles', ['slug' => $item->slug])}}">
+            <a href="{{route('articles', ['slug' => $item->slug != 'najnovsie' ?: ''])}}">
                 @if($item->children->count())<i class="sidebar-opener fa fa-plus"></i>@endif
                 {{$item->name}}
             </a>

@@ -2,6 +2,8 @@
 
 return [
 
+    'tinymce_token' => env('TINYMCE_TOKEN'),
+
     /*
     |--------------------------------------------------------------------------
     | View Storage Paths

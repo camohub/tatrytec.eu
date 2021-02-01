@@ -20,6 +20,10 @@ import './components/menu';
 import './components/modals';
 import './components/pretty-print';
 
+import './admin/components/articles';
+import './admin/components/alert';
+import './admin/components/tiny-mce';
+
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening

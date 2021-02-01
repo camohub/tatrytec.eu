@@ -4,28 +4,18 @@ namespace App\Http\Controllers\Admin;
 
 
 use App\Http\Controllers\BaseController;
+use App\Http\Requests\ArticleRequest;
+use App\Model\Services\ArticlesService;
 use App\Models\Entities\Article;
+use App\Models\Entities\Category;
 use App\Models\Services\ArticlesFilterService;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 
 class ArticleController extends BaseController
 {
-
-	/** @var  App\Model\Articles @inject */
-	public $articles;
-
-	/** @var  App\Model\Users @inject */
-	public $users;
-
-	/** @var  App\Model\Categories @inject */
-	public $categories;
-
-	/** @var  App\Model\Entity\Article */
-	public $article;
-
-	/** @var  Nette\Database\Table\Selection */
-	protected $filteredArticles;
-
 
 	const SESS_FILTER = self::class . '_filter';
 
@@ -39,147 +29,91 @@ class ArticleController extends BaseController
 
 
 
-	public function actionCreate()
+	public function create( Request $request )
 	{
-		if ( ! $this->user->isAllowed( 'article', 'add' ) )
+		if( !$request->user()->can('create', Article::class) )
 		{
-			throw new App\Exceptions\AccessDeniedException( 'Nemáte oprávnenie vytvárať články.' );
+			flash()->error('Nemáte oprávnenie vytvárať články.')->important();
+			return back();
 		}
 
-		$this['breadcrumbs']->add( 'Vytvoriť', ':Admin:Blog:Articles:create' );
-
+		return view('admin.articles.edit', [
+			'article' => NULL,
+			'selectCategories' => $this->categoriesToSelect(),
+		]);
 	}
 
 
 
-	public function actionEdit( $id )
+	public function edit( Request $request, $id )
 	{
-		if ( ! $this->user->isAllowed( 'article', 'edit' ) )
+		$article = Article::where('id', $id)->withTrashed()->first();
+
+		if( !$article )
 		{
-			throw new App\Exceptions\AccessDeniedException( 'Nemáte oprávnenie editovať články.' );
+			flash()->error('Článok nebol nájdený.');
+			return back();
 		}
 
-		$this->article = $this->articles->find( (int) $id );
-		$author = $this->article->getUser();
-
-		if ( ! ( $author && $author->getId() == $this->user->id || $this->user->isInRole( 'admin' ) ) )
+		if ( !$request->user()->can('update', $article) )
 		{
-			throw new App\Exceptions\AccessDeniedException( 'Nemáte právo editovať tento článok.' );
+			flash()->error('Nemáte oprávnenie upravovať vybraný článok.')->important();
+			return back();
 		}
 
-		$this['articleForm']->setDefaults( $this->articles->setDefaults( $this->article ) );
-
-		$this['breadcrumbs']->add( 'Editovať', ':Admin:Blog:Articles:edit' );
-
+		return view('admin.articles.edit', [
+			'article' => $article,
+			'selectCategories' => $this->categoriesToSelect(),
+		]);
 	}
 
 
-	/**
-	 * @secured
-	 * @param $id
-	 * @throws App\Exceptions\AccessDeniedException
-	 */
-	public function handleVisibility( $id )
+	public function store( ArticleRequest $request, ArticlesService $articlesService, $id = NULL )
 	{
-		// Ajax implementation is problematic because of filter, if filter is not remembered.
-		if ( ! $this->user->isAllowed( 'article', 'edit' ) )
+		if( !$id && !$request->user()->can('create', Article::class) )
 		{
-			throw new App\Exceptions\AccessDeniedException( 'Nemáte oprávnenie editovať články.' );
+			flash()->error('Nemáte oprávnenie upravovať vybraný článok.')->important();
+			return back()->withInput();
 		}
 
-		$this->article = $this->articles->findOneBy( array( 'id' => (int) $id ), 'admin' );
-		$author = $this->article->getUser();
-
-		if ( ! ( $author && $author->getId() == $this->user->id || $this->user->isInRole( 'admin' ) ) )
+		if ( $id && !$request->user()->can('update', $article = Article::find($id)) )
 		{
-			throw new App\Exceptions\AccessDeniedException( 'Nemáte právo editovať tento článok.' );
+			flash()->error('Nemáte oprávnenie upravovať vybraný článok.')->important();
+			return back()->withInput();
 		}
 
-		try
-		{
-			$this->articles->switchVisibility( $this->article );
-			$this->flashMessage( 'Zmenili ste vyditeľnosť článku.' );
-		}
-		catch ( \Exception $e )
-		{
-			Debugger::log( $e->getMessage() . 'in ' . $e->getFile() . ' on line ' . $e->getLine(), Debugger::ERROR );
-			$this->flashMessage( 'Pri upravovaní údajov došlo k chybe.', Debugger::ERROR );
-			// Do not return. Because of @secured it needs to be redirected.
-		}
+		$id ? $articlesService->update($request, $article) : $articlesService->create($request);
 
-		$this->redirect( ':Admin:Blog:Articles:default' );
-
+		flash()->success('Článok bol uložený do databázy.');
+		return redirect()->route('admin.articles');
 	}
 
 
-	/**
-	 * @secured
-	 * @param $id
-	 * @throws App\Exceptions\AccessDeniedException
-	 */
-	public function handleDelete( $id )
+	public function visibility( Request $request, $id )
 	{
-		if ( ! $this->user->isAllowed( 'article', 'delete' ) )
-		{
-			throw new App\Exceptions\AccessDeniedException( 'Nemáte oprávnenie mazať články.' );
-		}
+		$article = Article::where('id', $id)->withTrashed()->first();
 
-		$this->article = $this->articles->find( (int) $id );
-		$author = $this->article->getUser();
+		if( !$article ) return response()->json(['error' => 'Článok nebol nájdený.']);
 
-		if ( ! ( $author && $author->getId() == $this->user->id || $this->user->isInRole( 'admin' ) ) )
-		{
-			throw new App\Exceptions\AccessDeniedException( 'Nemáte právo zmazať tento článok.' );
-		}
+		if ( !$request->user()->can('update', $article) ) return response()->json(['error' => 'Nemáte oprávnenie meniť viditeľnosť článku.']);
 
-		$this->articles->delete( $this->article );
-		$this->flashMessage( 'Článok bol zmazaný.' );
-		$this->redirect( ':Admin:Blog:Articles:default' );
+		$article->visible = !$article->visible;
+		$article->save();
+
+		return response()->json(['success' => 'Viditeľnosť článku bola zmenená.']);
 	}
 
 
-
-////protected////////////////////////////////////////////////////////////////
-
-
-////component////////////////////////////////////////////////////////////////
-
-	public function createComponentArticleForm()
+	public function delete( Request $request, $id )
 	{
-		$form = new Form;
-		$form->addProtection( 'Vypršal čas vyhradený pre odoslanie formulára. Z dôvodu rizika útoku CSRF bola požiadavka na server zamietnutá.' );
+		$article = Article::where('id', $id)->withTrashed()->first();
 
-		$form->addText( 'meta_desc', 'Popis', 60 )
-			->setRequired()
-			->setAttribute( 'class', 'w100P' );
+		if ( !$request->user()->can('update', $article) ) return response()->json(['error' => 'Nemáte oprávnenie zmazať vybraný článok.']);
 
-		$form->addText( 'title', 'Nadpis', 60 )
-			->setRequired( 'Nadpis je povinná položka. Vyplňte ho prosím.' )
-			->setAttribute( 'class', 'w100P' );
+		$article->delete();
 
-		$form->addTextArea( 'perex', 'Perex' )
-			->setRequired( 'Nemáte vyplnený prerex. Bez neho nebude formulár odoslaný.' )
-			->setAttribute( 'class', 'show-hidden-error editor w100P' );  // show-hidden-errors is necessary because of live-form-validation.js
-
-		$form->addTextArea( 'content', 'Text', 60 )
-			->setRequired( 'Nenapísali ste žiaden text. Bez neho nebude formulár odoslaný.' )
-			->setAttribute( 'class', 'show-hidden-error area500 editor' );
-
-		$catSel = $this->categories->toSelect( 'admin' );
-		$form->addMultiSelect( 'categories', 'Vyberte kategóriu', $catSel, 8 )
-			->setRequired( 'Aplikácia vyžaduje, aby bola vybratá kategória pre článok.' )
-			->setAttribute( 'class', 'w200 b7' );
-
-		$form->addCheckbox( 'status', ' Zverejniť' )
-			->setDefaultValue( 1 );
-
-		$form->addSubmit( 'sbmt', 'Uložiť' );
-
-		$form->onSuccess[] = $this->articleFormSucceeded;
-
-		return $form;
+		return response()->json(['success' => 'Článok bol zmazaný.']);
 	}
-
 
 
 	public function articleFormSucceeded( $form )
@@ -233,93 +167,31 @@ class ArticleController extends BaseController
 
 	}
 
-////component///////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+//// PROTECTED //////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 
-	public function createComponentArticlesFilterForm()
+	/**
+	 * @desc produces an array of categories in format required by form->select
+	 * @param null|Collection $categories
+	 * @param array $result
+	 * @param int $lev
+	 * @return array
+	 */
+	public function categoriesToSelect( $categories = NULL, $result = [], $lev = 0 )
 	{
-		$form = new Form;
+		if ( !$categories ) $categories = Category::whereNull('parent_id')->with('allChildren')->orderBy('sort', 'ASC')->get();   // First call.
 
-		$authors = $this->users->toSelect();
-		$form->addMultiSelect( 'authors', 'Autori', $authors, 7 )
-			->setAttribute( 'class', 'b7' );
-
-		// Order of select items is critical.
-		// order by created ASC, user_name ASC !== order by user_name ASC, created ASC.
-		$form->addMultiSelect( 'order', 'Zoradiť podľa', array(
-			'user.user_name DESC' => 'Meno zostupne',
-			'user.user_name ASC'  => 'Meno vzostupne',
-			'created DESC'        => 'Vytvorený zostupne',
-			'created ASC'         => 'Vytvorený vzostupne',
-		), 7 )
-			->setAttribute( 'class', 'b7' );
-
-		$form->addText( 'interval', 'Interval posledných x dní', 3 )
-			->addCondition( FORM::FILLED )
-			->addRule( FORM::INTEGER, 'Hodnota v poli "Interval" musí byť číslo.' );
-
-		$form->addCheckbox( 'remember', ' Zapamätať si nastavenia' );
-
-		$form->addSubmit( 'sbmt', 'Filtrovať' )
-			->setAttribute( 'class', 'button1' );
-
-		$form->onSuccess[] = $this->filterFormSucceeded;
-
-		// Nex if ensures $form->setDefaults()
-		if ( $filter = $this->getSession( 'Admin:Blog:Articles' )->filter )
+		foreach ( $categories as $category )
 		{
-			if ( isset( $filter['order'] ) )  // $filter['order'] has to be in format e.g "created DESC"
-			{
-				$order = [ ];
-				foreach ( $filter['order'] as $key => $val )
-				{
-					$order[] = $key . ' ' . $val;
-				}
-				$filter['order'] = $order;
-			}
+			if ( $category->slug == 'najnovsie' )  continue;
 
-			$form->setDefaults( $filter );
+			$result[$category->id] = str_repeat( '>', $lev * 1 ) . $category->name;
+
+			if ( $category->children->count() ) $result = $this->categoriesToSelect( $category->children, $result, $lev + 1 );
 		}
 
-		return $form;
+		return $result;
 	}
-
-
-
-	public function filterFormSucceeded( $form )
-	{
-		$values = $form->getValues();
-
-		$criteria = [ ];
-		$order = [ ];
-
-		if ( $values['authors'] )
-		{
-			$criteria['user.id ='] = $values['authors'];
-		}
-
-		if ( $values['interval'] )
-		{
-			$criteria['created >'] = date( 'Y-m-d H:i:s', time() - $values['interval'] * 60 * 60 * 24 );
-		}
-
-		foreach ( $values->order as $item )
-		{
-			list( $key, $val ) = explode( ' ', $item );
-			$order[$key] = $val;
-		}
-		if ( ! array_key_exists( 'created', $order ) )
-		{
-			$order['created'] = 'DESC';
-		}
-		
-		$filter = [ 'criteria' => $criteria, 'order' => $order, 'remember' => $values->remember ];
-
-		$articleSession = $this->getSession( 'Admin:Blog:Articles' );
-		$articleSession->setExpiration( 0 );
-		$articleSession->filter = $filter;
-	}
-
-////protected//////////////////////////////////////////////////////
-
 
 }

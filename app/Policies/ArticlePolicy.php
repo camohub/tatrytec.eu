@@ -4,6 +4,7 @@ namespace App\Policies;
 
 
 use App\Models\Entities\Article;
+use App\Models\Entities\Role;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -20,8 +21,14 @@ class ArticlePolicy
     }
 
 
+	public function create(User $user)
+	{
+		return $user->hasRole([Role::ROLE_ADMIN, Role::ROLE_REDACTOR]);
+	}
+
+
 	public function update(User $user, Article $article)
 	{
-		return $user->hasRole('admin') || $user->id === $article->user_id;
+		return $user->hasRole(Role::ROLE_ADMIN) || $user->id === $article->user_id;
 	}
 }

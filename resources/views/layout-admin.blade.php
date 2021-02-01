@@ -38,4 +38,9 @@
 
 </div>
 
+
+<script type="text/javascript" src="{{mix('js/app-admin.js')}}"></script>
+
+@yield('scripts')
+
 @endsection

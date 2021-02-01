@@ -1858,16 +1858,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var bootstrap__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(bootstrap__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _components_alert__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/alert */ "./resources/js/components/alert.js");
 /* harmony import */ var _components_alert__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_components_alert__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _components_comments__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/comments */ "./resources/js/components/comments.js");
-/* harmony import */ var _components_comments__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_components_comments__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _components_init_animations__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/init-animations */ "./resources/js/components/init-animations.js");
-/* harmony import */ var _components_init_animations__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_components_init_animations__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _components_menu__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/menu */ "./resources/js/components/menu.js");
-/* harmony import */ var _components_menu__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_components_menu__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _components_modals__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/modals */ "./resources/js/components/modals.js");
-/* harmony import */ var _components_modals__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_components_modals__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _components_pretty_print__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/pretty-print */ "./resources/js/components/pretty-print.js");
-/* harmony import */ var _components_pretty_print__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_components_pretty_print__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _components_axios_request__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/axios-request */ "./resources/js/components/axios-request.js");
+/* harmony import */ var _components_axios_request__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_components_axios_request__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _components_comments__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/comments */ "./resources/js/components/comments.js");
+/* harmony import */ var _components_comments__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_components_comments__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _components_init_animations__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/init-animations */ "./resources/js/components/init-animations.js");
+/* harmony import */ var _components_init_animations__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_components_init_animations__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _components_menu__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/menu */ "./resources/js/components/menu.js");
+/* harmony import */ var _components_menu__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_components_menu__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _components_modals__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/modals */ "./resources/js/components/modals.js");
+/* harmony import */ var _components_modals__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_components_modals__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _components_pretty_print__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/pretty-print */ "./resources/js/components/pretty-print.js");
+/* harmony import */ var _components_pretty_print__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_components_pretty_print__WEBPACK_IMPORTED_MODULE_7__);
 //window.$ = window.jQuery = require('jquery');
 window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /**
@@ -1878,6 +1880,7 @@ window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
 
 
 
@@ -1910,6 +1913,22 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 $(function () {
   $('div.alert').not('.alert-important').delay(7000).fadeOut(350);
+});
+
+/***/ }),
+
+/***/ "./resources/js/components/axios-request.js":
+/*!**************************************************!*\
+  !*** ./resources/js/components/axios-request.js ***!
+  \**************************************************/
+/***/ (() => {
+
+$(function () {
+  window.sendPostRequest = function sendPostRequest(url, data) {
+    data = typeof data === 'undefined' ? {} : data;
+    axios.defaults.headers.common['X-CSRF-TOKEN'] = $('meta[name="csrf-token"]').attr('content');
+    return axios.post(url, data);
+  };
 });
 
 /***/ }),

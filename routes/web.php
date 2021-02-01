@@ -41,10 +41,11 @@ Route::middleware('admin')->group(function() {
 			Route::namespace('Admin')->group(function () {
 				Route::get('/', 'DefaultController@index')->name('index');
 				Route::match(['get', 'post'], '/articles', 'ArticleController@index')->name('articles');
-				Route::get('/articles/create', 'ArticleController@create')->name('articles.create');
-				Route::post('/articles/create', 'ArticleController@create')->name('articles.create');
+				Route::match(['get', 'post'], '/articles/create', 'ArticleController@create')->name('articles.create');
 				Route::get('/articles/edit/{id}', 'ArticleController@edit')->name('articles.edit');
-				Route::get('/articles/visibility/{id}', 'ArticleController@visibility')->name('articles.visibility');
+				Route::get('/articles/store/{id?}', 'ArticleController@store')->name('articles.store');
+				Route::post('/articles/visibility/{id}', 'ArticleController@visibility')->name('articles.visibility');
+				Route::post('/articles/delete/{id}', 'ArticleController@delete')->name('articles.delete');
 				Route::get('/articles/comments/{id}', 'ArticleController@comments')->name('articles.comments');
 
 				Route::get('/categories', 'CategoryController@index')->name('categories');

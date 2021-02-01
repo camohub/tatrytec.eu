@@ -22,25 +22,25 @@ class Category extends Model
 
 	public function children()
 	{
-		return $this->hasMany( Category::class, 'parent_id' )->visible();
+		return $this->hasMany( Category::class, 'parent_id' )->orderBy('sort', 'ASC')->visible();
 	}
 
 
 	public function allChildren()
 	{
-		return $this->hasMany( Category::class, 'parent_id' );
+		return $this->hasMany( Category::class, 'parent_id' )->orderBy('sort', 'ASC');
 	}
 
 
 	public function articles()
 	{
-		return $this->belongsToMany(Article::class)->visible();
+		return $this->belongsToMany(Article::class, 'articles_categories')->visible();
 	}
 
 
 	public function allArticles()
 	{
-		return $this->belongsToMany(Article::class);
+		return $this->belongsToMany(Article::class, 'articles_categories');
 	}
 
 	public function scopeVisible($query)

@@ -19,9 +19,9 @@
 				<td class="tAR">
 					@if(Auth::user()->can('update', $article))
 						<a href="{{route('admin.articles.edit', ['id' => $article->id])}}" class="fa fa-lg fa-pencil" title="Edit"></a>
-						<a href="{{route('admin.articles.visibility', ['id' => $article->id])}}" class="fa fa-lg {{$article->visible ? 'fa-check-circle' : 'fa-minus-circle'}}" title="Visible/Hidden"></a>
+						<a href="{{route('admin.articles.visibility', ['id' => $article->id])}}" class="fa fa-lg js-visibility {{$article->visible ? 'fa-check-circle' : 'fa-minus-circle'}}" title="Visible/Hidden"></a>
 						<a href="{{route('admin.articles.comments', ['id' => $article->id])}}" class="fa fa-lg fa-commenting-o" title="Show comments"></a>
-						<a href="{{route('admin.articles.comments', ['id' => $article->id])}}" class="fa fa-lg fa-trash-o" title="Delete"></a>
+						<a href="{{route('admin.articles.delete', ['id' => $article->id])}}" class="fa fa-lg fa-trash-o" title="Delete"></a>
 					@endif
 				</td>
 			</tr>
@@ -35,17 +35,5 @@
 		@include('admin.articles.components.filterForm')
 	</div>
 @endif
-
-<script>
-	$( '.ico_trash, .fa-trash-o', 'table.datagrid' ).on( 'click', function()
-	{
-		var title = $(this).closest('tr').find('td:first').text();
-		if ( confirm( 'Naozaj chcete zmazať článok: ' + title + '?' ) )
-		{
-			return true;
-		}
-		else return false;
-	});
-</script>
 
 @endsection
