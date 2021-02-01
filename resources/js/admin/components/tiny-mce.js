@@ -9,7 +9,8 @@ $(function(){
 			relative_urls: false,  // ie. if true file manager produce urls like ../../../../wrong.jpg
 			image_advtab: true,
 			image_class_list: [
-				{ title: 'None', value: ''},
+				{ title: 'None', value: '' },
+				{ title: 'Bootstrap fluid', value: 'img-fluid' },
 				{ title: 'Left', value: 'fL' },
 				{ title: 'Right', value: 'fR' },
 				{ title: 'Gallery', value: 'gallery' }
