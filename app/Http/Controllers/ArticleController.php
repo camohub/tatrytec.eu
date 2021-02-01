@@ -28,7 +28,7 @@ class ArticleController extends BaseController
 		{
 			session([self::SESS_ID => $category->id]);
 
-			$articles = $this->getArticles($category->getCategoryIds());
+			$articles = $this->getCategoryArticles($category);
 
 			$view = [
 				'articles' => $articles,
@@ -36,7 +36,6 @@ class ArticleController extends BaseController
 				'metaDesc' => $category->name,
 				'title' => $category->name,
 			];
-
 		}
 		else // Displays one article.
 		{
@@ -95,15 +94,24 @@ class ArticleController extends BaseController
 	}
 
 
-	protected function getArticles($categoriesIds)
+	protected function getCategoryArticles( Category $category )
 	{
-		$articles = Article::select('articles.*')
-			->visible()
-			->join('articles_categories', function ($join) use ($categoriesIds) {
-				$join->on('articles.id', '=', 'articles_categories.article_id')
-					->whereIn('articles_categories.category_id', $categoriesIds);
-			})
-			->orderBy('id', 'DESC');
+		if( $category->slug == 'najnovsie' )
+		{
+			$articles = Article::visible()->orderBy('id', 'DESC');
+		}
+		else
+		{
+			$categoriesIds = $category->getCategoryIds();
+
+			$articles = Article::select('articles.*')
+				->visible()
+				->join('articles_categories', function ($join) use ($categoriesIds) {
+					$join->on('articles.id', '=', 'articles_categories.article_id')
+						->whereIn('articles_categories.category_id', $categoriesIds);
+				})
+				->orderBy('id', 'DESC');
+		}
 
 		return $articles->paginate(self::PAGE_ITEMS)->onEachSide(1);
 	}
