@@ -38,9 +38,13 @@
 
 </div>
 
-
+{{-- SCRIPTS --}}
 <script type="text/javascript" src="{{mix('js/app-admin.js')}}"></script>
 
 @yield('scripts')
+
+{{-- MODAL --}}
+@include('components.tinymce-image-modal')
+
 
 @endsection

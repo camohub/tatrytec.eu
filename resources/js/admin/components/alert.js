@@ -2,23 +2,23 @@ $(function(){
 
 	let alertsWrapper = $('#alerts-wrapper');
 
-	window.showAlert = function showAlert(data)
+	window.showAlert = function showAlert(msg, type, important)
 	{
-		let type = data.error ? 'danger' : 'success';
-		alertsWrapper.append(getAlertTemplate(type, data.success));
+		type = typeof type === 'undefined' ? 'success' : type == 'error' ? 'danger' : type;
+		important = typeof important === 'undefined' ? false : !!important;
+
+		alertsWrapper.append(getAlertTemplate(msg, type, important));
 
 		$('div.alert').not('.alert-important').delay(5000).fadeOut(350);
 	};
 
 
-	function getAlertTemplate( type, msg, important )
+	function getAlertTemplate( msg, type, important )
 	{
-		important = !!typeof important === 'undefined';
-
 		return `
-			<div class="alert alert-${type} ${important ? 'important' : ''}" role="alert">
-				${msg}
+			<div class="alert alert-${type} ${important ? 'alert-important' : ''}" role="alert">
 				${important ? `<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>` : ``}
+				${msg}
 			</div>
 		`;
 	}

@@ -56,10 +56,18 @@ Kód a zoznamy sa ukončujú stlačením Shift + Enter"> <!-- Odriadkovanie v ti
 		<input type="submit" class="btn btn-primary" value="Uložiť">
 	</div>
 
+	<script src="https://cdn.tiny.cloud/1/{{config('view.tinymce_token')}}/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+
 </form>
 
-@endsection
 
-@section('scripts')
-	<script src="https://cdn.tiny.cloud/1/{{config('view.tinymce_token')}}/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+<form action="{{route('admin.images.add')}}" id="tinymceImageForm" method="post">
+	@csrf
+	<div>
+		@include('components.form-errors')
+	</div>
+	<input type="file" name="image" id="tinymceImage">
+	<input type="submit" value="pustit">
+</form>
+
 @endsection

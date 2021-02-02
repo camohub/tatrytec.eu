@@ -1840,20 +1840,18 @@ module.exports = {
   \************************************************/
 /***/ (() => {
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
 $(function () {
   var alertsWrapper = $('#alerts-wrapper');
 
-  window.showAlert = function showAlert(data) {
-    var type = data.error ? 'danger' : 'success';
-    alertsWrapper.append(getAlertTemplate(type, data.success));
+  window.showAlert = function showAlert(msg, type, important) {
+    type = typeof type === 'undefined' ? 'success' : type == 'error' ? 'danger' : type;
+    important = typeof important === 'undefined' ? false : !!important;
+    alertsWrapper.append(getAlertTemplate(msg, type, important));
     $('div.alert').not('.alert-important').delay(5000).fadeOut(350);
   };
 
-  function getAlertTemplate(type, msg, important) {
-    important = !!_typeof(important) === 'undefined';
-    return "\n\t\t\t<div class=\"alert alert-".concat(type, " ").concat(important ? 'important' : '', "\" role=\"alert\">\n\t\t\t\t").concat(msg, "\n\t\t\t\t").concat(important ? "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">\xD7</button>" : "", "\n\t\t\t</div>\n\t\t");
+  function getAlertTemplate(msg, type, important) {
+    return "\n\t\t\t<div class=\"alert alert-".concat(type, " ").concat(important ? 'alert-important' : '', "\" role=\"alert\">\n\t\t\t\t").concat(important ? "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">\xD7</button>" : "", "\n\t\t\t\t").concat(msg, "\n\t\t\t</div>\n\t\t");
   }
 });
 
@@ -1887,11 +1885,9 @@ $(function () {
     sendPostRequest(url).then(function (response) {
       var data = response.data;
       if (data.success) target.toggleClass('fa-check-circle').toggleClass('fa-minus-circle');
-      showAlert(data);
+      showAlert(data.success);
     })["catch"](function (error) {
-      showAlert({
-        'error': error
-      });
+      showAlert(error, 'error');
     });
   }
 
@@ -1902,12 +1898,10 @@ $(function () {
     sendPostRequest(url).then(function (response) {
       var data = response.data;
       if (data.success) target.toggleClass('fa-check-circle').toggleClass('fa-minus-circle');
-      showAlert(data);
+      showAlert(data.success);
       target.closest('tr').hide();
     })["catch"](function (error) {
-      showAlert({
-        'error': error
-      });
+      showAlert(error, 'error');
     });
   }
 });
@@ -1922,6 +1916,33 @@ $(function () {
 
 $(function () {
   if (window.tinymce) {
+    var storeImage = function storeImage(e, $this, filePickerCallback) {
+      var url = tinymceImageForm.attr('action');
+      var headers = {
+        'Content-Type': 'multipart/form-data'
+      };
+      var formData = new FormData();
+      formData.append("image", $this[0].files[0]);
+      sendPostRequest(url, formData, headers).then(function (response) {
+        var data = response.data;
+        console.log(data);
+        filePickerCallback(data.filePath);
+      })["catch"](function (error) {
+        var data = error.response.data;
+        console.log(data);
+        var msg = 'Pri ukladaní obrázku došlo k chybe.';
+        if (data.errors.image) msg += '<br>' + data.errors.image[0];
+        showAlert(msg, 'danger', true);
+      });
+    };
+
+    var tinymceImageForm = $('#tinymceImageForm');
+    var imageFileInput = $('#tinymceImage');
+    var filePickerCallback = null;
+    imageFileInput.on('change', function (e) {
+      storeImage(e, $(this), filePickerCallback);
+      imageFileInput[0].value = '';
+    });
     tinymce.init({
       selector: ".tinymce",
       themes: "modern",
@@ -1946,7 +1967,7 @@ $(function () {
         value: 'gallery'
       }],
       plugins: ["advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker", "searchreplace wordcount visualblocks visualchars advcode fullscreen insertdatetime media nonbreaking", "save table contextmenu directionality emoticons template paste textcolor"],
-      content_css: "{$basePath}" + "/css/tinymce.css",
+      content_css: "/css/tinymce.css",
       style_formats: [{
         title: "Headers",
         items: [{
@@ -2007,36 +2028,13 @@ $(function () {
         }]
       }],
       toolbar: "insertfile undo redo | styleselect | bold italic " + "| alignleft aligncenter alignright alignjustify " + "| bullist numlist | link image | media fullpage " + "| forecolor backcolor",
-      // TinyMCE.triggerSave() is necessary cause TinyMCE does not set actual value to the textarea on submit.
-      // The previous value leaves there!!!!!!!!!!!!!!!
-      init_instance_callback: function init_instance_callback(editor) {
-        editor.on('change', function (e) {
-          tinyMCE.triggerSave();
-        });
-      },
-      file_browser_callback: function file_browser_callback(field_name, url, type, win) {
-        if (type == 'image') {
-          var page = typeof tinymce.activeEditor.imageBrowserPage == 'undefined' ? 1 : tinymce.activeEditor.imageBrowserPage; // Every module and medium have its own GaleryPresenter so no need to send module/type or make link makro universal
-
-          var browserURL = "{link :Admin:Blog:Galery:default}" + '?type=' + type + '&vp-page=' + page;
-          var title = 'Image browser';
+      //file_browser_callback: function (field_name, url, type, win)  // version 4
+      file_picker_callback: function file_picker_callback(callback, value, meta) {
+        if (meta.filetype == 'image') {
+          filePickerCallback = callback;
+          imageFileInput.click();
         }
-
-        tinyMCE.activeEditor.windowManager.open({
-          url: browserURL,
-          title: title,
-          width: 600,
-          // Windov dimensions
-          height: 500,
-          resizable: true,
-          scrollbars: true
-        }, {
-          window: win,
-          input: field_name
-        });
-        return false;
-      },
-      file_browser_callback_types: 'file image media'
+      }
     });
   }
 });
@@ -2082,7 +2080,11 @@ window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
  */
 
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'; // NPM packages
+
+
+ //import 'tinymce';
+// Local scripts
 
 
 
@@ -2090,7 +2092,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 
 
-
+ // Local admin scripts
 
 
 
@@ -2130,10 +2132,11 @@ $(function () {
 /***/ (() => {
 
 $(function () {
-  window.sendPostRequest = function sendPostRequest(url, data) {
+  window.sendPostRequest = function sendPostRequest(url, data, headers) {
     data = typeof data === 'undefined' ? {} : data;
+    headers = typeof headers === 'undefined' ? {} : headers;
     axios.defaults.headers.common['X-CSRF-TOKEN'] = $('meta[name="csrf-token"]').attr('content');
-    return axios.post(url, data);
+    return axios.post(url, data, headers);
   };
 });
 

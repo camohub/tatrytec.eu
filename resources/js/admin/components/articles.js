@@ -30,10 +30,10 @@ $(function() {
 			.then(function( response ) {
 				let data = response.data;
 				if( data.success ) target.toggleClass('fa-check-circle').toggleClass('fa-minus-circle');
-				showAlert(data);
+				showAlert(data.success);
 			})
 			.catch(function( error ) {
-				showAlert({'error': error});
+				showAlert(error, 'error');
 			})
 	}
 
@@ -48,11 +48,11 @@ $(function() {
 			.then(function( response ) {
 				let data = response.data;
 				if( data.success ) target.toggleClass('fa-check-circle').toggleClass('fa-minus-circle');
-				showAlert(data);
+				showAlert(data.success);
 				target.closest('tr').hide();
 			})
 			.catch(function( error ) {
-				showAlert({'error': error});
+				showAlert(error, 'error');
 			});
 	}
 });

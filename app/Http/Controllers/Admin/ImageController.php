@@ -4,154 +4,47 @@ namespace App\Http\Controllers\Admin;
 
 
 use App\Http\Controllers\BaseController;
+use App\Http\Requests\ImageRequest;
+use Illuminate\Support\Facades\File;
+use Intervention\Image\Facades\Image;
 
 
 class ImageController extends BaseController
 {
 
-	CONST ITEMS_PER_PAGE = 4;
+	const STORAGE_PATH = '/app/public/articles/';
+
+	const PUBLIC_PATH = '/storage/articles/';
 
 
-	/** @var  App\Model\Entities\Images  @inject */
-	public $images;
-
-
-
-	public function startup()
+	public function store(ImageRequest $request)
 	{
-		parent::startup();
+		$this->createDir( storage_path() . self::STORAGE_PATH );
 
-		if ( ! $this->user->isAllowed( 'image', 'add' ) )
+
+		if( $request->hasFile('image') )
 		{
-			throw new App\Exceptions\AccessDeniedException( 'Nemáte oprávnenie editovať obrázky.' );
+			$file = $request->file('image');
+			$fileName = time() . random_int(1, 10000) . '.' . $file->extension();
+
+			Image::make($file->path())
+				->widen(800, function ($constraint) {
+					$constraint->upsize();
+				})->save(storage_path() . self::STORAGE_PATH . $fileName);
+
+			return response()->json(['filePath' => self::PUBLIC_PATH . $fileName]);
 		}
-	}
-
-
-
-	public function renderBlog()
-	{
-		$images = $this->images->findBlogImages();
-
-		$this->template->images = $this->setPaginator( $images );
-
-		$this['breadcrumbs']->add( 'Obrázky - blog', ':Admin:Images:blog' );
-
-	}
-
-
-
-	public function renderEshop()
-	{
+		else
+		{
+			return response()->json(['error' => 'Obrázok nedorazil na server.']);
+		}
 
 	}
 
 
-	/**
-	 * @param $id
-	 * @throws App\Exceptions\AccessDeniedException
-	 * @secured
-	 */
-	public function handleDelete( $id )
+	private function createDir($path)
 	{
-		if ( ! $this->user->isAllowed( 'image', 'delete' ) )
-		{
-			throw new App\Exceptions\AccessDeniedException( 'Nemáte oprávnenie mazať obrázky.' );
-		}
-
-		try
-		{
-			$this->images->delete( $id );
-			$this->flashMessage( 'Obrázok bol zmazaný.' );
-		}
-		catch ( \Exception $e )
-		{
-			$this->flashMessage( 'Pri mazaní obrázku došlo k chybe.', 'error' );
-			return;
-		}
-
-		$this->redirect( 'this' );
-	}
-
-
-//////protected//////////////////////////////////////////////////////
-
-
-	private function setPaginator( $images )
-	{
-		$vp = $this['vp'];
-		$paginator = $vp->getPaginator();
-		$paginator->itemsPerPage = self::ITEMS_PER_PAGE;
-
-		//$paginator->itemCount = $articles->count( '*' );
-		$images->applyPaginator( $paginator );
-
-		//$this->template->articles = $articles->limit( $paginator->itemsPerPage, $paginator->offset );
-		return $images;
-
-	}
-
-
-//////Control/////////////////////////////////////////////////////////
-
-	public function createComponentInsertForm()
-	{
-		$form = new Form();
-
-		$form->addUpload( 'images', 'Vyberte obrázok', TRUE )
-			->setRequired( 'Nevybrali ste žiadny obrázok.' )
-			->addRule( Form::IMAGE, 'Obrázok musí biť JPEG, PNG nebo GIF.' )
-			->addRule( Form::MAX_FILE_SIZE, 'Maximální velikost souboru je 1000 kB.', 1000 * 1024 /* v bytech */ )
-			->setAttribute( 'class', 'button1 fWB' );
-
-		$form->addSubmit( 'sbmt', 'Ulož' )
-			->setAttribute( 'class', 'button1 fWB' );
-
-		$form->onSuccess[] = $this->insertFormSucceeded;
-
-		return $form;
-
-	}
-
-
-
-	public function insertFormSucceeded( $form )
-	{
-
-		$images = $form->getValues()->images;
-
-		if ( count( $images ) > 7 )
-		{
-			$this->flashMessage( 'Naraz môžete ukladať maxim8lne 7 obrázkov.', 'error' );
-			return;
-		}
-
-		try
-		{
-			$result = $this->images->insert( $images );
-		}
-		catch ( \Exception $e )
-		{
-			Debugger::log( $e->getMessage(), 'error' );
-			$this->flashMessage( 'Pri ukladaní obrázkov, došlo k chybe.', 'error' );
-			return;
-		}
-
-		if ( $result['errors'] )
-		{
-			foreach ( $result['errors'] as $error )
-			{
-				$this->flashMessage( $error, 'error' );
-			}
-		}
-
-		if ( $result['saved_items'] )
-		{
-			$this->flashMessage( 'Súbor ' . join( ', ', $result['saved_items'] ) . ' bol úspešne uložený na server.' );
-		}
-
-		$this->redirect( 'this' );
-
+		if( !is_dir($path) ) File::makeDirectory($path, '0755', TRUE, TRUE);
 	}
 
 }

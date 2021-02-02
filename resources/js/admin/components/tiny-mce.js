@@ -2,6 +2,16 @@
 $(function(){
 	if( window.tinymce )
 	{
+		let tinymceImageForm = $('#tinymceImageForm');
+		let imageFileInput = $('#tinymceImage');
+		let filePickerCallback = null;
+
+		imageFileInput.on('change', function(e) {
+			storeImage(e, $(this), filePickerCallback);
+			imageFileInput[0].value = '';
+		});
+
+
 		tinymce.init({
 			selector: ".tinymce",
 			themes: "modern",
@@ -20,7 +30,7 @@ $(function(){
 				"searchreplace wordcount visualblocks visualchars advcode fullscreen insertdatetime media nonbreaking",
 				"save table contextmenu directionality emoticons template paste textcolor"
 			],
-			content_css: "{$basePath}" + "/css/tinymce.css",
+			content_css: "/css/tinymce.css",
 			style_formats: [
 				{ title: "Headers", items: [
 					{ title: "Header 1", format: "h2"},
@@ -49,40 +59,38 @@ $(function(){
 			"| bullist numlist | link image | media fullpage " +
 			"| forecolor backcolor",
 
-			// TinyMCE.triggerSave() is necessary cause TinyMCE does not set actual value to the textarea on submit.
-			// The previous value leaves there!!!!!!!!!!!!!!!
-			init_instance_callback: function (editor)
+			//file_browser_callback: function (field_name, url, type, win)  // version 4
+			file_picker_callback: function (callback, value, meta)
 			{
-				editor.on( 'change', function (e) {
-					tinyMCE.triggerSave();
-				})
-			},
-
-			file_browser_callback: function (field_name, url, type, win)
-			{
-				if(type == 'image')
+				if(meta.filetype == 'image')
 				{
-					var page = (typeof tinymce.activeEditor.imageBrowserPage == 'undefined') ? 1 : tinymce.activeEditor.imageBrowserPage;
-					// Every module and medium have its own GaleryPresenter so no need to send module/type or make link makro universal
-					var browserURL = "{link :Admin:Blog:Galery:default}" + '?type=' + type + '&vp-page=' + page;
-					var title = 'Image browser';
+					filePickerCallback = callback;
+					imageFileInput.click();
 				}
-
-				tinyMCE.activeEditor.windowManager.open({
-					url : browserURL,
-					title : title,
-					width : 600,  // Windov dimensions
-					height : 500,
-					resizable : true,
-					scrollbars : true
-				}, {
-					window : win,
-					input : field_name
-				});
-				return false;
-			},
-			file_browser_callback_types: 'file image media',
+			}
 
 		});
+
+		function storeImage(e, $this, filePickerCallback)
+		{
+			let url = tinymceImageForm.attr('action');
+			let headers = {'Content-Type': 'multipart/form-data'};
+			let formData = new FormData();
+			formData.append("image", $this[0].files[0]);
+
+			sendPostRequest(url, formData, headers)
+				.then(function( response ) {
+					let data = response.data;
+					console.log(data);
+					filePickerCallback(data.filePath);
+				})
+				.catch(function( error ) {
+					let data = error.response.data;
+					console.log(data);
+					let msg = 'Pri ukladaní obrázku došlo k chybe.';
+					if( data.errors.image ) msg += '<br>' + data.errors.image[0];
+					showAlert(msg, 'danger', true);
+				});
+		}
 	}
 });

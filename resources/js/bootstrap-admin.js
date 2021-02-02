@@ -10,8 +10,11 @@ window.axios = require('axios');
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
+// NPM packages
 import 'popper.js';
 import 'bootstrap';
+//import 'tinymce';
+// Local scripts
 import './components/alert';
 import './components/axios-request';
 import './components/comments';
@@ -19,7 +22,7 @@ import './components/init-animations';
 import './components/menu';
 import './components/modals';
 import './components/pretty-print';
-
+// Local admin scripts
 import './admin/components/articles';
 import './admin/components/alert';
 import './admin/components/tiny-mce';

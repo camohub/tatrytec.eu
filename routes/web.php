@@ -51,6 +51,7 @@ Route::middleware('admin')->group(function() {
 				Route::get('/categories', 'CategoryController@index')->name('categories');
 
 				Route::get('/images', 'ImageController@index')->name('images');
+				Route::post('/images/add', 'ImageController@store')->name('images.add');
 
 				Route::get('/users', 'UserController@index')->name('users');
 
