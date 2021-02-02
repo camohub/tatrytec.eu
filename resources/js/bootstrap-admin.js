@@ -13,7 +13,6 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 // NPM packages
 import 'popper.js';
 import 'bootstrap';
-//import 'tinymce';
 // Local scripts
 import './components/alert';
 import './components/axios-request';
