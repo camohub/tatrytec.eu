@@ -36366,6 +36366,19 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/**
 
 /***/ }),
 
+/***/ "./resources/scss/tinymce-custom.scss":
+/*!********************************************!*\
+  !*** ./resources/scss/tinymce-custom.scss ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
 /***/ "./resources/scss/app.scss":
 /*!*********************************!*\
   !*** ./resources/scss/app.scss ***!
@@ -39313,6 +39326,7 @@ process.umask = function() { return 0; };
 /******/ 		
 /******/ 		var deferredModules = [
 /******/ 			["./resources/js/app.js"],
+/******/ 			["./resources/scss/tinymce-custom.scss"],
 /******/ 			["./resources/scss/app.scss"]
 /******/ 		];
 /******/ 		// no chunk on demand loading
