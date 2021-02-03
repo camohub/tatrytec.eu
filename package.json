@@ -11,7 +11,7 @@
     },
     "dependencies": {
         "bootstrap": "^4.3.1",
-        "code-prettify": "*",
+        "code-prettify": "^0.1.0",
         "jquery": "^3.2",
         "jquery-sortable-lists": "~2.0",
         "popper.js": "^1.16.1"

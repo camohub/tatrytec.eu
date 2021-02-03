@@ -2083,8 +2083,7 @@ window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js")
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'; // NPM packages
 
 
- //import 'tinymce';
-// Local scripts
+ // Local scripts
 
 
 
@@ -2324,8 +2323,8 @@ $(function () {
 
 $(function () {
   // Calling undefined function like in layoutSlim.latte which does not load prettyPrint causes an error.
-  if (typeof prettyPrint !== 'undefined') {
-    prettyPrint();
+  if (typeof PR !== 'undefined') {
+    PR.prettyPrint();
   }
 });
 

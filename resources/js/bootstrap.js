@@ -12,6 +12,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 import 'popper.js';
 import 'bootstrap';
+import 'code-prettify';
 import './components/alert';
 import './components/axios-request';
 import './components/comments';

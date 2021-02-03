@@ -19,8 +19,8 @@ class ArticlesService
 		$article->title = $request->get('title');
 		$article->slug = Str::slug($request->get('title'));
 		$article->meta_desc = $request->get('meta_desc');
-		$article->perex = $request->get('perex');
-		$article->content = $request->get('content');
+		$article->perex = str_replace('<pre>', '<pre class="prettyprint custom">', $request->get('perex'));
+		$article->content = str_replace('<pre>', '<pre class="prettyprint custom">', $request->get('content'));
 		$article->visible = (bool)$request->get('visible');
 		$article->user_id = Auth::user()->id;
 
@@ -37,8 +37,8 @@ class ArticlesService
 		$article->title = $request->get('title');
 		$article->slug = Str::slug($request->get('title'));
 		$article->meta_desc = $request->get('meta_desc');
-		$article->perex = $request->get('perex');
-		$article->content = $request->get('content');
+		$article->perex = str_replace('<pre>', '<pre class="prettyprint custom">', $request->get('perex'));
+		$article->content = str_replace('<pre>', '<pre class="prettyprint custom">', $request->get('content'));
 		$article->visible = (bool)$request->get('visible');
 
 		$article->categories()->sync($request->get('categories'));
