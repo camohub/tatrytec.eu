@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\BaseController;
 use App\Http\Requests\ArticleRequest;
-use App\Model\Services\ArticlesService;
 use App\Models\Entities\Article;
 use App\Models\Entities\Category;
+use App\Models\Services\ArticlesService;
 use App\Models\Services\ArticlesFilterService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;

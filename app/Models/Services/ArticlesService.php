@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Model\Services;
+namespace App\Models\Services;
 
 
 use App\Http\Requests\ArticleRequest;
