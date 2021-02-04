@@ -61,11 +61,8 @@ Kód a zoznamy sa ukončujú stlačením Shift + Enter"> <!-- Odriadkovanie v ti
 </form>
 
 
-<form action="{{route('admin.images.add')}}" id="tinymceImageForm" method="post">
+<form action="{{route('admin.images.add')}}" id="tinymceImageForm" method="post" class="d-none">
 	@csrf
-	<div>
-		@include('components.form-errors')
-	</div>
 	<input type="file" name="image" id="tinymceImage">
 	<input type="submit" value="pustit">
 </form>
