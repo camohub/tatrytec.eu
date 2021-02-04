@@ -114,58 +114,6 @@ class ArticleController extends BaseController
 		return response()->json(['success' => 'Článok bol zmazaný.']);
 	}
 
-
-	public function articleFormSucceeded( $form )
-	{
-		$values = $form->getValues();
-		$id = (int) $this->getParameter( 'id' );
-		$values->perex = preg_replace( '#<pre>#', '<pre class="prettyprint custom">', $values->perex );
-		$values->content = preg_replace( '#<pre>#', '<pre class="prettyprint custom">', $values->content );
-
-		if ( $id )
-		{
-			try
-			{
-				$this->articles->updateArticle( $values, $id );
-				$this->flashMessage( 'Článok bol upravený.' );
-			}
-			catch ( App\Exceptions\DuplicateEntryException $e )
-			{
-				$this->flashMessage( $e->getMessage(), 'error' );
-				return $form;
-			}
-			catch ( \Exception $e )
-			{
-				$form->addError( 'Pri ukladaní článku došlo k chybe.' );
-				Debugger::log( $e->getMessage() . ' in ' . $e->getFile() . ' on line ' . $e->getLine(), Debugger::ERROR );
-				return $form;
-			}
-			$this->redirect( 'this' );
-		}
-		else
-		{
-			try
-			{
-				$values['user_id'] = $this->user->id;
-				$this->articles->createArticle( $values );
-				$this->flashMessage( 'Článok bol vytvorený.' );
-			}
-			catch ( App\Exceptions\DuplicateEntryException $e )
-			{
-				$this->flashMessage( $e->getMessage(), 'error' );
-				return $form;
-			}
-			catch ( \Exception $e )
-			{
-				$form->addError( 'Pri ukladaní článku došlo k chybe.' );
-				Debugger::log( $e->getMessage(), Debugger::ERROR );
-				return $form;
-			}
-			$this->redirect( ':Admin:Blog:Articles:default' );
-		}
-
-	}
-
 //////////////////////////////////////////////////////////////////////////
 //// PROTECTED //////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////

@@ -1931,7 +1931,17 @@ $(function () {
     data = typeof data === 'undefined' ? {} : data;
     headers = typeof headers === 'undefined' ? {} : headers;
     axios.defaults.headers.common['X-CSRF-TOKEN'] = $('meta[name="csrf-token"]').attr('content');
-    return axios.post(url, data, headers);
+    return axios.post(url, data, headers); // Return promise
+  };
+
+  var ajaxLoader = $('#ajax-loader'); // Use it when you ned not on every request.
+
+  window.showLoader = function () {
+    ajaxLoader.css('display', 'block');
+  };
+
+  window.hideLoader = function () {
+    ajaxLoader.css('display', 'none');
   };
 });
 

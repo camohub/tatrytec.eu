@@ -40,16 +40,20 @@ Route::middleware('admin')->group(function() {
 		Route::name('admin.')->group(function () {
 			Route::namespace('Admin')->group(function () {
 				Route::get('/', 'DefaultController@index')->name('index');
-				Route::match(['get', 'post'], '/articles', 'ArticleController@index')->name('articles');
-				Route::match(['get', 'post'], '/articles/create', 'ArticleController@create')->name('articles.create');
+				Route::match(['get', 'post'], '/articles', 'ArticleController@index')->name('articles');  // post for filter form
+				Route::get('/articles/create', 'ArticleController@create')->name('articles.create');
 				Route::get('/articles/edit/{id}', 'ArticleController@edit')->name('articles.edit');
-				Route::get('/articles/store/{id?}', 'ArticleController@store')->name('articles.store');
+				Route::post('/articles/store/{id?}', 'ArticleController@store')->name('articles.store');
 				Route::post('/articles/visibility/{id}', 'ArticleController@visibility')->name('articles.visibility');
 				Route::post('/articles/delete/{id}', 'ArticleController@delete')->name('articles.delete');
 				Route::get('/comments/{article_id}', 'CommentController@index')->name('comments');
 				Route::post('/comments/delete/{article_id}/{comment_id}', 'CommentController@delete')->name('comments.delete');
 
 				Route::get('/categories', 'CategoryController@index')->name('categories');
+				Route::get('/categories/sort', 'CategoryController@sort')->name('categories.sort');
+				Route::post('/categories/create', 'CategoryController@create')->name('categories.create');
+				Route::post('/categories/visibility/{id}', 'CategoryController@visibility')->name('categories.visibility');
+				Route::post('/categories/delete/{id}', 'CategoryController@delete')->name('categories.delete');
 
 				Route::get('/images', 'ImageController@index')->name('images');
 				Route::post('/images/add', 'ImageController@store')->name('images.add');

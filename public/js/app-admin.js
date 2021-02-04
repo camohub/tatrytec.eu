@@ -1844,7 +1844,8 @@ $(function () {
   var alertsWrapper = $('#alerts-wrapper');
 
   window.showAlert = function showAlert(msg, type, important) {
-    type = typeof type === 'undefined' || type == 'success' ? 'success' : 'danger';
+    type = typeof type === 'undefined' || type == 'success' ? 'success' : 'danger'; // error => danger
+
     important = typeof important === 'undefined' ? false : !!important;
     alertsWrapper.append(getAlertTemplate(msg, type, important));
     $('div.alert').not('.alert-important').delay(5000).fadeOut(350);
@@ -1887,7 +1888,7 @@ $(function () {
       if (data.success) target.toggleClass('fa-check-circle').toggleClass('fa-minus-circle');
       data.error ? showAlert(data.error, 'danger') : showAlert(data.success);
     })["catch"](function (error) {
-      showAlert(error, 'error');
+      showAlert(error, 'danger');
     });
   }
 
@@ -1900,10 +1901,123 @@ $(function () {
       showAlert(data.success);
       target.closest('tr').hide();
     })["catch"](function (error) {
-      showAlert(error, 'error');
+      showAlert(error, 'danger');
     });
   }
 });
+
+/***/ }),
+
+/***/ "./resources/js/admin/components/categories.js":
+/*!*****************************************************!*\
+  !*** ./resources/js/admin/components/categories.js ***!
+  \*****************************************************/
+/***/ (() => {
+
+$(function () {
+  //TODO: Toto by malo byť previazané cez ajax na ľavé menu.
+  //$('#sideMenu').find( 'ul' ).css( 'display', 'block' );
+  var adminEditMenu = $('#adminEditMenu');
+  adminEditMenu.find('.editMenu').on('mousedown', function () {
+    addItemsToUrl($(this));
+  });
+  adminEditMenu.find('.fa-trash-o').removeClass('d-none').on('click', function (e) {
+    deleteCategory($(this));
+  });
+  adminEditMenu.find('.fa-check-circle, .fa-minus-circle').on('click', function (e) {
+    changeCategoryVisibility($(this));
+  });
+
+  function addItemsToUrl($this) {
+    var serialized = $('ul.sortable').sortableListsToString();
+    var href = $this.attr('href');
+    serialized = serialized.replace(/no-parent/g, '0');
+    href = href.replace(/&menuItem[^&]+/g, ''); // If original url contains menuItems these have to be removed.
+
+    $this.attr('href', href + '&' + serialized); // Not need to solve ? cause links to handle methods always have do= param
+  }
+
+  function deleteCategory($this) {
+    $this.css('display', 'none');
+    if (!confirm('Naozaj chcete položku zmazať?')) return;
+    showLoader();
+    sendPostRequest().then(function (response) {
+      showAlert('Kategória bola zmazaná.');
+    })["catch"](function (response) {
+      showAlert('Pri ukladaní údajov došlo k chybe.', 'error');
+    }).then(function () {
+      hideLoader();
+      $this.css('display', 'block');
+    });
+  }
+
+  function changeCategoryVisibility($this) {
+    showLoader();
+    sendPostRequest().then(function (response) {
+      var data = response.data;
+      if (data.success) target.toggleClass('fa-check-circle').toggleClass('fa-minus-circle');
+      data.error ? showAlert(data.error, 'danger') : showAlert(data.success);
+    })["catch"](function (error) {
+      showAlert('Pri ukladaní údajov došlo k chybe.', 'danger');
+    }).then(function () {
+      hideLoader();
+    });
+  } // Nette.ajax extensions ///////////////////////////////////////////
+
+
+  var nette = {
+    before: function before(jqXHR, settings) {
+      $('#editSection, #createSection').slideUp();
+      $('.alert').fadeOut();
+      $('#ajax-spinner').css({
+        'display': 'block'
+      });
+    },
+    complete: function complete(jqXHR, status, settings) {
+      $('#sideMenu').find('ul').css('display', 'block');
+    }
+  }; // End of nette.ajax ///////////////////////////////////////////////
+});
+
+function activateEditForm(id, title, el) {
+  var editSection = $('#editSection');
+  editSection.find('input[name=title]').val(title);
+  editSection.find('input[name=id]').val(id);
+  $('#createSection').css({
+    'display': 'none'
+  });
+  editSection.slideDown();
+  editSection.offset({
+    left: editSection.offset().left,
+    top: $(el).offset().top - 20
+  }); // must be after the slide cause display:none make some trouble
+}
+
+function activateCreateForm(el) {
+  var spinner = $('#ajax-spinner').css({
+    'display': 'block'
+  });
+  $('#createSelect').html('');
+  /*$.nette.ajax({
+  		type: 'GET',
+  		url: {link select!},
+  		complete: function()
+  		{
+  			spinner.css( {'display' : 'none'} );
+  		}
+  	});*/
+
+  var elOffset = $(el).offset(),
+      createSection = $('#createSection');
+  $('#editSection').css({
+    'display': 'none'
+  });
+  createSection.slideDown();
+  createSection.offset({
+    left: elOffset.left,
+    top: elOffset.top
+  }); // must be after the slide cause display:none make some trouble
+}
 
 /***/ }),
 
@@ -2083,26 +2197,30 @@ $(function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var bootstrap__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.js");
 /* harmony import */ var bootstrap__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(bootstrap__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _components_alert__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/alert */ "./resources/js/components/alert.js");
-/* harmony import */ var _components_alert__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_components_alert__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _components_axios_request__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/axios-request */ "./resources/js/components/axios-request.js");
-/* harmony import */ var _components_axios_request__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_components_axios_request__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _components_init_animations__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/init-animations */ "./resources/js/components/init-animations.js");
-/* harmony import */ var _components_init_animations__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_components_init_animations__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _components_menu__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/menu */ "./resources/js/components/menu.js");
-/* harmony import */ var _components_menu__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_components_menu__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _components_modals__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/modals */ "./resources/js/components/modals.js");
-/* harmony import */ var _components_modals__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_components_modals__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _components_pretty_print__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/pretty-print */ "./resources/js/components/pretty-print.js");
-/* harmony import */ var _components_pretty_print__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_components_pretty_print__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var _admin_components_alert__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./admin/components/alert */ "./resources/js/admin/components/alert.js");
-/* harmony import */ var _admin_components_alert__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_admin_components_alert__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var _admin_components_articles__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./admin/components/articles */ "./resources/js/admin/components/articles.js");
-/* harmony import */ var _admin_components_articles__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_admin_components_articles__WEBPACK_IMPORTED_MODULE_8__);
-/* harmony import */ var _admin_components_comments__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./admin/components/comments */ "./resources/js/admin/components/comments.js");
-/* harmony import */ var _admin_components_comments__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_admin_components_comments__WEBPACK_IMPORTED_MODULE_9__);
-/* harmony import */ var _admin_components_tiny_mce__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./admin/components/tiny-mce */ "./resources/js/admin/components/tiny-mce.js");
-/* harmony import */ var _admin_components_tiny_mce__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(_admin_components_tiny_mce__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var jquery_sortable_lists__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! jquery-sortable-lists */ "./node_modules/jquery-sortable-lists/jquery-sortable-lists.min.js");
+/* harmony import */ var jquery_sortable_lists__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jquery_sortable_lists__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _components_alert__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/alert */ "./resources/js/components/alert.js");
+/* harmony import */ var _components_alert__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_components_alert__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _components_axios_request__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/axios-request */ "./resources/js/components/axios-request.js");
+/* harmony import */ var _components_axios_request__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_components_axios_request__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _components_init_animations__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/init-animations */ "./resources/js/components/init-animations.js");
+/* harmony import */ var _components_init_animations__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_components_init_animations__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _components_menu__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/menu */ "./resources/js/components/menu.js");
+/* harmony import */ var _components_menu__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_components_menu__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _components_modals__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/modals */ "./resources/js/components/modals.js");
+/* harmony import */ var _components_modals__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_components_modals__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _components_pretty_print__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/pretty-print */ "./resources/js/components/pretty-print.js");
+/* harmony import */ var _components_pretty_print__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_components_pretty_print__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _admin_components_alert__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./admin/components/alert */ "./resources/js/admin/components/alert.js");
+/* harmony import */ var _admin_components_alert__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_admin_components_alert__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _admin_components_articles__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./admin/components/articles */ "./resources/js/admin/components/articles.js");
+/* harmony import */ var _admin_components_articles__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_admin_components_articles__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var _admin_components_categories__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./admin/components/categories */ "./resources/js/admin/components/categories.js");
+/* harmony import */ var _admin_components_categories__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(_admin_components_categories__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var _admin_components_comments__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./admin/components/comments */ "./resources/js/admin/components/comments.js");
+/* harmony import */ var _admin_components_comments__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(_admin_components_comments__WEBPACK_IMPORTED_MODULE_11__);
+/* harmony import */ var _admin_components_tiny_mce__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./admin/components/tiny-mce */ "./resources/js/admin/components/tiny-mce.js");
+/* harmony import */ var _admin_components_tiny_mce__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(_admin_components_tiny_mce__WEBPACK_IMPORTED_MODULE_12__);
 //window.$ = window.jQuery = require('jquery');
 window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /**
@@ -2115,6 +2233,7 @@ window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js")
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'; // NPM packages
 
 
+
  // Local scripts
 
 
@@ -2123,6 +2242,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'; // 
 
 
  // Local admin scripts
+
 
 
 
@@ -2167,7 +2287,17 @@ $(function () {
     data = typeof data === 'undefined' ? {} : data;
     headers = typeof headers === 'undefined' ? {} : headers;
     axios.defaults.headers.common['X-CSRF-TOKEN'] = $('meta[name="csrf-token"]').attr('content');
-    return axios.post(url, data, headers);
+    return axios.post(url, data, headers); // Return promise
+  };
+
+  var ajaxLoader = $('#ajax-loader'); // Use it when you ned not on every request.
+
+  window.showLoader = function () {
+    ajaxLoader.css('display', 'block');
+  };
+
+  window.hideLoader = function () {
+    ajaxLoader.css('display', 'none');
   };
 });
 
@@ -6681,6 +6811,16 @@ $(function () {
 })));
 //# sourceMappingURL=bootstrap.js.map
 
+
+/***/ }),
+
+/***/ "./node_modules/jquery-sortable-lists/jquery-sortable-lists.min.js":
+/*!*************************************************************************!*\
+  !*** ./node_modules/jquery-sortable-lists/jquery-sortable-lists.min.js ***!
+  \*************************************************************************/
+/***/ (() => {
+
+(function(a){a.fn.sortableLists=function(k){var B=a("body").css("position","relative"),s={currElClass:"",placeholderClass:"",placeholderCss:{position:"relative",padding:0},hintClass:"",hintCss:{display:"none",position:"relative",padding:0},hintWrapperClass:"",hintWrapperCss:{},baseClass:"",baseCss:{position:"absolute",top:0-parseInt(B.css("margin-top")),left:0-parseInt(B.css("margin-left")),margin:0,padding:0,"z-index":2500},opener:{active:false,open:"",close:"",openerCss:{"float":"left",display:"inline-block","background-position":"center center","background-repeat":"no-repeat"},openerClass:""},maxLevels:false,listSelector:"ul",listsClass:"",listsCss:{},insertZone:50,insertZonePlus:false,scroll:20,ignoreClass:"",isAllowed:function(I,K,J){return true},onDragStart:function(J,I){return true},onChange:function(I){return true},complete:function(I){return true}},F=a.extend(true,{},s,k),n=a("<"+F.listSelector+" />").prependTo(B).attr("id","s-l-base").css(F.baseCss).addClass(F.listsClass+" "+F.baseClass),p=a("<li />").attr("id","s-l-placeholder").css(F.placeholderCss).addClass(F.placeholderClass),v=a("<li />").attr("id","s-l-hint").css(F.hintCss).addClass(F.hintClass),i=a("<"+F.listSelector+" />").attr("id","s-l-hint-wrapper").addClass(F.listsClass+" "+F.hintWrapperClass).css(F.listsCss).css(F.hintWrapperCss),x=a("<span />").addClass("s-l-opener "+F.opener.openerClass).css(F.opener.openerCss).on("mousedown",function(J){var I=a(this).closest("li");if(I.hasClass("s-l-closed")){t(I)}else{w(I)}return false});if(F.opener.as=="class"){x.addClass(F.opener.close)}else{if(F.opener.as=="html"){x.html(F.opener.close)}else{console.error("jQuerySortableLists opener as background image has been removed with release 2.0.0. Use html instead please.")}}var m={isDragged:false,isRelEFP:null,oEl:null,rootEl:{el:a(this),offset:null,rootElClass:a(this).attr("class")},cEl:null,placeholderParentLi:null,upScroll:false,downScroll:false,pX:0,pY:0,cX:0,cY:0,isAllowed:true,e:{pageX:0,pageY:0,clientX:0,clientY:0},doc:a(document),win:a(window)};if(F.opener.active){if(!F.opener.open){throw"Opener.open value is not defined. It should be valid url, html or css class."}if(!F.opener.close){throw"Opener.close value is not defined. It should be valid url, html or css class."}var D=null;a(this).find("li").each(function(){D=a(this);if(D.children(F.listSelector).length){x.clone(true).prependTo(D.children("div").first());if(!D.hasClass("s-l-open")){w(D)}else{t(D)}}})}return this.on("mousedown",function(L){var K=a(L.target);if(m.isDragged!==false||(F.ignoreClass&&K.hasClass(F.ignoreClass))){return}L.preventDefault();var J=K.closest("li"),I=a(this);if(J[0]){F.onDragStart(L,J);f(L,J,I)}});function f(O,K,J){m.isDragged=true;var Q=parseInt(K.css("margin-top")),M=parseInt(K.css("margin-bottom")),I=parseInt(K.css("margin-left")),R=parseInt(K.css("margin-right")),P=K.offset(),N=K.innerHeight();m.rootEl={el:J,offset:J.offset(),rootElClass:J.attr("class")};m.cEl={el:K,mT:Q,mL:I,mB:M,mR:R,offset:P};if(F.maxLevels){m.cEl.insideLevels=o(K)}m.cEl.xyOffsetDiff={X:O.pageX-m.cEl.offset.left,Y:O.pageY-m.cEl.offset.top};m.cEl.el.addClass("s-l-current "+F.currElClass);K.before(p);var L=m.placeholderNode=a("#s-l-placeholder");K.css({width:K.width(),position:"absolute",top:P.top-Q,left:P.left-I}).prependTo(n);L.css({display:"block",height:N});v.css("height",N);m.doc.on("mousemove",A).on("mouseup",C)}function A(L){if(m.isDragged){var I=m.cEl,K=m.doc,J=m.win;if(!L.pageX){e(L)}if(L.clientY<50&&K.scrollTop()>m.rootEl.offset.top-10){if(!m.upScroll){y(L)}else{L.pageY=L.pageY-F.scroll;a("html, body").each(function(M){a(this).scrollTop(a(this).scrollTop()-F.scroll)});h(L)}}else{if(J.height()-L.clientY<50&&K.scrollTop()+J.height()<m.rootEl.offset.top+m.rootEl.el.outerHeight(false)+10){if(!m.downScroll){q(L)}else{L.pageY=L.pageY+F.scroll;a("html, body").each(function(M){a(this).scrollTop(a(this).scrollTop()+F.scroll)});h(L)}}else{l(m)}}m.oElOld=m.oEl;I.el[0].style.visibility="hidden";m.oEl=oEl=r(L.pageX,L.pageY);I.el[0].style.visibility="visible";g(L,m);c(L,m)}}function C(M){var L=m.cEl,I=a("#s-l-hint",m.rootEl.el),O=v[0].style,N=null,K=false,J=a("#s-l-hint-wrapper");if(O.display=="block"&&I.length&&m.isAllowed){N=I;K=true}else{N=m.placeholderNode;K=false}offset=N.offset();L.el.animate({left:offset.left-m.cEl.mL,top:offset.top-m.cEl.mT},250,function(){b(L);N.after(L.el[0]);N[0].style.display="none";O.display="none";I.remove();J.removeAttr("id").removeClass(F.hintWrapperClass);if(J.length){J.prev("div").append(x.clone(true))}if(K){m.placeholderNode.slideUp(150,function(){m.placeholderParentLi=(!m.placeholderNode.parent().is(m.rootEl.el))?m.placeholderNode.parent().closest("li"):null;m.placeholderNode.remove();E();F.onChange(L.el);F.complete(L.el);m.isDragged=false})}else{m.placeholderNode.remove();E();F.complete(L.el);m.isDragged=false}});l(m);m.doc.unbind("mousemove",A).unbind("mouseup",C)}function y(I){if(m.upScroll){return}m.upScroll=setInterval(function(){m.doc.trigger("mousemove")},50)}function q(I){if(m.downScroll){return}m.downScroll=setInterval(function(){m.doc.trigger("mousemove")},50)}function h(I){m.pY=I.pageY;m.pX=I.pageX;m.cY=I.clientY;m.cX=I.clientX}function e(I){I.pageY=m.pY;I.pageX=m.pX;I.clientY=m.cY;I.clientX=m.cX}function l(I){clearInterval(I.upScroll);clearInterval(I.downScroll);I.upScroll=I.downScroll=false}function c(K,J){var I=J.cEl;I.el.css({top:K.pageY-I.xyOffsetDiff.Y-I.mT,left:K.pageX-I.xyOffsetDiff.X-I.mL})}function r(I,N){if(!document.elementFromPoint){return null}var M=m.isRelEFP;if(M===null){var L,J;if((L=m.doc.scrollTop())>0){M=((J=document.elementFromPoint(0,L+a(window).height()-1))==null||J.tagName.toUpperCase()=="HTML")}if((L=m.doc.scrollLeft())>0){M=((J=document.elementFromPoint(L+a(window).width()-1,0))==null||J.tagName.toUpperCase()=="HTML")}}if(M){I-=m.doc.scrollLeft();N-=m.doc.scrollTop()}var K=a(document.elementFromPoint(I,N));if(!m.rootEl.el.find(K).length){return null}else{if(K.is("#s-l-placeholder")||K.is("#s-l-hint")){return null}else{if(!K.is("li")){K=K.closest("li");return K[0]?K:null}else{if(K.is("li")){return K}}}}}function g(M,L){var I=L.oEl;if(!I||!L.oElOld){return}var K=I.outerHeight(false),J=M.pageY-I.offset().top;if(14>J){F.insertZonePlus?d(M,I,7>J):j(M,I)}else{if(K-14<J){F.insertZonePlus?z(M,I,K-7<J):H(M,I)}}}function j(L,I){if(a("#s-l-hint-wrapper",m.rootEl.el).length){v.unwrap()}if(L.pageX-I.offset().left<F.insertZone){if((F.maxLevels!==false&&!G(false))||(I.prev("#s-l-placeholder").length)){v.css("display","none");return}I.before(v)}else{var J=I.children(),K=I.children(F.listSelector).first();if((F.maxLevels!==false&&!G(true))||(K.children().first().is("#s-l-placeholder"))){v.css("display","none");return}if(!K.length){J.first().after(v);v.wrap(i)}else{K.prepend(v)}if(m.oEl){t(I)}}v.css("display","block");m.isAllowed=F.isAllowed(m.cEl.el,v,v.parents("li").first())}function d(M,I,L){if(a("#s-l-hint-wrapper",m.rootEl.el).length){v.unwrap()}if(!L&&M.pageX-I.offset().left>F.insertZone){var J=I.children(),K=I.children(F.listSelector).first();if((F.maxLevels!==false&&!G(true))||(K.children().first().is("#s-l-placeholder"))){v.css("display","none");return}if(!K.length){J.first().after(v);v.wrap(i)}else{K.prepend(v)}if(m.oEl){t(I)}}else{if((F.maxLevels!==false&&!G(false))||(I.prev("#s-l-placeholder").length)){v.css("display","none");return}I.before(v)}v.css("display","block");m.isAllowed=F.isAllowed(m.cEl.el,v,v.parents("li").first())}function H(L,I){if(a("#s-l-hint-wrapper",m.rootEl.el).length){v.unwrap()}if(L.pageX-I.offset().left<F.insertZone){if((F.maxLevels!==false&&!G(false))||(I.next("#s-l-placeholder").length)){v.css("display","none");return}I.after(v)}else{var J=I.children(),K=I.children(F.listSelector).last();if((F.maxLevels!==false&&!G(true))||(K.children().last().is("#s-l-placeholder"))){v.css("display","none");return}if(K.length){J.last().append(v)}else{I.append(v);v.wrap(i)}if(m.oEl){t(I)}}v.css("display","block");m.isAllowed=F.isAllowed(m.cEl.el,v,v.parents("li").first())}function z(M,I,L){if(a("#s-l-hint-wrapper",m.rootEl.el).length){v.unwrap()}if(!L&&M.pageX-I.offset().left>F.insertZone){var J=I.children(),K=I.children(F.listSelector).last();if((F.maxLevels!==false&&!G(true))||(K.children().last().is("#s-l-placeholder"))){v.css("display","none");return}if(K.length){J.last().append(v)}else{I.append(v);v.wrap(i)}if(m.oEl){t(I)}}else{if((F.maxLevels!==false&&!G(false))||(I.next("#s-l-placeholder").length)){v.css("display","none");return}I.after(v)}v.css("display","block");m.isAllowed=F.isAllowed(m.cEl.el,v,v.parents("li").first())}function t(I){I.removeClass("s-l-closed").addClass("s-l-open");I.children(F.listSelector).css("display","block");var J=I.children("div").children(".s-l-opener").first();if(F.opener.as=="html"){J.html(F.opener.close)}else{if(F.opener.as=="class"){J.addClass(F.opener.close).removeClass(F.opener.open)}}}function w(I){I.removeClass("s-l-open").addClass("s-l-closed");I.children(F.listSelector).css("display","none");var J=I.children("div").children(".s-l-opener").first();if(F.opener.as=="html"){J.html(F.opener.open)}else{if(F.opener.as=="class"){J.addClass(F.opener.open).removeClass(F.opener.close)}}}function o(I){var M=0;var K=I.children(F.listSelector);if(K.length){M++;var L=0;var J=0;K.find("li").each(function(N){J=o(a(this));if(L<J){L=J}});if(L){M=M+L}}return M}function u(I){var L=0;var K=m.rootEl.el;var J=I.closest(F.listSelector);while(!J.is(K)){L++;J=J.parent().closest(F.listSelector)}return L}function G(I){return F.maxLevels>m.cEl.insideLevels+u(m.oEl)+(I?1:0)}function b(I){var J=I.el[0].style;I.el.removeClass(F.currElClass+" s-l-current");J.top="0";J.left="0";J.position="relative";J.width="auto"}function E(){a(F.listSelector,m.rootEl.el).each(function(I){if(!a(this).children().length){a(this).prev("div").children(".s-l-opener").first().remove();a(this).remove()}})}};a.fn.sortableListsToArray=function(c,d){c=c||[];var b=0;this.children("li").each(function(){var e=a(this),f={},g=e.attr("id");if(!g){console.log(e);throw"Previous item in console.log has no id. It is necessary to create the array."}f.id=g;f.parentId=d;f.value=e.data("value");f.order=b;c.push(f);e.children("ul,ol").sortableListsToArray(c,g);b++});return c};a.fn.sortableListsToHierarchy=function(){var c=[],b=0;a(this).children("li").each(function(){var d=a(this),e={},f=d.attr("id");if(!f){console.log(d);throw"Previous item in console.log has no id. It is necessary to create the array."}e.id=f;e.value=d.data("value");e.order=b;c.push(e);e.children=d.children("ul,ol").sortableListsToHierarchy();b++});return c};a.fn.sortableListsToString=function(b,c){b=b||[];c=c||"no-parent";a(this).children("li").each(function(){var d=a(this),f=d.attr("id"),e=f?f.match(/(.+)[-=_](.+)/):null;if(!e){console.log(d);throw"Previous item in console.log has no id or id is not in required format xx_yy, xx-yy or xx=yy. It is necessary to create valid string."}b.push(e[1]+"["+e[2]+"]="+c);a(this).children("ul,ol").sortableListsToString(b,e[2])});return b.join("&")}}(jQuery));
 
 /***/ }),
 

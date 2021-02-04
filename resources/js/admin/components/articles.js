@@ -33,7 +33,7 @@ $(function() {
 				data.error ? showAlert(data.error, 'danger') : showAlert(data.success);
 			})
 			.catch(function( error ) {
-				showAlert(error, 'error');
+				showAlert(error, 'danger');
 			})
 	}
 
@@ -51,7 +51,7 @@ $(function() {
 				target.closest('tr').hide();
 			})
 			.catch(function( error ) {
-				showAlert(error, 'error');
+				showAlert(error, 'danger');
 			});
 	}
 });

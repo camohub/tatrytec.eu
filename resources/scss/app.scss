@@ -4,12 +4,11 @@
 @import "abstracts/variables.scss";
 @import "abstracts/classes";
 
-@import "components/ajax-spinner";
+@import "components/ajax-loader";
 @import "components/animations";
 @import "components/borders";
 @import "components/colors";
 @import "components/comments";
-@import "components/edit-menu";
 @import "components/flashes";
 @import "components/footer";
 @import "components/forms";
@@ -18,6 +17,7 @@
 @import "components/icons";
 @import "components/main";
 @import "components/menu";
+@import "components/menu-sortable";
 @import "components/margins-paddings";
 @import "components/modals";
 @import "components/pagination";

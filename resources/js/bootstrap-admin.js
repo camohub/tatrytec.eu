@@ -13,6 +13,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 // NPM packages
 import 'popper.js';
 import 'bootstrap';
+import 'jquery-sortable-lists';
 // Local scripts
 import './components/alert';
 import './components/axios-request';
@@ -23,6 +24,7 @@ import './components/pretty-print';
 // Local admin scripts
 import './admin/components/alert';
 import './admin/components/articles';
+import './admin/components/categories'
 import './admin/components/comments';
 import './admin/components/tiny-mce';
 

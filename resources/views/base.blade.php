@@ -65,8 +65,8 @@
 </div>
 
 
-{{-- SPINNER --}}
-<div id="ajax-spinner"> </div>
+{{-- LOADER --}}
+<div id="ajax-loader"> </div>
 
 </body>
 </html>

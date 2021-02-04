@@ -1,26 +1,37 @@
+#sortableCategoriesWrapper {
+	margin: 7px 0;
+}
 
 #adminEditMenu ul.sortable,
-#sortableListsBase {
+#s-l-base {
 	margin-left: 0;
 	list-style-type: none;
 }
 
 #adminEditMenu ul,
-#sortableListsBase ul {
+#s-l-base ul {
 	padding: 0;
 	margin: 0 0 0 50px;
 	color: #375f8e;
 	list-style-type: none;
+
+	&.sortable {
+		margin-left: 0;
+	}
 }
 
 #adminEditMenu li,
-#sortableListsBase li {
-	background-color: #8fe9d2;
+#s-l-base li {
+	background-color: #b5e9e3;
 }
 
 #adminEditMenu li div,
-#sortableListsBase div {
+#s-l-base div {
 	padding: 10px;
 	background-color: #fff;
-	border: 2px solid #8fe9d2;
+	border: 2px solid #b5e9e3;
+
+	.fa {
+		float: right;
+	}
 }

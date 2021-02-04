@@ -10201,7 +10201,7 @@ li.L9 {
   color: #fff;
 }
 
-#ajax-spinner {
+#ajax-loader {
   position: fixed;
   top: 50%;
   left: 50%;
@@ -10209,7 +10209,7 @@ li.L9 {
   margin-top: -25px;
   width: 50px;
   height: 50px;
-  background: transparent url("/imgs/spinner.gif") no-repeat 50% 50%;
+  background: transparent url("/imgs/loader.gif") no-repeat 50% 50%;
   font-size: 0;
   z-index: 12345;
   display: none;
@@ -10419,32 +10419,6 @@ a.c0 {
 }
 .comment-item .btn-link {
   font-size: 0.875rem;
-}
-
-#adminEditMenu ul.sortable,
-#sortableListsBase {
-  margin-left: 0;
-  list-style-type: none;
-}
-
-#adminEditMenu ul,
-#sortableListsBase ul {
-  padding: 0;
-  margin: 0 0 0 50px;
-  color: #375f8e;
-  list-style-type: none;
-}
-
-#adminEditMenu li,
-#sortableListsBase li {
-  background-color: #8fe9d2;
-}
-
-#adminEditMenu li div,
-#sortableListsBase div {
-  padding: 10px;
-  background-color: #fff;
-  border: 2px solid #8fe9d2;
 }
 
 div.flash {
@@ -10896,6 +10870,44 @@ pre.prettyprint.custom {
   position: absolute;
   top: 50%;
   right: 5px;
+}
+
+#sortableCategoriesWrapper {
+  margin: 7px 0;
+}
+
+#adminEditMenu ul.sortable,
+#s-l-base {
+  margin-left: 0;
+  list-style-type: none;
+}
+
+#adminEditMenu ul,
+#s-l-base ul {
+  padding: 0;
+  margin: 0 0 0 50px;
+  color: #375f8e;
+  list-style-type: none;
+}
+#adminEditMenu ul.sortable,
+#s-l-base ul.sortable {
+  margin-left: 0;
+}
+
+#adminEditMenu li,
+#s-l-base li {
+  background-color: #b5e9e3;
+}
+
+#adminEditMenu li div,
+#s-l-base div {
+  padding: 10px;
+  background-color: #fff;
+  border: 2px solid #b5e9e3;
+}
+#adminEditMenu li div .fa,
+#s-l-base div .fa {
+  float: right;
 }
 
 .pM00,

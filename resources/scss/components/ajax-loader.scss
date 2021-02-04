@@ -1,5 +1,5 @@
 
-#ajax-spinner {
+#ajax-loader {
 	position: fixed;
 	top: 50%;
 	left: 50%;
@@ -7,7 +7,7 @@
 	margin-top: -25px;
 	width: 50px;
 	height: 50px;
-	background: transparent url('/imgs/spinner.gif') no-repeat 50% 50%;
+	background: transparent url('/imgs/loader.gif') no-repeat 50% 50%;
 	font-size: 0;
 	z-index: 12345;
 	display: none;
