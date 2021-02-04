@@ -1864,8 +1864,8 @@ $(function () {
 /***/ (() => {
 
 $(function () {
-  var trashLink = $('.fa-trash-o');
-  var visibilityLink = $('.js-visibility'); //////////////////////////////////////////////////////////////
+  var trashLink = $('.article.fa-trash-o');
+  var visibilityLink = $('.article.js-visibility'); //////////////////////////////////////////////////////////////
   /// Event handlers //////////////////////////////////////////
   ////////////////////////////////////////////////////////////
 
@@ -1914,7 +1914,8 @@ $(function () {
 /***/ (() => {
 
 $(function () {
-  var deleteLink = $('.fa-check-circle, .fa-minus-circle'); //////////////////////////////////////////////////////////////
+  // .comment is required cause it will catch also articles icons
+  var deleteLink = $('.comment.fa-check-circle, .comment.fa-minus-circle'); //////////////////////////////////////////////////////////////
   /// Event handlers //////////////////////////////////////////
   ////////////////////////////////////////////////////////////
 
@@ -1927,7 +1928,6 @@ $(function () {
 
   function deleteComment(target) {
     var url = target.attr('href');
-    if (!confirm('Naozaj chcete zmazať tento komentár?')) return;
     sendPostRequest(url).then(function (response) {
       var data = response.data;
       if (data.success) target.toggleClass('fa-check-circle').toggleClass('fa-minus-circle');

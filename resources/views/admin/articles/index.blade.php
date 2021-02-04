@@ -19,9 +19,9 @@
 				<td class="text-right">
 					@if(Auth::user()->can('update', $article))
 						<a href="{{route('admin.articles.edit', ['id' => $article->id])}}" class="fa fa-lg fa-pencil" title="Edit"></a>
-						<a href="{{route('admin.articles.visibility', ['id' => $article->id])}}" class="fa fa-lg js-visibility {{$article->visible ? 'fa-check-circle' : 'fa-minus-circle'}}" title="Visible/Hidden"></a>
+						<a href="{{route('admin.articles.visibility', ['id' => $article->id])}}" class="fa fa-lg article js-visibility {{$article->visible ? 'fa-check-circle' : 'fa-minus-circle'}}" title="Visible/Hidden"></a>
 						<a href="{{route('admin.comments', ['article_id' => $article->id])}}" class="fa fa-lg fa-commenting-o" title="Show comments"></a>
-						<a href="{{route('admin.articles.delete', ['id' => $article->id])}}" class="fa fa-lg fa-trash-o" title="Delete"></a>
+						<a href="{{route('admin.articles.delete', ['id' => $article->id])}}" class="fa fa-lg article fa-trash-o" title="Delete"></a>
 					@endif
 				</td>
 			</tr>

@@ -1,7 +1,7 @@
 $(function() {
 
-	let trashLink = $('.fa-trash-o');
-	let visibilityLink = $('.js-visibility');
+	let trashLink = $('.article.fa-trash-o');
+	let visibilityLink = $('.article.js-visibility');
 
 	//////////////////////////////////////////////////////////////
 	/// Event handlers //////////////////////////////////////////

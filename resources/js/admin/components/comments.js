@@ -1,6 +1,6 @@
 $(function() {
-
-	let deleteLink = $('.fa-check-circle, .fa-minus-circle');
+	// .comment is required cause it will catch also articles icons
+	let deleteLink = $('.comment.fa-check-circle, .comment.fa-minus-circle');
 
 	//////////////////////////////////////////////////////////////
 	/// Event handlers //////////////////////////////////////////
@@ -17,7 +17,6 @@ $(function() {
 	function deleteComment( target )
 	{
 		let url = target.attr('href');
-		if( ! confirm( 'Naozaj chcete zmazať tento komentár?' ) ) return;
 
 		sendPostRequest(url)
 			.then(function( response ) {
