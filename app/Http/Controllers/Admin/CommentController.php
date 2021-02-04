@@ -4,86 +4,53 @@ namespace App\Http\Controllers\Admin;
 
 
 use App\Http\Controllers\BaseController;
+use App\Models\Entities\Article;
+use Illuminate\Http\Request;
 
 
 class CommentController extends BaseController
 {
 
-	/** @var  App\Model\Articles @inject */
-	public $articles;
-
-	/** @var  App\Model\Comments @inject */
-	public $comments;
-
-	/** @var  Nette\Database\Table\IRow */
-	protected $article;
-
-
-
-	public function startup()
+	public function index( Request $request, $article_id )
 	{
-		parent::startup();
+		if( !$article = Article::find($article_id) )
+		{
+			flash()->error('Článok nebol nájdený.');
+			return back();
+		}
 
-		$this['breadcrumbs']->add( 'Články', ':Admin:Blog:Articles:default' );
+		if ( !$request->user()->can('update', $article) )
+		{
+			flash()->error('Nemáte oprávnenie upravovať vybraný článok.')->important();
+			return back();
+		}
+
+		return view('admin.comments.index', [
+			'article' => $article,
+			'comments' => $article->comments()->withTrashed()->paginate(15)->onEachSide(1)
+		]);
 	}
 
 
-
-	public function renderDefault( $id )
+	public function delete( Request $request, $article_id, $comment_id )
 	{
-		$article = $this->article ? $this->article : $this->articles->findOneBy( array( 'id' => (int) $id ), 'admin' );
+		if( !$article = Article::withTrashed()->find($article_id) )
+		{
+			return response()->json(['error' => 'Článok nebol nájdený.']);
+		}
+		if( !$comment = $article->comments()->withTrashed()->where('id', $comment_id)->first() )
+		{
+			return response()->json(['error' => 'Komentár nebol nájdený.']);
+		}
+		if ( !$request->user()->can('update', $article) )
+		{
+			return response()->json(['error' => 'Nemáte oprávnenie skrývať komentáre ku článku.']);
+		}
 
-		$this->template->article = $article;
+		$comment->deleted_at = $comment->deleted_at ? NULL : new \DateTimeImmutable();
+		$comment->save();
 
-		$this['breadcrumbs']->add( 'Komentáre', ':Admin:Blog:Comments:default ' . $article->getId() );
+		return response()->json(['success' => 'Viditeľnosť komentára bola zmenená.']);
 	}
-
-
-	/**
-	 * @secured
-	 * @param $id
-	 * @param $comment_id
-	 * @throws App\Exceptions\AccessDeniedException
-	 */
-	public function handleVisibility( $id, $comment_id )
-	{
-		if ( ! $this->user->isAllowed( 'comment', 'delete' ) )
-		{
-			throw new App\Exceptions\AccessDeniedException( 'Nemáte oprávnenie mazať komentáre.' );
-		}
-
-		$this->article = $article = $this->articles->findOneBy( array( 'id' => (int) $id ), 'admin' );
-		$author = $this->article->getUser();
-
-		if ( ! ( $author && $author->getId() == $this->user->id || $this->user->isInRole( 'admin' ) ) )
-		{
-			throw new App\Exceptions\AccessDeniedException( 'Nemáte právo zmazať tento komentár.' );
-		}
-
-		try
-		{
-			$this->comments->switchVisibility( (int) $comment_id );
-			$this->flashMessage( 'Viditeľnosť komentára bola zmenená.' );
-		}
-		catch ( \Exception $e )
-		{
-			Debugger::log( $e );
-			$this->flashMessage( 'Pri editovaní komentára došlo k chybe.', 'error' );
-		}
-
-
-		if ( $this->isAjax() )
-		{
-			$this->redrawControl( 'comments' );
-			return;
-		}
-
-		$this->redirect( 'this' );
-
-	}
-
-
-///////////component//////////////////////////////////////////////////////////
-
 
 }

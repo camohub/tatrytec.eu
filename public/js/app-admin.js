@@ -1844,7 +1844,7 @@ $(function () {
   var alertsWrapper = $('#alerts-wrapper');
 
   window.showAlert = function showAlert(msg, type, important) {
-    type = typeof type === 'undefined' ? 'success' : type == 'error' ? 'danger' : type;
+    type = typeof type === 'undefined' || type == 'success' ? 'success' : 'danger';
     important = typeof important === 'undefined' ? false : !!important;
     alertsWrapper.append(getAlertTemplate(msg, type, important));
     $('div.alert').not('.alert-important').delay(5000).fadeOut(350);
@@ -1885,7 +1885,7 @@ $(function () {
     sendPostRequest(url).then(function (response) {
       var data = response.data;
       if (data.success) target.toggleClass('fa-check-circle').toggleClass('fa-minus-circle');
-      showAlert(data.success);
+      data.error ? showAlert(data.error, 'danger') : showAlert(data.success);
     })["catch"](function (error) {
       showAlert(error, 'error');
     });
@@ -1931,7 +1931,7 @@ $(function () {
     sendPostRequest(url).then(function (response) {
       var data = response.data;
       if (data.success) target.toggleClass('fa-check-circle').toggleClass('fa-minus-circle');
-      showAlert(data.success);
+      data.error ? showAlert(data.error, 'error') : showAlert(data.success);
     })["catch"](function (error) {
       showAlert(error, 'error');
     });

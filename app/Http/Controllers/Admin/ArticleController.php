@@ -11,7 +11,6 @@ use App\Models\Services\ArticlesService;
 use App\Models\Services\ArticlesFilterService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 
 class ArticleController extends BaseController

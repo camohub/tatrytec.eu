@@ -4,7 +4,7 @@ $(function(){
 
 	window.showAlert = function showAlert(msg, type, important)
 	{
-		type = typeof type === 'undefined' ? 'success' : type == 'error' ? 'danger' : type;
+		type = typeof type === 'undefined' || type == 'success' ? 'success' : 'danger';
 		important = typeof important === 'undefined' ? false : !!important;
 
 		alertsWrapper.append(getAlertTemplate(msg, type, important));

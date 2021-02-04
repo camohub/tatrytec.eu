@@ -30,7 +30,7 @@ $(function() {
 			.then(function( response ) {
 				let data = response.data;
 				if( data.success ) target.toggleClass('fa-check-circle').toggleClass('fa-minus-circle');
-				showAlert(data.success);
+				data.error ? showAlert(data.error, 'danger') : showAlert(data.success);
 			})
 			.catch(function( error ) {
 				showAlert(error, 'error');
