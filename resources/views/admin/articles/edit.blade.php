@@ -2,7 +2,7 @@
 
 @section('content')
 
-<form action="{{$article ? route('admin.articles.store', ['id' => $article->id]) : route('admin.articles.store')}}">
+<form action="{{$article ? route('admin.articles.store', ['id' => $article->id]) : route('admin.articles.store')}}" method="post">
 	@csrf
 
 	<h1>{{$article->title ?? 'Vytvoriť článok'}}</h1>

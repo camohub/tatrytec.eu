@@ -34,7 +34,7 @@ class ArticlesFilterService
 		$sort = $this->request->get('sort');
 
 		// Default articles builder
-		$articles = Article::select('articles.*')->withTrashed();
+		$articles = Article::select('articles.*');
 
 		$this->setSession();
 

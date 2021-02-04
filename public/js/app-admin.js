@@ -1918,13 +1918,15 @@ $(function () {
   //TODO: Toto by malo byť previazané cez ajax na ľavé menu.
   //$('#sideMenu').find( 'ul' ).css( 'display', 'block' );
   var adminEditMenu = $('#adminEditMenu');
-  adminEditMenu.find('.editMenu').on('mousedown', function () {
+  adminEditMenu.find('.editMenu').on('mousedown', function (e) {
     addItemsToUrl($(this));
   });
   adminEditMenu.find('.fa-trash-o').removeClass('d-none').on('click', function (e) {
+    e.preventDefault();
     deleteCategory($(this));
   });
   adminEditMenu.find('.fa-check-circle, .fa-minus-circle').on('click', function (e) {
+    e.preventDefault();
     changeCategoryVisibility($(this));
   });
 
@@ -1937,8 +1939,8 @@ $(function () {
     $this.attr('href', href + '&' + serialized); // Not need to solve ? cause links to handle methods always have do= param
   }
 
-  function deleteCategory($this) {
-    $this.css('display', 'none');
+  function deleteCategory(target) {
+    target.css('display', 'none');
     if (!confirm('Naozaj chcete položku zmazať?')) return;
     showLoader();
     sendPostRequest().then(function (response) {
@@ -1947,18 +1949,19 @@ $(function () {
       showAlert('Pri ukladaní údajov došlo k chybe.', 'error');
     }).then(function () {
       hideLoader();
-      $this.css('display', 'block');
+      target.css('display', 'block');
     });
   }
 
-  function changeCategoryVisibility($this) {
+  function changeCategoryVisibility(target) {
     showLoader();
-    sendPostRequest().then(function (response) {
+    var url = target.attr('href');
+    sendPostRequest(url).then(function (response) {
       var data = response.data;
       if (data.success) target.toggleClass('fa-check-circle').toggleClass('fa-minus-circle');
       data.error ? showAlert(data.error, 'danger') : showAlert(data.success);
     })["catch"](function (error) {
-      showAlert('Pri ukladaní údajov došlo k chybe.', 'danger');
+      showAlert(error, 'danger');
     }).then(function () {
       hideLoader();
     });

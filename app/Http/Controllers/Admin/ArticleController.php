@@ -71,7 +71,7 @@ class ArticleController extends BaseController
 	{
 		if( !$id && !$request->user()->can('create', Article::class) )
 		{
-			flash()->error('Nemáte oprávnenie upravovať vybraný článok.')->important();
+			flash()->error('Nemáte oprávnenie vytvárať články.')->important();
 			return back()->withInput();
 		}
 
