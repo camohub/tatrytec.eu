@@ -1,54 +1,29 @@
 $(function() {
 
-	let trashLink = $('.fa-trash-o');
-	let visibilityLink = $('.js-visibility');
+	let deleteLink = $('.fa-check-circle, .fa-minus-circle');
 
 	//////////////////////////////////////////////////////////////
 	/// Event handlers //////////////////////////////////////////
 	////////////////////////////////////////////////////////////
-	trashLink.on('click', function( e )
+	deleteLink.on('click', function( e )
 	{
 		e.preventDefault();
-		deleteArticle( $(this) );
-	});
-
-
-	visibilityLink.on('click', function( e )
-	{
-		e.preventDefault();
-		changeVisibility( $(this) );
+		deleteComment( $(this) );
 	});
 
 	/////////////////////////////////////////////////////////////
 	/// Actions ////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////
-	function changeVisibility( target )
+	function deleteComment( target )
 	{
 		let url = target.attr('href');
+		if( ! confirm( 'Naozaj chcete zmazať tento komentár?' ) ) return;
 
 		sendPostRequest(url)
 			.then(function( response ) {
 				let data = response.data;
 				if( data.success ) target.toggleClass('fa-check-circle').toggleClass('fa-minus-circle');
 				showAlert(data.success);
-			})
-			.catch(function( error ) {
-				showAlert(error, 'error');
-			})
-	}
-
-
-	function deleteArticle( target )
-	{
-		let title = target.closest('tr').find('td:first').text();
-		let url = target.attr('href');
-		if( ! confirm( 'Naozaj chcete zmazať článok: ' + title + '?' ) ) return;
-
-		sendPostRequest(url)
-			.then(function( response ) {
-				let data = response.data;
-				showAlert(data.success);
-				target.closest('tr').hide();
 			})
 			.catch(function( error ) {
 				showAlert(error, 'error');

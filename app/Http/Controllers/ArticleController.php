@@ -44,7 +44,7 @@ class ArticleController extends BaseController
 			$view = [
 				'category_id' => session(self::SESS_ID),
 				'article' => $article,
-				'comments' => $article->comments()->paginate(2, ['*'], 'komentare')->onEachSide(1),
+				'comments' => $article->comments()->paginate(15, ['*'], 'komentare')->onEachSide(1),
 				'fb' => TRUE,
 				'google' => TRUE,
 				'metaDesc' => $article->meta_desc,

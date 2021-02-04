@@ -16,14 +16,14 @@ import 'bootstrap';
 // Local scripts
 import './components/alert';
 import './components/axios-request';
-import './components/comments';
 import './components/init-animations';
 import './components/menu';
 import './components/modals';
 import './components/pretty-print';
 // Local admin scripts
-import './admin/components/articles';
 import './admin/components/alert';
+import './admin/components/articles';
+import './admin/components/comments';
 import './admin/components/tiny-mce';
 
 

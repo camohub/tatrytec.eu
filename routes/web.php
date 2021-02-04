@@ -46,7 +46,8 @@ Route::middleware('admin')->group(function() {
 				Route::get('/articles/store/{id?}', 'ArticleController@store')->name('articles.store');
 				Route::post('/articles/visibility/{id}', 'ArticleController@visibility')->name('articles.visibility');
 				Route::post('/articles/delete/{id}', 'ArticleController@delete')->name('articles.delete');
-				Route::get('/articles/comments/{id}', 'ArticleController@comments')->name('articles.comments');
+				Route::get('/comments/{article_id}', 'CommentController@index')->name('comments');
+				Route::post('/comments/delete/{article_id}/{comment_id}', 'CommentController@delete')->name('comments.delete');
 
 				Route::get('/categories', 'CategoryController@index')->name('categories');
 
