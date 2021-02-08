@@ -3,11 +3,7 @@
 namespace App\Models\Services;
 
 
-use App\Attribute;
-use App\Category;
-use App\ModelData;
 use App\Models\Entities\Article;
-use App\Product;
 use Illuminate\Http\Request;
 
 

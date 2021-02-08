@@ -9,6 +9,7 @@ use App\Models\Entities\Article;
 use App\Models\Entities\Category;
 use App\Models\Services\ArticlesService;
 use App\Models\Services\ArticlesFilterService;
+use App\Models\Services\CategoriesService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 
@@ -28,7 +29,7 @@ class ArticleController extends BaseController
 
 
 
-	public function create( Request $request )
+	public function create( Request $request, CategoriesService $categoriesService )
 	{
 		if( !$request->user()->can('create', Article::class) )
 		{
@@ -38,13 +39,13 @@ class ArticleController extends BaseController
 
 		return view('admin.articles.edit', [
 			'article' => NULL,
-			'selectCategories' => $this->categoriesToSelect(),
+			'selectCategories' => $categoriesService->categoriesToSelect(),
 		]);
 	}
 
 
 
-	public function edit( Request $request, $id )
+	public function edit( Request $request, CategoriesService $categoriesService, $id )
 	{
 		$article = Article::where('id', $id)->withTrashed()->first();
 
@@ -62,7 +63,7 @@ class ArticleController extends BaseController
 
 		return view('admin.articles.edit', [
 			'article' => $article,
-			'selectCategories' => $this->categoriesToSelect(),
+			'selectCategories' => $categoriesService->categoriesToSelect(),
 		]);
 	}
 
@@ -112,33 +113,6 @@ class ArticleController extends BaseController
 		$article->delete();
 
 		return response()->json(['success' => 'Článok bol zmazaný.']);
-	}
-
-//////////////////////////////////////////////////////////////////////////
-//// PROTECTED //////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * @desc produces an array of categories in format required by form->select
-	 * @param null|Collection $categories
-	 * @param array $result
-	 * @param int $lev
-	 * @return array
-	 */
-	public function categoriesToSelect( $categories = NULL, $result = [], $lev = 0 )
-	{
-		if ( !$categories ) $categories = Category::whereNull('parent_id')->with('allChildren')->orderBy('sort', 'ASC')->get();   // First call.
-
-		foreach ( $categories as $category )
-		{
-			if ( $category->slug == 'najnovsie' )  continue;
-
-			$result[$category->id] = str_repeat( '>', $lev * 1 ) . $category->name;
-
-			if ( $category->children->count() ) $result = $this->categoriesToSelect( $category->children, $result, $lev + 1 );
-		}
-
-		return $result;
 	}
 
 }

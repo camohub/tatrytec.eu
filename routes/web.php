@@ -51,7 +51,7 @@ Route::middleware('admin')->group(function() {
 
 				Route::get('/categories', 'CategoryController@index')->name('categories');
 				Route::get('/categories/sort', 'CategoryController@sort')->name('categories.sort');
-				Route::post('/categories/create', 'CategoryController@create')->name('categories.create');
+				Route::post('/categories/store', 'CategoryController@store')->name('categories.store');
 				Route::post('/categories/visibility/{id}', 'CategoryController@visibility')->name('categories.visibility');
 				Route::post('/categories/delete/{id}', 'CategoryController@delete')->name('categories.delete');
 

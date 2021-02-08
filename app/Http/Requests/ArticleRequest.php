@@ -4,7 +4,9 @@ namespace App\Http\Requests;
 
 
 use App\Customer;
+use App\Models\Entities\Article;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Validator;
 
 
 class ArticleRequest extends FormRequest
@@ -32,6 +34,27 @@ class ArticleRequest extends FormRequest
 			'perex.content' => 'Vyplňte prosím text.',
 			'categories.required' => 'Vyberte prosím aspoň jednu kategóriu.',
 		];
+	}
+
+	/**
+	 * @param $validator
+	 */
+	public function withValidator(Validator $validator)
+	{
+		$validator->after(function ($validator)
+		{
+			$id = $this->get( 'id' );
+			if ( $id && Article::where( 'title', $this->get( 'title' ) )->where( 'id', '!=', $id )->first() )
+			{
+				$validator->errors()->add( 'title', 'Článok s rovnakým názvom už existuje.' );
+			}
+			if ( ! $id && Article::where( 'title', $this->get( 'title' ) )->first() )
+			{
+				$validator->errors()->add( 'title', 'Článok s rovnakým názvom už existuje.' );
+			}
+		});
+
+		if( $validator->fails() ) session()->flash('showModal', 'editCategoryFormModal');
 	}
 
 }

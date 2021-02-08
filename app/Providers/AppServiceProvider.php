@@ -29,6 +29,6 @@ class AppServiceProvider extends ServiceProvider
 		Paginator::useBootstrap();
 
 		// Variables shared in all views.
-		View::share('showModal', session('showModal'));
+		//View::share('showModal', session('showModal'));
 	}
 }

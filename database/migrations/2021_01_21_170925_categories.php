@@ -22,6 +22,7 @@ class Categories extends Migration
 			$table->string('slug', 25);
 			$table->unsignedSmallInteger('sort');
 			$table->boolean('visible')->default(TRUE);
+			$table->timestamps();
 			$table->softDeletes();
 
 			$table->foreign('parent_id')->references('id')->on('categories')->onDelete('restrict')->onUpdate('cascade');
