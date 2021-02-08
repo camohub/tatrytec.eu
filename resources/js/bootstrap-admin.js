@@ -27,6 +27,7 @@ import './admin/components/articles';
 import './admin/components/categories'
 import './admin/components/comments';
 import './admin/components/tiny-mce';
+import './admin/components/users';
 
 
 /**

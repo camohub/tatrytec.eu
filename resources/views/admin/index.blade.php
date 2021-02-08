@@ -14,7 +14,7 @@
 	<div class="col-12 col-sm-5">
 		<h2 class="p0">Menu</h2>
 		<ul class="pL30 pV20">
-			<li><a href="{{route('admin.categories')}}">Spravovať menu</a></li>
+			<li><a href="{{route('admin.categories')}}">Spravovať kategórie</a></li>
 		</ul>
 	</div>
 	<div class="col-12 col-sm-5">

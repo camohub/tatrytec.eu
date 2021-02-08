@@ -121,8 +121,6 @@ class ArticlesFilterService
 			'sort' => $remember ? $sort : NULL,
 		];
 
-		debug($filter);
-
 		session([self::SESS_FILTER => (object)$filter]);
 	}
 

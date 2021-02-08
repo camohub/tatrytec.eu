@@ -4,114 +4,91 @@ namespace App\Http\Controllers\Admin;
 
 
 use App\Http\Controllers\BaseController;
+use App\Mail\RegisterEmailConfirmation;
+use App\Models\User;
+use DateTimeImmutable;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 
 class UserController extends BaseController
 {
 
-	/** @var App\Model\Users @inject */
-	public $usersModel;
 
-	/** @var  array */
-	protected $users;
-
-	/** @var  App\Model\Entity\User */
-	protected $userEnt;
-
-
-
-	public function startup()
+	public function index()
 	{
-		parent::startup();
+		return view('admin.users.index', [
+			'users' => User::withTrashed()
+				->orderBy('name', 'ASC')
+				->paginate(30)
+				->onEachSide(1)
+		]);
+	}
 
-		if ( ! $this->user->isAllowed( 'user', 'edit' ) )
+
+	public function block( $id )
+	{
+		if(!Auth::user()->hasRole('admin'))
 		{
-			throw new App\Exceptions\AccessDeniedException( 'Nemáte oprávnenie editovať účty užívateľov.' );
+			flash()->error('Nemáte oprávnenie upravovať uživateľov.')->important();
+			return back();
 		}
 
-		$this['breadcrumbs']->add( 'Užívatelia', ':Admin:Users:default' );
+		$user = User::withTrashed()->where('id', $id)->first();
 
+		$user->deleted_at = $user->deleted_at ? NULL : new DateTimeImmutable();
+		$user->save();
+
+		return response()->json(['success' => 'Uživateľ bol ' . ($user->deleted_at ? 'zablokovaný.' : 'odblokovaný.')]);
 	}
 
 
 
-	public function renderDefault()
+
+	public function edit(Request $request)
 	{
-		$users = $this->usersModel->usersResultSet( [ ], 'admin' );
-		$this->template->users = $this->setPaginator( $users );
+		$user = User::withTrashed()->where('id', $request->get('id') )->first();
+
+		if ( !$user ) return response()->json(['error', 'Uživateľa sa nepodarilo nájsť.']);
+
+		if ( !Auth::user()->hasRole('admin') )
+		{
+			flash()->error('Nemáte oprávnenie upravovať uživateľov.')->important();
+			return back();
+		}
+
+		$user->name = $request->get('name', $user->name);
+		$user->email = $request->get('email', $user->email);
+
+		$user->roles()->sync($request->get('roles'));
+		$user->save();
+
+		flash()->success('Údaje boli uložené do dataázy.');
+		return back();
 	}
 
 
-
-	public function actionEdit( $id )
+	public function email( $id )
 	{
-		$this['breadcrumbs']->add( 'Editovať', ':Admin:Users:edit' );
-
-		$this->userEnt = $this->template->userEnt = $this->usersModel->findOneBy( [ 'id =' => (int) $id ], 'admin' );
-
-	}
-
-
-
-	/**
-	 * @secured
-	 * @param $id
-	 * @throws App\Exceptions\DuplicateEntryException
-	 */
-	public function handleActive( $id )
-	{
-		$user = $this->usersModel->findOneBy( [ 'id' => (int) $id ], 'admin' );
-
-		$status = $user->getActive() == 1 ? 0 : 1;
-		$this->usersModel->updateUser( [ 'active' => $status ], (int) $id );
-
-		$this->flashMessage( 'Zmenili ste vyditeľnosť užívateľského účtu.' );
-		$this->redirect( 'this' );
-	}
-
-
-
-	/**
-	 * @secured
-	 * @param $id
-	 * @throws App\Exceptions\DuplicateEntryException
-	 */
-	public function handleEmail( $id )
-	{
-		$this->em->beginTransaction();
-
 		try
 		{
-			$template = $this->createTemplate()->setFile( __DIR__ . '/../templates/Users/email.latte' );
-			$this->usersModel->sendConfirmEmail( $template, $id );
+			$user = User::withTrashed()->where('id', $id)->first();
+			$user->register_token = Hash::make(time() . rand(0, 10000));
+			$user->save();
+
+			Mail::mailer('mailgun')->to($user)->send(new RegisterEmailConfirmation($user));
 		}
 		catch ( \Exception $e )
 		{
-			$this->em->rollback();
-			$this->flashMessage( 'Pri odosielaní emailu došlo k chybe. Email pravdepodobne nebol odoslaný.', 'error' );
-			return;
+			Log::error($e);
+			return response()->json(['error' => 'Pri odosielaní emailu došlo k chybe.']);
 		}
 
-		$this->em->commit();
-		$this->flashMessage( 'Bol odoslaný konfirmačný email.' );
-		$this->redirect( 'this' );
+		return response()->json(['success' => 'Bol odoslaný konfirmačný email.']);
 	}
-
-
-///////protected////////////////////////////////////////////////////////////////////////////
-
-	protected function setPaginator( $users )
-	{
-		$vp = $this['vp'];
-		$paginator = $vp->getPaginator();
-		$paginator->itemsPerPage = 10;
-
-		$users->applyPaginator( $paginator );
-
-		return $users;
-
-	}
-
 
 
 //////component/////////////////////////////////////////////////////////////////////////////

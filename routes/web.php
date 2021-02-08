@@ -59,6 +59,9 @@ Route::middleware('admin')->group(function() {
 				Route::post('/images/add', 'ImageController@store')->name('images.add');
 
 				Route::get('/users', 'UserController@index')->name('users');
+				Route::post('/users/edit', 'UserController@edit')->name('users.edit');
+				Route::post('/users/block/{id}', 'UserController@block')->name('users.block');
+				Route::post('/users/email/{id}', 'UserController@email')->name('users.email');
 
 				Route::get('/drom', 'DromController@index')->name('drom');
 			});
