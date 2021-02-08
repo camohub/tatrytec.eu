@@ -14,7 +14,6 @@
 		</div>
 	</div>
 
-	{{--@include('admin.categories.components.create-category-form-modal')--}}
 	@include('admin.categories.components.edit-category-form-modal')
 
 @endsection
