@@ -2,7 +2,7 @@
 
 @section('body')
 
-<h2>Vitajte na portály Tatrytec.eu</h2>
+<h2>Vitajte na portáli Tatrytec.eu</h2>
 
 <div>
 	<b>
