@@ -30,6 +30,12 @@
 		</ul>
 	</div>
 	<div class="col-12 col-sm-5">
+		<h2 class="p0">Stránky</h2>
+		<ul class="pL30 pV20">
+			<li><a href="{{route('admin.pages')}}">Spravovať stránky</a></li>
+		</ul>
+	</div>
+	<div class="col-12 col-sm-5">
 		<h2 class="p0">Drom</h2>
 		<ul class="pL30 pV20">
 			<li><a href="{{route('admin.drom')}}">Drom</a></li>

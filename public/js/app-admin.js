@@ -2052,6 +2052,56 @@ $(function () {
 
 /***/ }),
 
+/***/ "./resources/js/admin/components/pages.js":
+/*!************************************************!*\
+  !*** ./resources/js/admin/components/pages.js ***!
+  \************************************************/
+/***/ (() => {
+
+$(function () {
+  var trashLink = $('.page.fa-trash-o');
+  var visibilityLink = $('.page.js-visibility'); //////////////////////////////////////////////////////////////
+  /// Event handlers //////////////////////////////////////////
+  ////////////////////////////////////////////////////////////
+
+  trashLink.on('click', function (e) {
+    e.preventDefault();
+    deletePage($(this));
+  });
+  visibilityLink.on('click', function (e) {
+    e.preventDefault();
+    changeVisibility($(this));
+  }); /////////////////////////////////////////////////////////////
+  /// Actions ////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////
+
+  function changeVisibility(target) {
+    var url = target.attr('href');
+    sendPostRequest(url).then(function (response) {
+      var data = response.data;
+      if (data.success) target.toggleClass('fa-check-circle').toggleClass('fa-minus-circle');
+      data.error ? showAlert(data.error, 'danger') : showAlert(data.success);
+    })["catch"](function (error) {
+      showAlert(error, 'danger');
+    });
+  }
+
+  function deletePage(target) {
+    var title = target.closest('tr').find('td:first').text();
+    var url = target.attr('href');
+    if (!confirm('Naozaj chcete zmazať stránku: ' + title + '?')) return;
+    sendPostRequest(url).then(function (response) {
+      var data = response.data;
+      showAlert(data.success);
+      target.closest('tr').hide();
+    })["catch"](function (error) {
+      showAlert(error, 'danger');
+    });
+  }
+});
+
+/***/ }),
+
 /***/ "./resources/js/admin/components/tiny-mce.js":
 /*!***************************************************!*\
   !*** ./resources/js/admin/components/tiny-mce.js ***!
@@ -2293,10 +2343,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _admin_components_categories__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(_admin_components_categories__WEBPACK_IMPORTED_MODULE_10__);
 /* harmony import */ var _admin_components_comments__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./admin/components/comments */ "./resources/js/admin/components/comments.js");
 /* harmony import */ var _admin_components_comments__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(_admin_components_comments__WEBPACK_IMPORTED_MODULE_11__);
-/* harmony import */ var _admin_components_tiny_mce__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./admin/components/tiny-mce */ "./resources/js/admin/components/tiny-mce.js");
-/* harmony import */ var _admin_components_tiny_mce__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(_admin_components_tiny_mce__WEBPACK_IMPORTED_MODULE_12__);
-/* harmony import */ var _admin_components_users__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./admin/components/users */ "./resources/js/admin/components/users.js");
-/* harmony import */ var _admin_components_users__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(_admin_components_users__WEBPACK_IMPORTED_MODULE_13__);
+/* harmony import */ var _admin_components_pages__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./admin/components/pages */ "./resources/js/admin/components/pages.js");
+/* harmony import */ var _admin_components_pages__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(_admin_components_pages__WEBPACK_IMPORTED_MODULE_12__);
+/* harmony import */ var _admin_components_tiny_mce__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./admin/components/tiny-mce */ "./resources/js/admin/components/tiny-mce.js");
+/* harmony import */ var _admin_components_tiny_mce__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(_admin_components_tiny_mce__WEBPACK_IMPORTED_MODULE_13__);
+/* harmony import */ var _admin_components_users__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./admin/components/users */ "./resources/js/admin/components/users.js");
+/* harmony import */ var _admin_components_users__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(_admin_components_users__WEBPACK_IMPORTED_MODULE_14__);
 //window.$ = window.jQuery = require('jquery');
 window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /**
@@ -2318,6 +2370,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'; // 
 
 
  // Local admin scripts
+
 
 
 

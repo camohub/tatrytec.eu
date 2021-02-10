@@ -63,11 +63,21 @@ Route::middleware('admin')->group(function() {
 				Route::post('/users/block/{id}', 'UserController@block')->name('users.block');
 				Route::post('/users/email/{id}', 'UserController@email')->name('users.email');
 
+				Route::get('/pages', 'PageController@index')->name('pages');
+				Route::get('/pages/create', 'PageController@create')->name('pages.create');
+				Route::get('/pages/edit/{id}', 'PageController@edit')->name('pages.edit');
+				Route::post('/pages/store/{id?}', 'PageController@store')->name('pages.store');
+				Route::post('/pages/visibility/{id}', 'PageController@visibility')->name('pages.visibility');
+				Route::post('/pages/delete/{id}', 'PageController@delete')->name('pages.delete');
+
 				Route::get('/drom', 'DromController@index')->name('drom');
 			});
 		});
 	});
 });
+
+// Pages //////////////////////////////////////////////////////////////////////////
+Route::get('/info/{page}', 'PageController@index')->name('page');
 
 ///////////////////////////////////////////////////////////////////////////////////
 // Placeholder routes ////////////////////////////////////////////////////////////
