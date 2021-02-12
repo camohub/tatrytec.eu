@@ -30,7 +30,7 @@ class RegisterController extends BaseController
 		$user->register_token = Hash::make($password . time() . $name);
 		$user->save();
 
-		Mail::mailer('mailgun')->to($user)->send(new RegisterEmailConfirmation($user));
+		Mail::mailer('smtp')->to($user)->send(new RegisterEmailConfirmation($user));
 
 		flash('Vitajte na palube '. $user->name .'. Skontrolujte si prosím mailovú schránku a potvrďte svoju emailovú adresu.')->success()->important();
 

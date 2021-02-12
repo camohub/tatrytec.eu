@@ -79,7 +79,7 @@ class UserController extends BaseController
 			$user->register_token = Hash::make(time() . rand(0, 10000));
 			$user->save();
 
-			Mail::mailer('mailgun')->to($user)->send(new RegisterEmailConfirmation($user));
+			Mail::mailer('smtp')->to($user)->send(new RegisterEmailConfirmation($user));
 		}
 		catch ( \Exception $e )
 		{
