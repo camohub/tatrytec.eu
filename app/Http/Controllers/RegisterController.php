@@ -27,7 +27,7 @@ class RegisterController extends BaseController
 		$user->email = $email;
 		$user->name = $name;
 		$user->password = Hash::make($password);
-		$user->register_token = Hash::make($password . time() . $name);
+		$user->register_token = sha1($password . time() . $name);
 		$user->save();
 
 		Mail::mailer('smtp')->to($user)->send(new RegisterEmailConfirmation($user));
@@ -40,7 +40,7 @@ class RegisterController extends BaseController
 
 	public function confirmEmail(Request $request, $id, $token)
 	{
-		$user = User::where('id', $id)->where('token', $token)->first();
+		$user = User::where('id', $id)->where('register_token', $token)->first();
 
 		if (!$user) abort(404);
 
