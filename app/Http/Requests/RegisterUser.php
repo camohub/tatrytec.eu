@@ -31,16 +31,16 @@ class RegisterUser extends FormRequest
 	public function messages()
 	{
 		return [
-			'email.required' => 'forms.createBook.email_required',
-			'email.email' => 'forms.createBook.email_email',
-			'email.max' => 'forms.createBook.email_max',
-			'email.unique' => 'forms.createBook.email_unique',
-			'name.required' => 'forms.createBook.author_name_required',
-			'name.max' => 'forms.createBook.author_name_max',
-			'name.unique' => 'forms.createBook.author_name_unique',
-			'password.required' => 'forms.registerUser.password_required',
-			'password.min' => 'forms.registerUser.password_min',
-			'password.confirmed' => 'forms.registerUser.password_confirmed',
+			'email.required' => 'Vyplňte prosím email.',
+			'email.email' => 'Email nemá platný formát.',
+			'email.max' => 'Povolená dĺžka emailu je 30 znakov.',
+			'email.unique' => 'Zadaná emailová adresa je už zaregistrovaná.',
+			'name.required' => 'Vyplňte prosím meno.',
+			'name.max' => 'Povolená dĺžka mena je 30 znakov.',
+			'name.unique' => 'Vybrané meno je už zaregistrované.',
+			'password.required' => 'Vyplňte prosím heslo.',
+			'password.min' => 'Minimálna dĺžka hesla je 8 znakov.',
+			'password.confirmed' => 'Heslá sa nezhodujú.',
 		];
 	}
 
