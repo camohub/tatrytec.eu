@@ -44,7 +44,7 @@ class RegisterController extends BaseController
 
 		if (!$user) abort(404);
 
-		$user->token = NULL;
+		$user->register_token = NULL;
 		$user->save();
 
 		Auth::login($user);
