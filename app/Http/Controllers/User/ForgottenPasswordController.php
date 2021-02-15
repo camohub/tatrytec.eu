@@ -29,7 +29,7 @@ class ForgottenPasswordController extends BaseController
 	public function sendEmail(ForgottenPassword $request)
 	{
 		$email = $request->get('email');
-		$token = sha1(mktime().rand(0, 100000).mktime());
+		$token = sha1(time().rand(0, 100000).time());
 
 		session(self::SESS_TOKEN_KEY, $token);
 		session(self::SESS_EMAIL_KEY, $email);

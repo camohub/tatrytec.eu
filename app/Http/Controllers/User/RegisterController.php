@@ -46,6 +46,7 @@ class RegisterController extends BaseController
 		if (!$user) abort(404);
 
 		$user->register_token = NULL;
+		$user->email_verified_at = new \DateTimeImmutable();
 		$user->save();
 
 		Auth::login($user);
