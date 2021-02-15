@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
 
+use App\Http\Controllers\BaseController;
 use App\Models\Entities\Role;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;

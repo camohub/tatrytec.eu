@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
 
+use App\Http\Controllers\BaseController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -36,6 +37,7 @@ class LoginController extends BaseController
 			'email' => 'Nesprávny email alebo heslo.',
 		]);
 	}
+
 
 	/**
 	 * Log the user out of the application.

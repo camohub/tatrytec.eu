@@ -58,6 +58,7 @@
 
 @include('components.login-form-modal')
 @include('components.register-form-modal')
+@include('components.forgotten-password-form-modal')
 
 
 {{-- ALERTS --}}

@@ -14,7 +14,7 @@
 						@if($showModal == 'loginModal')@include('components.form-errors', ['withoutCloseBtn' => TRUE])@endif
 					</div>
 					<div class="form-group">
-						<label for="email">Eamil</label>
+						<label for="email">Email</label>
 						<input name="email" type="text" class="form-control" value="{{old('email')}}">
 					</div>
 					<div class="form-group">
@@ -24,6 +24,7 @@
 			</div>
 			<div class="modal-footer">
 				<input type="submit" class="btn btn-primary" value="Prihlásiť">
+				<a href="{{route('forgotten-password-form')}}">Zabudnuté heslo</a>
 			</div>
 		</form>
 	</div>

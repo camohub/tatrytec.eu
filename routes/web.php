@@ -16,17 +16,23 @@ use Illuminate\Support\Facades\Route;
 ///////////////////////////////////////////////////////////////////////////////////
 // Login, logout, register, profil ///////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////
-Route::post('/login', 'LoginController@authenticate')->name('login');
-Route::get('/github/login', 'LoginGithubController@authenticate')->name('github.login');
-Route::get('/github/login/callback', 'LoginGithubController@callback')->name('github.login.callback');
-Route::get('/google/login', 'LoginGoogleController@authenticate')->name('google.login');
-Route::get('/google/login/callback', 'LoginGoogleController@callback')->name('google.login.callback');
-Route::get('/facebook/login', 'LoginFacebookController@authenticate')->name('facebook.login');
-Route::get('/facebook/login/callback', 'LoginFacebookController@callback')->name('facebook.login.callback');
-Route::get('/logout', 'LoginController@logout')->name('logout');
-Route::post('/register', 'RegisterController@register')->name('register');
-Route::get('/register/confirm-email/{id}/{token}', 'RegisterController@confirmEmail')->name('register.confirm-email');
-Route::get('/profil/id', 'UserController@detail')->name('user.detail');
+Route::namespace('User')->group(function () {
+	Route::post('/login', 'LoginController@authenticate')->name('login');
+	Route::get('/github/login', 'LoginGithubController@authenticate')->name('github.login');
+	Route::get('/github/login/callback', 'LoginGithubController@callback')->name('github.login.callback');
+	Route::get('/google/login', 'LoginGoogleController@authenticate')->name('google.login');
+	Route::get('/google/login/callback', 'LoginGoogleController@callback')->name('google.login.callback');
+	Route::get('/facebook/login', 'LoginFacebookController@authenticate')->name('facebook.login');
+	Route::get('/facebook/login/callback', 'LoginFacebookController@callback')->name('facebook.login.callback');
+	Route::get('/logout', 'LoginController@logout')->name('logout');
+	Route::post('/register', 'RegisterController@register')->name('register');
+	Route::get('/register/confirm-email/{id}/{token}', 'RegisterController@confirmEmail')->name('register.confirm-email');
+	Route::get('/forgotten-password-form', 'ForgottenPasswordController@forgottenPasswordForm')->name('forgotten-password-form');
+	Route::post('/forgotten-password-email', 'ForgottenPasswordController@forgottenPasswordEmail')->name('forgotten-password-email');
+	Route::get('/forgotten-password-set/{token}', 'ForgottenPasswordController@forgottenPasswordSet')->name('forgotten-password-set');
+	Route::get('/profil/id', 'UserController@index')->name('user');
+	Route::post('/profil/id', 'UserController@changePassword')->name('user.change-password');
+});
 
 // Comments ///////////////////////////////////////////////////////////////////////
 Route::post( 'show-comments', 'ArticleController@showComments' )->name( 'show-comments' );

@@ -20,7 +20,7 @@
 				<li><a href="{{route('admin.index')}}" rel="nofollow">Administrácia</a></li>
 			@endif
 			<li>
-				<a href="{{route('user.detail')}}" rel="nofollow" class="small1 c1">Prihlásený: {{Auth::user()->name}}</a>
+				<a href="{{route('user')}}" rel="nofollow" class="small1 c1">Prihlásený: {{Auth::user()->name}}</a>
 			</li>
 		@endauth
 		@guest

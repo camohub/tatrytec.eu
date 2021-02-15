@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
 
+use App\Http\Controllers\BaseController;
 use App\Mail\RegisterEmailConfirmation;
 use App\Models\User;
 use App\Http\Requests\RegisterUser;
