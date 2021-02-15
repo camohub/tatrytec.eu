@@ -34,19 +34,19 @@ class ForgottenPasswordController extends BaseController
 		session([self::SESS_TOKEN_KEY => $token]);
 		session([self::SESS_EMAIL_KEY => $email]);
 
-		Mail::mailer('smtp')->to($email)->send(new \App\Mail\ForgottenPassword($token));
+		return (new \App\Mail\ForgottenPassword($token))->render();
+		//Mail::mailer('smtp')->to($email)->send(new \App\Mail\ForgottenPassword($token));
+
+		dd(session(self::SESS_TOKEN_KEY), session(self::SESS_EMAIL_KEY));
 
 		flash()->success('Na vašu emailovú adresu bol odoslaný email, cez ktorý sa budete môcť prihlásiť.')->important();
 		return back();
 	}
 
 
-	public function changePassword(Request $request)
+	public function changePassword($token)
 	{
-		$token = $request->get('token');
-
 		if( $token != session(self::SESS_TOKEN_KEY) ) abort(404);
-
 		$user = User::where('email', session(self::SESS_EMAIL_KEY))->firstOrFail();
 
 		session()->forget([self::SESS_TOKEN_KEY, self::SESS_EMAIL_KEY]);
