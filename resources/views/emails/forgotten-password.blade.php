@@ -7,9 +7,9 @@
 <div>
 	<b>
 		Vo vašom mene bolo požiadané o zmenu hesla. Ak ste to neboli vy, ignorujte tento email.<br>
-		Ak ste to boli vy kliknite na odkaz.
+		Ak ste to boli vy kliknite na odkaz
 	</b>
-	<a href="{{route('forgotten-password-change', ['token' => $token])}}">Zmeniť heslo"</a>
+	<a href="{{route('forgotten-password-change', ['token' => $token])}}">zmeniť heslo</a>
 </div>
 
 @endsection

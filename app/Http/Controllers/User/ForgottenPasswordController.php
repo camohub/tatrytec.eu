@@ -31,12 +31,12 @@ class ForgottenPasswordController extends BaseController
 		$email = $request->get('email');
 		$token = sha1(time().rand(0, 100000).time());
 
-		session(self::SESS_TOKEN_KEY, $token);
-		session(self::SESS_EMAIL_KEY, $email);
+		session([self::SESS_TOKEN_KEY => $token]);
+		session([self::SESS_EMAIL_KEY => $email]);
 
-		Mail::mailer('smtp')->to($email)->send(new \App\Mail\ForgottenPassword($token));
+		Mail::mailer('smtp')->to($email)->send(new \App\Mail\ForgottenPassword($token))->render();
 
-		flash()->success('Na vašu emailovú adresu bol odoslaný email cez ktorý sa budete môcť prihlásiť.')->important();
+		flash()->success('Na vašu emailovú adresu bol odoslaný email, cez ktorý sa budete môcť prihlásiť.')->important();
 		return back();
 	}
 
