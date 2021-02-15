@@ -29,7 +29,7 @@ Route::namespace('User')->group(function () {
 	Route::get('/register/confirm-email/{id}/{token}', 'RegisterController@confirmEmail')->name('register.confirm-email');
 	Route::get('/forgotten-password-form', 'ForgottenPasswordController@showForm')->name('forgotten-password-form');
 	Route::post('/forgotten-password-email', 'ForgottenPasswordController@sendEmail')->name('forgotten-password-email');
-	Route::get('/forgotten-password-set/{token}', 'ForgottenPasswordController@changePassword')->name('forgotten-password-change');
+	Route::get('/forgotten-password-change', 'ForgottenPasswordController@changePassword')->name('forgotten-password-change');
 	Route::get('/profil/id', 'UserController@index')->name('user');
 	Route::post('/profil/id', 'UserController@changePassword')->name('user.change-password');
 });
