@@ -2,6 +2,8 @@
 
 @section('content')
 
+	<h1>Váš účet</h1>
+
 	<div>
 		Meno: <b>{{$user->name}}</b>
 	</div>
