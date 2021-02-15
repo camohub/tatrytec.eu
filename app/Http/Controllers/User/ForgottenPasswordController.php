@@ -47,7 +47,7 @@ class ForgottenPasswordController extends BaseController
 
 		if( $token != session(self::SESS_TOKEN_KEY) ) abort(404);
 
-		$user = User::where('email', self::SESS_EMAIL_KEY)->firstOrFail();
+		$user = User::where('email', session(self::SESS_EMAIL_KEY))->firstOrFail();
 
 		session()->forget([self::SESS_TOKEN_KEY, self::SESS_EMAIL_KEY]);
 
