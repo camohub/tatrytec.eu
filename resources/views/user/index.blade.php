@@ -37,7 +37,7 @@
 					</div>
 					<div class="form-group">
 						<label for="password">Zopakovať heslo</label>
-						<input name="confirm_password" type="password" class="form-control">
+						<input name="password_confirmation" type="password" class="form-control">
 					</div>
 				</div>
 				<div class="modal-footer">
