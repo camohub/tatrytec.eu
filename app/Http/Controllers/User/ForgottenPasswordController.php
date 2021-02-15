@@ -20,13 +20,13 @@ class ForgottenPasswordController extends BaseController
 	const SESS_EMAIL_KEY = self::class . '_EMAIL';
 
 
-	public function forgottenPasswordForm()
+	public function showForm()
 	{
 		return back()->with('showModal', 'forgottenPasswordModal');
 	}
 
 
-	public function forgottenPasswordSend(ForgottenPassword $request)
+	public function sendEmail(ForgottenPassword $request)
 	{
 		$email = $request->get('email');
 		$token = sha1(mktime().rand(0, 100000).mktime());
@@ -41,7 +41,7 @@ class ForgottenPasswordController extends BaseController
 	}
 
 
-	public function forgottenPasswordSet(Request $request)
+	public function changePassword(Request $request)
 	{
 		$token = $request->get('token');
 

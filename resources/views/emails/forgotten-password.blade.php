@@ -4,7 +4,7 @@
 
 <h2>Tatrytec.eu</h2>
 
-<form action="{{route('forgotten-password-set')}}" method="post">
+<form action="{{route('forgotten-password-change')}}" method="post">
 	@csrf
 	<input type="hidden" name="token" value="{{$token}}">
 	<b>
