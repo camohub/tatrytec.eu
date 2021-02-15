@@ -4,14 +4,12 @@
 
 <h2>Tatrytec.eu</h2>
 
-<form action="{{route('forgotten-password-change')}}" method="post">
-	@csrf
-	<input type="hidden" name="token" value="{{$token}}">
+<div>
 	<b>
 		Vo vašom mene bolo požiadané o zmenu hesla. Ak ste to neboli vy, ignorujte tento email.<br>
 		Ak ste to boli vy kliknite na odkaz.
 	</b>
-	<input type="submit" value="Zmeniť heslo">
-</form>
+	<a href="{{route('forgotten-password-change', ['token' => $token])}}">Zmeniť heslo"</a>
+</div>
 
 @endsection
