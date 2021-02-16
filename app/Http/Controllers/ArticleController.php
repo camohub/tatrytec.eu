@@ -113,6 +113,6 @@ class ArticleController extends BaseController
 				->orderBy('id', 'DESC');
 		}
 
-		return $articles->paginate(self::PAGE_ITEMS)->onEachSide(1);
+		return $articles->paginate(self::PAGE_ITEMS, ['*'], 'strana')->onEachSide(1);
 	}
 }
