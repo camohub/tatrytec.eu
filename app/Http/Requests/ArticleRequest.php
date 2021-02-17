@@ -43,14 +43,14 @@ class ArticleRequest extends FormRequest
 	{
 		$validator->after(function ($validator)
 		{
-			$id = $this->get( 'id' );
-			if ( $id && Article::where( 'title', $this->get( 'title' ) )->where( 'id', '!=', $id )->first() )
+			$id = $this->route('id');
+			if ( $id && Article::where( 'title', $this->get('title') )->where('id', '!=', $id)->first() )
 			{
-				$validator->errors()->add( 'title', 'Článok s rovnakým názvom už existuje.' );
+				$validator->errors()->add('title', 'Článok s rovnakým názvom už existuje.');
 			}
-			if ( ! $id && Article::where( 'title', $this->get( 'title' ) )->first() )
+			if ( ! $id && Article::where('title', $this->get('title') )->first() )
 			{
-				$validator->errors()->add( 'title', 'Článok s rovnakým názvom už existuje.' );
+				$validator->errors()->add('title', 'Článok s rovnakým názvom už existuje.');
 			}
 		});
 
