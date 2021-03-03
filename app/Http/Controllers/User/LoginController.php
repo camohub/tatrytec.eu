@@ -34,7 +34,7 @@ class LoginController extends BaseController
 		}
 
 		return back()->with('showModal', 'loginModal')->withErrors([
-			'email' => 'Nesprávny email alebo heslo.',
+			'email' => 'Nesprávny email, alebo heslo.',
 		]);
 	}
 
