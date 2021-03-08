@@ -27,7 +27,7 @@ $(function(){
 			],
 			plugins: [
 				"advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker",
-				"searchreplace wordcount visualblocks visualchars advcode fullscreen insertdatetime media nonbreaking",
+				"searchreplace wordcount visualblocks visualchars fullscreen insertdatetime media nonbreaking",
 				"save table contextmenu directionality emoticons template paste textcolor"
 			],
 			content_css: "/css/tinymce-custom.css",
