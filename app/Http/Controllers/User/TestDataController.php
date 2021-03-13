@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\User;
+
+namespace App\Http\Controllers;
 
 
-use App\Http\Controllers\BaseController;
 use App\Models\Entities\Article;
 
 
-class UserController extends BaseController
+class TestDataController extends BaseController
 {
 
 	protected $testTitle = 'Test text';
