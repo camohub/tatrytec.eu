@@ -15,7 +15,7 @@ class TestDataController extends BaseController
 
 	public function index()
 	{
-		Article::where('title', 'like', '%' . $this->testTitle . '%' )->first()->forceDelete();
+		if( $article = Article::where('title', 'like', $this->testTitle . '%' ) ) $article->first();
 	}
 
 }
