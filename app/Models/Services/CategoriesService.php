@@ -46,6 +46,7 @@ class CategoriesService
 		$category->slug = Str::slug($category->name);
 		$category->sort = 0;
 		$category->parent_id = $request->get('parent_id', NULL);
+		$category->visible = FALSE;
 
 		return $category->save();
 	}
