@@ -27,7 +27,10 @@ class CategoryController extends BaseController
 			return back();
 		};
 
-		$categories = Category::whereNull('parent_id')->orderBy('sort', 'ASC')->get();
+		$categories = Category::whereNull('parent_id')
+			->with('allChildren')
+			->without('children')
+			->orderBy('sort', 'ASC')->get();
 		$categoriesToSelect = $categoriesService->categoriesToSelect();
 
 		return view('admin.categories.index', ['categories' => $categories, 'categoriesToSelect' => $categoriesToSelect]);

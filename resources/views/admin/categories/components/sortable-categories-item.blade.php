@@ -17,8 +17,8 @@
 				@endif
 			</div>
 
-			@if($item->children->count())
-				@include('admin.categories.components.sortable-categories-item', ['categories' => $item->children, 'nested' => TRUE])
+			@if($item->allChildren->count())
+				@include('admin.categories.components.sortable-categories-item', ['categories' => $item->allChildren, 'nested' => TRUE])
 			@endif
 		</li>
 	@endforeach
