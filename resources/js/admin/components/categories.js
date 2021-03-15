@@ -50,6 +50,12 @@ $(function()
 	});
 
 
+	adminEditMenu.find("#createCategoryBtn").on('click', function(  )
+	{
+		setCategoriesEditFormValues("", "", "");
+	});
+
+
 	adminEditMenu.find('.fa-pencil').on('click', function(e)
 	{
 		e.preventDefault();
