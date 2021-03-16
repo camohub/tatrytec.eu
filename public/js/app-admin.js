@@ -1923,11 +1923,11 @@ $(function () {
   sortableList.sortableLists({
     placeholderCss: {
       'background-color': '#fffdc7',
-      'border': '2px solid #b5e9e3'
+      'border': '2px solid #dcdcdc'
     },
     hintCss: {
       'background-color': '#c1ffc0',
-      'border': '2px solid #b5e9e3'
+      'border': '2px solid #dcdcdc'
     },
     ignoreClass: 'ignore',
     opener: {

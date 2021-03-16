@@ -10896,14 +10896,14 @@ pre.prettyprint.custom {
 
 #adminEditMenu li,
 #s-l-base li {
-  background-color: #b5e9e3;
+  background-color: #dcdcdc;
 }
 
 #adminEditMenu li div,
 #s-l-base div {
   padding: 10px;
   background-color: #fff;
-  border: 2px solid #b5e9e3;
+  border: 2px solid #dcdcdc;
 }
 #adminEditMenu li div .fa,
 #s-l-base div .fa {
