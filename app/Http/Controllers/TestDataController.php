@@ -10,9 +10,9 @@ use App\Models\Entities\Article;
 class TestDataController extends BaseController
 {
 
-	protected $articleTitle = 'Test text';
+	protected $articleTitle = 'Selenium test';
 
-	protected $categoryName = 'Test text';
+	protected $categoryName = 'Selenium test';
 
 
 	public function index()
