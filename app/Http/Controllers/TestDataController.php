@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Entities\Article;
+use App\Models\Entities\Category;
 
 
 class TestDataController extends BaseController
@@ -17,8 +18,14 @@ class TestDataController extends BaseController
 
 	public function index()
 	{
-		if( $article = Article::where('title', 'like', $this->articleTitle . '%' ) ) $article->first();
-		if( $category = Category::where('name', 'like', $this->categoryName . '%' ) ) $article->first();
+		$article = Article::where('title', 'like', $this->articleTitle . '%' )->first();
+		if($article) $article->forceDelete();
+
+
+		$category = Category::where('name', 'like', $this->categoryName . '%' )->whereNot('parent_id')->first();
+		if( $category ) $category->forceDelete();
+		$category = Category::where('name', 'like', $this->categoryName . '%')->first();
+		if( $category ) $category->forceDelete();
 	}
 
 }
