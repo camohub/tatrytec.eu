@@ -26,6 +26,8 @@ class TestDataController extends BaseController
 		if( $category ) $category->forceDelete();
 		$category = Category::where('name', 'like', $this->categoryName . '%')->first();
 		if( $category ) $category->forceDelete();
+
+		return response()->json(['success' => 'Test data was successfully deleted.']);
 	}
 
 }
