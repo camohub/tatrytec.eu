@@ -31,7 +31,7 @@
 		<meta property="og:image" content="@yield('ogImage')"/>
 	@endif
 
-	<title>{{env('APP_NAME')}} | @yield('title', 'Tatrytec.eu')</title>
+	<title>@yield('title', config('app.name'))</title>
 </head>
 <body>
 
