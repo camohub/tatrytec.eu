@@ -13,7 +13,7 @@
 		</tr>
 		@foreach($articles as $article)
 			<tr>
-				<td>{{$article->title}}</td>
+				<td><a href="{{route('articles', ['slug' => $article->slug])}}" target="_blank">{{$article->title}}</a></td>
 				<td>{{$article->user ? $article->user->name : ''}}</td>
 				<td>{{$article->created_at->format('j.n. Y')}}</td>
 				<td class="text-right">
