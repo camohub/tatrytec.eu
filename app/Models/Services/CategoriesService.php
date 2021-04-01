@@ -79,7 +79,7 @@ class CategoriesService
 
 			$result[$category->id] = str_repeat( '>', $lev * 1 ) . $category->name;
 
-			if ( $category->children->count() ) $result = $this->categoriesToSelect( $category->children, $result, $lev + 1 );
+			if ( $category->allChildren->count() ) $result = $this->categoriesToSelect( $category->allChildren, $result, $lev + 1 );
 		}
 
 		return $result;
