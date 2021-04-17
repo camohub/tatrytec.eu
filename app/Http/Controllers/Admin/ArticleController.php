@@ -82,7 +82,8 @@ class ArticleController extends BaseController
 			return back()->withInput();
 		}
 
-		$id ? $articlesService->update($request, $article) : $articlesService->create($request);
+		$id ? $articlesService->update($request, $article)
+			: $articlesService->create($request);
 
 		flash()->success('Článok bol uložený do databázy.');
 		return redirect()->route('admin.articles');
