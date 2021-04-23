@@ -7368,7 +7368,6 @@ button.bg-dark:focus {
 }
 
 .position-sticky {
-  position: -webkit-sticky !important;
   position: sticky !important;
 }
 
@@ -7388,9 +7387,8 @@ button.bg-dark:focus {
   z-index: 1030;
 }
 
-@supports ((position: -webkit-sticky) or (position: sticky)) {
+@supports (position: sticky) {
   .sticky-top {
-    position: -webkit-sticky;
     position: sticky;
     top: 0;
     z-index: 1020;
@@ -11188,6 +11186,10 @@ pre.prettyprint.custom {
 .pH50 {
   padding-left: 50px;
   padding-right: 50px;
+}
+
+.modal-content {
+  box-shadow: 0 0 100px rgba(0, 0, 0, 0.5);
 }
 
 .modal-header {
