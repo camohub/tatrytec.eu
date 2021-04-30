@@ -22,22 +22,22 @@ echo "---------------------------------------------------"
 echo "----- OK .env file + session files copy done ------"
 echo "---------------------------------------------------"
 
-chown -R tatrytec:tatrytec $tmp_dir/
-chmod -R 770 $tmp_dir/
+#chown -R tatrytec:tatrytec $tmp_dir/
+#chmod -R 770 $tmp_dir/
 
 cd $tmp_app_dir
 
 # Next commands shall not run as root!!!
 #su tatrytec -c 'composer install  --no-scripts'
-sudo -u tatrytec composer install --optimize-autoloader --no-dev
+composer install --optimize-autoloader --no-dev
 echo "---------------------------------------------------"
 echo "----- OK composer install done --------------------"
 echo "---------------------------------------------------"
 
 #su tatrytec -c 'npm install'
-sudo -u tatrytec npm install
+npm install
 #su tatrytec -c 'npm run prod'
-sudo -u tatrytec npm run prod
+npm run prod
 echo "---------------------------------------------------"
 echo "----- OK npm install + npm run prod done ----------"
 echo "---------------------------------------------------"
@@ -48,17 +48,17 @@ echo "---------------------------------------------------"
 echo "----- OK www/deploy-new-tatrytec.eu done ----------"
 echo "---------------------------------------------------"
 
-usermod -aG www-data tatrytec  # Add user tatrytec to www-data group
-chmod -R 644 $www_new_app_dir  # chmod for files
-find $www_new_app_dir -type d -exec chmod 755 {} \;  #chmod for directories
+#usermod -aG www-data tatrytec  # Add user tatrytec to www-data group
+#chmod -R 644 $www_new_app_dir  # chmod for files
+#find $www_new_app_dir -type d -exec chmod 755 {} \;  #chmod for directories
 echo "---------------------------------------------------"
 echo "----- OK chmod f + chmod d dome -------------------"
 echo "---------------------------------------------------"
 
 # User www-data needs to have rwx permission in storage and cache directories
 # TODO: needs to copy storage files to new directory
-chgrp -R www-data $www_new_app_dir/storage $www_new_app_dir/bootstrap/cache
-chmod -R ug+rwx $www_new_app_dir/storage $www_new_app_dir/bootstrap/cache
+#chgrp -R www-data $www_new_app_dir/storage $www_new_app_dir/bootstrap/cache
+#chmod -R ug+rwx $www_new_app_dir/storage $www_new_app_dir/bootstrap/cache
 echo "---------------------------------------------------"
 echo "----- OK chmod + chgrp for cache done -------------"
 echo "---------------------------------------------------"
