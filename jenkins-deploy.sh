@@ -58,7 +58,7 @@ echo "---------------------------------------------------"
 echo " artisan storage:link done "
 echo "---------------------------------------------------"
 
-chmod -R 644 $www_new_app_dir  # chmod for files
+find $www_new_app_dir -type f -exec chmod 644 {} \;  # chmod for files
 find $www_new_app_dir -type d -exec chmod 755 {} \;  #chmod for directories
 echo "---------------------------------------------------"
 echo " chmod f + chmod d dome "
