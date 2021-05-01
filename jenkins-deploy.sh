@@ -68,8 +68,10 @@ echo "---------------------------------------------------"
 
 # https://stackoverflow.com/questions/30639174/how-to-set-up-file-permissions-for-laravel
 # https://vijayasankarn.wordpress.com/2017/02/04/securely-setting-file-permissions-for-laravel-framework/
-find $www_new_app_dir -type f \( -path $www_new_app_dir/storage -o -path $www_new_app_dir/bootstrap/cache \) -prune -false -o -exec chmod 664 {} \;  # chmod for files # owner is jenkins group www-data
-find $www_new_app_dir -type d -exec chmod 775 {} \;  # chmod for directories # owner is jenkins group www-data
+# https://linuxconfig.org/how-to-explicitly-exclude-directory-from-find-command-s-search
+# owner is jenkins group www-data
+find $www_new_app_dir -type f -not -path "${www_new_app_dir}/storage/*" -not -path "${www_new_app_dir}/bootstrap/cache/*" -exec chmod 664 {} \;  # chmod for files
+find $www_new_app_dir -type d -exec chmod 775 {} \;  # chmod for directories
 echo "---------------------------------------------------"
 echo " chmod f + chmod d dome "
 echo "---------------------------------------------------"
