@@ -58,12 +58,6 @@ echo "---------------------------------------------------"
 echo " artisan storage:link done "
 echo "---------------------------------------------------"
 
-find $www_new_app_dir -type f -exec chmod 644 {} \;  # chmod for files
-find $www_new_app_dir -type d -exec chmod 755 {} \;  #chmod for directories
-echo "---------------------------------------------------"
-echo " chmod f + chmod d dome "
-echo "---------------------------------------------------"
-
 # User www-data needs to have rwx permission in storage and cache directories
 # TODO: needs to copy storage files to new directory
 chmod -R ug+rwx $www_new_app_dir/storage $www_new_app_dir/bootstrap/cache
@@ -72,6 +66,13 @@ echo "---------------------------------------------------"
 echo " chmod + chgrp for cache done "
 echo "---------------------------------------------------"
 
+# https://stackoverflow.com/questions/30639174/how-to-set-up-file-permissions-for-laravel
+# https://vijayasankarn.wordpress.com/2017/02/04/securely-setting-file-permissions-for-laravel-framework/
+find $www_new_app_dir -type f \( -path $www_new_app_dir/storage -o -path $www_new_app_dir/bootstrap/cache \) -prune -false -o -exec chmod 664 {} \;  # chmod for files # owner is jenkins group www-data
+find $www_new_app_dir -type d -exec chmod 775 {} \;  # chmod for directories # owner is jenkins group www-data
+echo "---------------------------------------------------"
+echo " chmod f + chmod d dome "
+echo "---------------------------------------------------"
 
 mv $www_dir/tatrytec.eu $www_old_app_dir
 echo "---------------------------------------------------"
