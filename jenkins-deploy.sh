@@ -75,7 +75,7 @@ echo "---------------------------------------------------"
 
 mv $www_dir/tatrytec.eu $www_old_app_dir
 echo "---------------------------------------------------"
-echo " repositories rename done "
+echo " old repositories rename done "
 echo "---------------------------------------------------"
 
 mv $www_new_app_dir $www_dir/tatrytec.eu
