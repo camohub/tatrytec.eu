@@ -53,11 +53,6 @@ echo "---------------------------------------------------"
 echo " artisan config + route + view cache done "
 echo "---------------------------------------------------"
 
-php artisan storage:link
-echo "---------------------------------------------------"
-echo " artisan storage:link done "
-echo "---------------------------------------------------"
-
 # User www-data needs to have rwx permission in storage and cache directories
 # TODO: needs to copy storage files to new directory
 chmod -R ug+rwx $www_new_app_dir/storage $www_new_app_dir/bootstrap/cache
@@ -76,7 +71,7 @@ echo "---------------------------------------------------"
 echo " chmod f + chmod d dome "
 echo "---------------------------------------------------"
 
-mv $www_dir/tatrytec.eu $www_old_app_dir
+#mv $www_dir/tatrytec.eu $www_old_app_dir
 echo "---------------------------------------------------"
 echo " old repositories rename done "
 echo "---------------------------------------------------"
@@ -86,9 +81,17 @@ echo "---------------------------------------------------"
 echo " new repository rename done "
 echo "---------------------------------------------------"
 
-
 rm -rf $tmp_app_dir
 rm -rf $www_old_app_dir
+echo "---------------------------------------------------"
+echo " new repository rename done "
+echo "---------------------------------------------------"
+
+php artisan storage:link
+echo "---------------------------------------------------"
+echo " artisan storage:link done "
+echo "---------------------------------------------------"
+
 echo "---------------------------------------------------"
 echo " CONGRATULATION EVERYTHIG IS DONE "
 echo "---------------------------------------------------"
