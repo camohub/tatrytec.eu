@@ -45,14 +45,6 @@ echo "---------------------------------------------------"
 echo " www/deploy-new-tatrytec.eu done "
 echo "---------------------------------------------------"
 
-php artisan migrate
-php artisan config:cache
-php artisan route:cache
-php artisan view:cache
-echo "---------------------------------------------------"
-echo " artisan config + route + view cache done "
-echo "---------------------------------------------------"
-
 # User www-data needs to have rwx permission in storage and cache directories
 # TODO: needs to copy storage files to new directory
 chmod -R ug+rwx $www_new_app_dir/storage $www_new_app_dir/bootstrap/cache
@@ -82,6 +74,15 @@ echo " new repository rename done "
 echo "---------------------------------------------------"
 
 cd $www_dir/tatrytec.publicvm.com
+# After renamin to final destination name becasue cache stores the full paths
+php artisan migrate
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+echo "---------------------------------------------------"
+echo " artisan config + route + view cache done "
+echo "---------------------------------------------------"
+
 php artisan storage:link
 echo "---------------------------------------------------"
 echo " artisan storage:link done "
