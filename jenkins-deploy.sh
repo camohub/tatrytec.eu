@@ -81,7 +81,7 @@ echo "---------------------------------------------------"
 echo " old repositories rename done "
 echo "---------------------------------------------------"
 
-mv $www_new_app_dir $www_dir/tatrytec.eu
+mv $www_new_app_dir $www_dir/tatrytec.publicvm.com
 echo "---------------------------------------------------"
 echo " new repository rename done "
 echo "---------------------------------------------------"
