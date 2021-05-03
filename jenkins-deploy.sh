@@ -71,7 +71,7 @@ echo "---------------------------------------------------"
 echo " chmod f + chmod d dome "
 echo "---------------------------------------------------"
 
-#mv $www_dir/tatrytec.eu $www_old_app_dir
+mv $www_dir/tatrytec.publicvm.com $www_old_app_dir
 echo "---------------------------------------------------"
 echo " old repositories rename done "
 echo "---------------------------------------------------"
