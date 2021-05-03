@@ -81,15 +81,16 @@ echo "---------------------------------------------------"
 echo " new repository rename done "
 echo "---------------------------------------------------"
 
+cd $www_dir/tatrytec.publicvm.com
+php artisan storage:link
+echo "---------------------------------------------------"
+echo " artisan storage:link done "
+echo "---------------------------------------------------"
+
 rm -rf $tmp_app_dir
 rm -rf $www_old_app_dir
 echo "---------------------------------------------------"
 echo " new repository rename done "
-echo "---------------------------------------------------"
-
-php artisan storage:link
-echo "---------------------------------------------------"
-echo " artisan storage:link done "
 echo "---------------------------------------------------"
 
 echo "---------------------------------------------------"
