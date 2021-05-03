@@ -27,7 +27,6 @@ chmod -R 770 $tmp_dir/
 cd $tmp_app_dir
 
 # Next commands shall not run as root!!!
-#su tatrytec -c 'composer install  --no-scripts'
 composer install --optimize-autoloader --no-dev
 echo "---------------------------------------------------"
 echo " composer install done "
