@@ -76,19 +76,19 @@ echo "---------------------------------------------------"
 echo " chmod f + chmod d dome "
 echo "---------------------------------------------------"
 
-#mv $www_dir/tatrytec.eu $www_old_app_dir
+mv $www_dir/tatrytec.eu $www_old_app_dir
 echo "---------------------------------------------------"
 echo " old repositories rename done "
 echo "---------------------------------------------------"
 
-#mv $www_new_app_dir $www_dir/tatrytec.eu
+mv $www_new_app_dir $www_dir/tatrytec.eu
 echo "---------------------------------------------------"
 echo " new repository rename done "
 echo "---------------------------------------------------"
 
 
 rm -rf $tmp_app_dir
-#rm -rf $www_old_app_dir
+rm -rf $www_old_app_dir
 echo "---------------------------------------------------"
 echo " CONGRATULATION EVERYTHIG IS DONE "
 echo "---------------------------------------------------"
