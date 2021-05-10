@@ -62,17 +62,17 @@ echo "---------------------------------------------------"
 echo " chmod f + chmod d dome "
 echo "---------------------------------------------------"
 
-mv $www_dir/tatrytec.publicvm.com $www_old_app_dir
+mv $www_dir/tatrytec.eu $www_old_app_dir
 echo "---------------------------------------------------"
 echo " old repositories rename done "
 echo "---------------------------------------------------"
 
-mv $www_new_app_dir $www_dir/tatrytec.publicvm.com
+mv $www_new_app_dir $www_dir/tatrytec.eu
 echo "---------------------------------------------------"
 echo " new repository rename done "
 echo "---------------------------------------------------"
 
-cd $www_dir/tatrytec.publicvm.com
+cd $www_dir/tatrytec.eu
 # After renamin to final destination name becasue cache stores the full paths
 php artisan migrate
 php artisan config:cache
