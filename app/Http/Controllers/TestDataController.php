@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Entities\Article;
 use App\Models\Entities\Category;
+use App\Models\User;
 
 
 class TestDataController extends BaseController
@@ -18,9 +19,11 @@ class TestDataController extends BaseController
 
 	public function index()
 	{
+		$testUser = User::where('email', 'like', config('test.test_user_email') )->where('resource', 'google')->first();
+		if($testUser) $testUser->forceDelete();
+
 		$article = Article::where('title', 'like', $this->articleTitle . '%' )->first();
 		if($article) $article->forceDelete();
-
 
 		$category = Category::where('name', 'like', $this->categoryName . '%' )->whereNotNull('parent_id')->first();
 		if( $category ) $category->forceDelete();
