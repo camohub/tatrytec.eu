@@ -19,13 +19,13 @@ class TestDataController extends BaseController
 
 	public function index()
 	{
-		$testUser = User::where('email', 'like', config('test.test_user_email') )->where('resource', 'google')->first();
+		$testUser = User::where('email', config('test.test_user_email'))->where('resource', 'github')->first();
 		if($testUser) $testUser->forceDelete();
 
-		$article = Article::where('title', 'like', $this->articleTitle . '%' )->first();
+		$article = Article::where('title', 'like', $this->articleTitle . '%')->first();
 		if($article) $article->forceDelete();
 
-		$category = Category::where('name', 'like', $this->categoryName . '%' )->whereNotNull('parent_id')->first();
+		$category = Category::where('name', 'like', $this->categoryName . '%')->whereNotNull('parent_id')->first();
 		if( $category ) $category->forceDelete();
 		$category = Category::where('name', 'like', $this->categoryName . '%')->first();
 		if( $category ) $category->forceDelete();
