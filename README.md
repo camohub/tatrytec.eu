@@ -15,3 +15,6 @@ Admin.php + Kernel.php + $routeMiddleware
 
 ### GITHUB WEBHOOK TEST ###
 Github webhook + Jenkins Gihub plugin 7
+
+### TRANSLATIONS ###
+https://github.com/spatie/laravel-translation-loader
