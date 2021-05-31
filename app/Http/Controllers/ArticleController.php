@@ -10,6 +10,7 @@ use App\Models\Entities\Comment;
 use App\Models\Services\CommentsService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Spatie\TranslationLoader\LanguageLine;
 
 
 class ArticleController extends BaseController
@@ -23,6 +24,23 @@ class ArticleController extends BaseController
 	public function index(Request $request, $slug = NULL)
 	{
 		$slug = $slug ?: 'najnovsie';
+
+		/*LanguageLine::create([
+			'group' => 'validation',
+			'key' => 'count',
+			'text' => ['en' => '{0} :count apples|{1} :count apple|[2,*] :count apples', 'sk' => '{0} :count jablk|[2,4] :count jablka|[5,*] :count jablk'],
+		]);*/
+
+		/*app()->setLocale('sk');
+
+		dump(trans('validation.required'));
+		dump(trans('validation.email'));
+		dump(trans('validation.testForm.integer'));
+		dump(trans_choice('validation.count', 0));
+		dump(trans_choice('validation.count', 1));
+		dump(trans_choice('validation.count', 4));
+		dump(trans_choice('validation.count', 5));
+		dump(trans_choice('validation.count', 15));*/
 
 		if( $category = Category::where('slug', $slug)->first() )  // Displays category.
 		{
