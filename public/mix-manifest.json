@@ -1,6 +1,8 @@
 {
     "/js/app.js": "/js/app.js",
     "/js/app-admin.js": "/js/app-admin.js",
+    "/js/app-homepage.js": "/js/app-homepage.js",
+    "/css/homepage.css": "/css/homepage.css",
     "/css/app.css": "/css/app.css",
     "/css/tinymce-custom.css": "/css/tinymce-custom.css"
 }

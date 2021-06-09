@@ -13,6 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('welcome', 'HomepageController@index')->name('welcome');
+Route::get('about', 'HomepageController@about')->name('about');
+Route::get('contact', 'HomepageController@contact')->name('contact');
+
 ///////////////////////////////////////////////////////////////////////////////////
 // Login, logout, register, profil ///////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////
