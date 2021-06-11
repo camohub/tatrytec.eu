@@ -19,7 +19,7 @@ cp $www_dir/tatrytec.eu/.env $tmp_app_dir
 mkdir -p $tmp_app_dir/storage/framework/
 cp -R $www_dir/tatrytec.eu/storage/framework/sessions/ $tmp_app_dir/storage/framework/
 mkdir -p $tmp_app_dir/storage/app/
-cp -R $www_dir/tatrytec.eu/storage/app/ $tmp_app_dir/storage/app/
+cp -R $www_dir/tatrytec.eu/storage/app/ $tmp_app_dir/storage/
 echo "---------------------------------------------------"
 echo " .env file + session files + storage/app copy done "
 echo "---------------------------------------------------"
