@@ -18,8 +18,10 @@ echo "---------------------------------------------------"
 cp $www_dir/tatrytec.eu/.env $tmp_app_dir
 mkdir -p $tmp_app_dir/storage/framework/
 cp -R $www_dir/tatrytec.eu/storage/framework/sessions/ $tmp_app_dir/storage/framework/
+mkdir -p $tmp_app_dir/storage/app/
+cp -R $www_dir/tatrytec.eu/storage/app/ $tmp_app_dir/storage/app/
 echo "---------------------------------------------------"
-echo " .env file + session files copy done "
+echo " .env file + session files + storage/app copy done "
 echo "---------------------------------------------------"
 
 chmod -R 770 $tmp_dir/
