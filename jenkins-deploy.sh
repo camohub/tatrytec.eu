@@ -10,7 +10,7 @@ www_old_app_dir=$www_dir/deploy-old-tatrytec.eu
 mkdir -p $tmp_dir
 cd $tmp_dir
 
-#git clone https://github.com/camohub/tatrytec.eu.git
+git clone https://github.com/camohub/tatrytec.eu.git
 echo "---------------------------------------------------"
 echo " git clone done "
 echo "---------------------------------------------------"
