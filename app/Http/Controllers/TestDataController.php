@@ -29,7 +29,6 @@ class TestDataController extends BaseController
 
 		$category = Category::where('name', 'like', $this->categoryName . '%')->whereNotNull('parent_id')->first();
 		if( $category ) $category->forceDelete();
-
 		$category = Category::where('name', 'like', $this->categoryName . '%')->first();
 		if( $category ) $category->forceDelete();
 
