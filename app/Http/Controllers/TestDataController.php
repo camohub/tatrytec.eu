@@ -26,10 +26,13 @@ class TestDataController extends BaseController
 		$article = Article::where('title', 'like', $this->articleTitle . '%')->first();
 		if($article) $article->forceDelete();
 
+
 		$category = Category::where('name', 'like', $this->categoryName . '%')->whereNotNull('parent_id')->first();
 		if( $category ) $category->forceDelete();
+
 		$category = Category::where('name', 'like', $this->categoryName . '%')->first();
 		if( $category ) $category->forceDelete();
+
 
 		Comment::where('user_id', 20)->forceDelete();
 
