@@ -5,7 +5,8 @@ $( function()
 		data = typeof data === 'undefined' ? {} : data;
 		headers = typeof headers === 'undefined' ? {} : headers;
 
-		axios.defaults.headers.common['X-CSRF-TOKEN'] = $( 'meta[name="csrf-token"]' ).attr( 'content' );
+		// bootstrap.js contains X-CSRF-TOKEN header 
+		//axios.defaults.headers.common['X-CSRF-TOKEN'] = $( 'meta[name="csrf-token"]' ).attr( 'content' );
 
 		return axios.post(url, data, headers);  // Return promise
 	};

@@ -2360,7 +2360,8 @@ window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
  */
 
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'; // NPM packages
+window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+window.axios.defaults.headers.common['X-CSRF-TOKEN'] = $('meta[name="csrf-token"]').attr('content'); // NPM packages
 
 
 
@@ -2417,8 +2418,9 @@ $(function () {
 $(function () {
   window.sendPostRequest = function sendPostRequest(url, data, headers) {
     data = typeof data === 'undefined' ? {} : data;
-    headers = typeof headers === 'undefined' ? {} : headers;
-    axios.defaults.headers.common['X-CSRF-TOKEN'] = $('meta[name="csrf-token"]').attr('content');
+    headers = typeof headers === 'undefined' ? {} : headers; // bootstrap.js contains X-CSRF-TOKEN header 
+    //axios.defaults.headers.common['X-CSRF-TOKEN'] = $( 'meta[name="csrf-token"]' ).attr( 'content' );
+
     return axios.post(url, data, headers); // Return promise
   };
 
