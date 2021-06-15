@@ -15,6 +15,7 @@ window.axios.defaults.headers.common['X-CSRF-TOKEN'] = $( 'meta[name="csrf-token
 import 'popper.js';
 import 'bootstrap';
 import 'jquery-sortable-lists';
+import 'datatables.net-bs4';
 // Local scripts
 import './components/alert';
 import './components/axios-request';

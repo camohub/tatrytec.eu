@@ -4,28 +4,32 @@
 @section('content')
 
 <div class="table-responsive">
-	<table class="table table-bordered table-striped table-hover">
-		<tr>
-			<th>Názov</th>
-			<th>Autor</th>
-			<th>Vytvorené</th>
-			<th style="min-width: 170px;" class="text-right">Akcia <a href="{{route('admin.articles.create')}}" class="fa fa-lg fa-plus c7" title="Create new"> </a></th>
-		</tr>
-		@foreach($articles as $article)
+	<table class="table table-bordered table-striped table-hover" id="dataTableTest">
+		<thead class="thead-dark">
 			<tr>
-				<td><a href="{{route('articles', ['slug' => $article->slug])}}" target="_blank">{{$article->title}}</a></td>
-				<td>{{$article->user ? $article->user->name : ''}}</td>
-				<td>{{$article->created_at->format('j.n. Y')}}</td>
-				<td class="text-right">
-					@if(Auth::user()->can('update', $article))
-						<a href="{{route('admin.articles.edit', ['id' => $article->id])}}" class="fa fa-lg fa-pencil" title="Edit"></a>
-						<a href="{{route('admin.articles.visibility', ['id' => $article->id])}}" class="fa fa-lg article js-visibility {{$article->visible ? 'fa-check-circle' : 'fa-minus-circle'}}" title="Visible/Hidden"></a>
-						<a href="{{route('admin.comments', ['article_id' => $article->id])}}" class="fa fa-lg fa-commenting-o" title="Show comments"></a>
-						<a href="{{route('admin.articles.delete', ['id' => $article->id])}}" class="fa fa-lg article fa-trash-o" title="Delete"></a>
-					@endif
-				</td>
+				<th>Názov</th>
+				<th>Autor</th>
+				<th>Vytvorené</th>
+				<th style="min-width: 170px;" class="text-right">Akcia <a href="{{route('admin.articles.create')}}" class="fa fa-lg fa-plus c7" title="Create new"> </a></th>
 			</tr>
-		@endforeach
+		</thead>
+		<tbody>
+			@foreach($articles as $article)
+				<tr>
+					<td><a href="{{route('articles', ['slug' => $article->slug])}}" target="_blank">{{$article->title}}</a></td>
+					<td>{{$article->user ? $article->user->name : ''}}</td>
+					<td data-order="{{$article->created_at->format('U')}}">{{$article->created_at->format('j.n. Y')}}</td>
+					<td class="text-right">
+						@if(Auth::user()->can('update', $article))
+							<a href="{{route('admin.articles.edit', ['id' => $article->id])}}" class="fa fa-lg fa-pencil" title="Edit"></a>
+							<a href="{{route('admin.articles.visibility', ['id' => $article->id])}}" class="fa fa-lg article js-visibility {{$article->visible ? 'fa-check-circle' : 'fa-minus-circle'}}" title="Visible/Hidden"></a>
+							<a href="{{route('admin.comments', ['article_id' => $article->id])}}" class="fa fa-lg fa-commenting-o" title="Show comments"></a>
+							<a href="{{route('admin.articles.delete', ['id' => $article->id])}}" class="fa fa-lg article fa-trash-o" title="Delete"></a>
+						@endif
+					</td>
+				</tr>
+			@endforeach
+		</tbody>
 	</table>
 </div>
 
@@ -35,5 +39,25 @@
 		@include('admin.articles.components.filterForm')
 	</div>
 @endif
+
+@endsection
+
+@section('scripts')
+
+	<script >
+		$('#dataTableTest').DataTable({
+			"pageLength": 50,
+			"order": [[0, $('#dataTableTest').data('sort')]],
+			"aoColumnDefs": [
+				{
+					"bSortable": false,
+					"aTargets": [-1] // <-- gets last column and turns off sorting
+				}
+			],
+			"language": {
+				"url": "//cdn.datatables.net/plug-ins/1.10.21/i18n/Slovak.json"
+			}
+		});
+	</script>
 
 @endsection
