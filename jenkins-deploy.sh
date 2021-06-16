@@ -91,7 +91,7 @@ echo "---------------------------------------------------"
 rm -rf $tmp_app_dir
 rm -rf $www_old_app_dir
 echo "---------------------------------------------------"
-echo " new repository rename done "
+echo " deploy-tmp + deploy-old-tatrytec.eu dir rm done "
 echo "---------------------------------------------------"
 
 echo "---------------------------------------------------"
