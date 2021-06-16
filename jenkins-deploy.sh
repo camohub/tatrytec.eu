@@ -88,7 +88,10 @@ echo "---------------------------------------------------"
 echo " artisan storage:link done "
 echo "---------------------------------------------------"
 
-rm -rf $tmp_app_dir
+cd $www_old_app_dir/tatrytec.eu
+php artisan delete:generated-files
+
+rm -rf $tmp_dir
 rm -rf $www_old_app_dir
 echo "---------------------------------------------------"
 echo " deploy-tmp + deploy-old-tatrytec.eu dir rm done "
