@@ -42,7 +42,7 @@ class DeleteGeneratedFiles extends Command
 		$this->rrmdir(__DIR__ . '/../../../storage');
 		$this->rrmdir(__DIR__ . '/../../../bootstrap');
 
-		echo 'Directories storage and bootstrap should be deleted.';
+		echo "Directories storage and bootstrap should be deleted.\n\n";
 
 		return 0;
 	}
