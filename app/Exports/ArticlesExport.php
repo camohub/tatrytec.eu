@@ -7,10 +7,14 @@ use App\Models\Entities\Article;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
+use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithStrictNullComparison;
+use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 
 class ArticlesExport implements
@@ -18,7 +22,9 @@ class ArticlesExport implements
 		FromCollection,
 		WithStrictNullComparison,
 		WithMapping,
-		ShouldAutoSize
+		ShouldAutoSize,
+		WithHeadings,
+		WithStyles
 {
 
 	/**
@@ -51,8 +57,51 @@ class ArticlesExport implements
 	public function columnFormats(): array
 	{
 		return [
-			'D' => NumberFormat::FORMAT_DATE_DDMMYYYY,
 			'E' => NumberFormat::FORMAT_DATE_DDMMYYYY,
+			'F' => NumberFormat::FORMAT_DATE_DDMMYYYY,
+		];
+	}
+
+
+	public function headings(): array
+	{
+		return [
+			'ID',
+			'Title',
+			'Autor',
+			'Roles',
+			'Created',
+			'Updated',
+		];
+	}
+
+
+	public function styles(Worksheet $sheet)
+	{
+		return [
+			// Style the first row as bold text.
+			1    => [
+				'font' => ['bold' => true],
+				'fill' => [
+					'fillType' => Fill::FILL_SOLID,
+					'startColor' => ['rgb' => 'ddddff'],
+				]
+			],
+
+			// Styling a specific cell by coordinate.
+			'D1' => [
+				'fillType' => Fill::FILL_SOLID,
+				'fill' => ['startColor' => ['rgb' => 'ffddff']]
+			],
+
+			// Styling an entire column.
+			'C'  => [
+				'font' => ['bold' => true],
+				'fill' => [
+					'fillType' => Fill::FILL_SOLID,
+					'startColor' => ['rgb' => 'ddddff'],
+				]
+			],
 		];
 	}
 }
