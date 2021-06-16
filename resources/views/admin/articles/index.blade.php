@@ -9,7 +9,10 @@
 			<th>Názov</th>
 			<th>Autor</th>
 			<th>Vytvorené</th>
-			<th style="min-width: 170px;" class="text-right">Akcia <a href="{{route('admin.articles.create')}}" class="fa fa-lg fa-plus c7" title="Create new"> </a></th>
+			<th style="min-width: 170px;" class="text-right">
+				<a href="{{route('admin.articles.create')}}" class="fas fa-lg fa-plus c3" title="Create new"> </a>
+				<a href="{{route('admin.articles.export')}}" class="fas fa-file-export fa-lg c1 ml-2" title="Export to Excel"></a>
+			</th>
 		</tr>
 		@foreach($articles as $article)
 			<tr>

@@ -3,15 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 
+use App\Exports\ArticlesExport;
 use App\Http\Controllers\BaseController;
 use App\Http\Requests\ArticleRequest;
 use App\Models\Entities\Article;
-use App\Models\Entities\Category;
 use App\Models\Services\ArticlesService;
 use App\Models\Services\ArticlesFilterService;
 use App\Models\Services\CategoriesService;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 
 class ArticleController extends BaseController
@@ -114,6 +114,12 @@ class ArticleController extends BaseController
 		$article->delete();
 
 		return response()->json(['success' => 'Článok bol zmazaný.']);
+	}
+
+
+	public function exportArticles()
+	{
+		return Excel::download(new ArticlesExport(), 'articles-export.xlsx');
 	}
 
 }
