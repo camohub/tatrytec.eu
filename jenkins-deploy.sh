@@ -5,8 +5,9 @@ www_new_app_dir=$www_dir/deploy-new-tatrytec.eu
 www_old_app_dir=$www_dir/deploy-old-tatrytec.eu
 
 
-git clone https://github.com/camohub/tatrytec.eu.git $www_new_app_dir
-cd $www_new_app_dir
+# git clone is in the pipeline gonfiguration
+#git clone https://github.com/camohub/tatrytec.eu.git $www_new_app_dir
+#cd $www_new_app_dir
 echo "---------------------------------------------------"
 echo " git clone done "
 echo "---------------------------------------------------"
@@ -81,7 +82,7 @@ echo "---------------------------------------------------"
 
 rm -rf $www_old_app_dir
 echo "---------------------------------------------------"
-echo " deploy-tmp + deploy-old-tatrytec.eu dir rm done "
+echo " deploy-old-tatrytec.eu dir rm done "
 echo "---------------------------------------------------"
 
 echo "---------------------------------------------------"
