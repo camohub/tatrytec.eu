@@ -1,31 +1,25 @@
 #!/bin/bash
 
 www_dir=/var/www
-tmp_dir=$www_dir/deploy-tmp
-tmp_app_dir=$tmp_dir/tatrytec.eu
 www_new_app_dir=$www_dir/deploy-new-tatrytec.eu
 www_old_app_dir=$www_dir/deploy-old-tatrytec.eu
 
 
-mkdir -p $tmp_dir
-cd $tmp_dir
-
-git clone https://github.com/camohub/tatrytec.eu.git
+git clone https://github.com/camohub/tatrytec.eu.git $www_new_app_dir
+cd $www_new_app_dir
 echo "---------------------------------------------------"
 echo " git clone done "
 echo "---------------------------------------------------"
 
-cp $www_dir/tatrytec.eu/.env $tmp_app_dir
-mkdir -p $tmp_app_dir/storage/framework/
-cp -R $www_dir/tatrytec.eu/storage/framework/sessions/ $tmp_app_dir/storage/framework/
-cp -R $www_dir/tatrytec.eu/storage/app/ $tmp_app_dir/storage/
+cp $www_dir/tatrytec.eu/.env $www_new_app_dir
+mkdir -p $www_new_app_dir/storage/framework/
+cp -R $www_dir/tatrytec.eu/storage/framework/sessions/ $www_new_app_dir/storage/framework/
+cp -R $www_dir/tatrytec.eu/storage/app/ $www_new_app_dir/storage/
 echo "---------------------------------------------------"
 echo " .env file + session files + storage/app copy done "
 echo "---------------------------------------------------"
 
-chmod -R 770 $tmp_dir/
-
-cd $tmp_app_dir
+chmod -R 770 $www_new_app_dir/
 
 # Next commands shall not run as root!!!
 composer install --optimize-autoloader --no-dev
@@ -37,12 +31,6 @@ npm install
 npm run prod
 echo "---------------------------------------------------"
 echo " npm install + npm run prod done "
-echo "---------------------------------------------------"
-
-mv $tmp_app_dir $www_new_app_dir
-cd $www_new_app_dir
-echo "---------------------------------------------------"
-echo " www/deploy-new-tatrytec.eu done "
 echo "---------------------------------------------------"
 
 # User www-data needs to have rwx permission in storage and cache directories
@@ -64,20 +52,17 @@ echo "---------------------------------------------------"
 
 mv $www_dir/tatrytec.eu $www_old_app_dir
 echo "---------------------------------------------------"
-echo " old repositories rename done "
+echo " old app folder rename done "
 echo "---------------------------------------------------"
 
 mv $www_new_app_dir $www_dir/tatrytec.eu
 echo "---------------------------------------------------"
-echo " new repository rename done "
+echo " new app folder rename done "
 echo "---------------------------------------------------"
 
 cd $www_dir/tatrytec.eu
 # After renamin to final destination name becasue cache stores the full paths
 php artisan migrate
-php artisan config:clear
-php artisan route:clear
-php artisan view:clear
 php artisan config:cache
 php artisan route:cache
 php artisan view:cache
@@ -90,10 +75,10 @@ echo "---------------------------------------------------"
 echo " artisan storage:link done "
 echo "---------------------------------------------------"
 
-cd $www_old_app_dir
-php artisan delete:generated-files
+# Does not work with php from console
+#cd $www_old_app_dir
+#php artisan delete:generated-files
 
-rm -rf $tmp_dir
 rm -rf $www_old_app_dir
 echo "---------------------------------------------------"
 echo " deploy-tmp + deploy-old-tatrytec.eu dir rm done "
