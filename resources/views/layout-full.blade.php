@@ -15,7 +15,7 @@
 	<div id="header-wrapper" class="bS2">
 		<div class="container">
 			<div class="row oH">
-				<h1 id="header" class="col-12 oH translate translateInit">xTatr<span id="header-effect">ytec</span>.eu</h1>
+				<h1 id="header" class="col-12 oH translate translateInit">Tatr<span id="header-effect">ytec</span>.eu</h1>
 			</div>
 		</div>
 	</div>
