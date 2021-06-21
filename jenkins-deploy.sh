@@ -48,6 +48,8 @@ echo "---------------------------------------------------"
 chmod -R ug+rwx $www_new_app_dir/storage $www_new_app_dir/bootstrap/cache
 chgrp -R www-data $www_new_app_dir/storage $www_new_app_dir/bootstrap/cache
 # https://www.geeksforgeeks.org/access-control-listsacl-linux/
+# This should solve problem with 644 permission in session and cache
+# which cause a problem with delete old repository
 setfacl -R -dm "g:www-data:rw" $www_new_app_dir/storage
 setfacl -R -dm "g:www-data:rw" $www_new_app_dir/bootstrap
 echo "---------------------------------------------------"
