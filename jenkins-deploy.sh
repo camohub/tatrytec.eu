@@ -34,16 +34,6 @@ echo "---------------------------------------------------"
 echo " npm install + npm run prod done "
 echo "---------------------------------------------------"
 
-# User www-data needs to have rwx permission in storage and cache directories
-chmod -R ug+rwx $www_new_app_dir/storage $www_new_app_dir/bootstrap/cache
-chgrp -R www-data $www_new_app_dir/storage $www_new_app_dir/bootstrap/cache
-# https://www.geeksforgeeks.org/access-control-listsacl-linux/
-setfacl -R -dm "g:www-data:rw" $www_new_app_dir/storage
-setfacl -R -dm "g:www-data:rw" $www_new_app_dir/bootstrap
-echo "---------------------------------------------------"
-echo " chmod + chgrp for storage ans cache done "
-echo "---------------------------------------------------"
-
 # https://stackoverflow.com/questions/30639174/how-to-set-up-file-permissions-for-laravel
 # https://vijayasankarn.wordpress.com/2017/02/04/securely-setting-file-permissions-for-laravel-framework/
 # https://linuxconfig.org/how-to-explicitly-exclude-directory-from-find-command-s-search
@@ -52,6 +42,16 @@ find $www_new_app_dir -type f -not -path "${www_new_app_dir}/storage/*" -not -pa
 find $www_new_app_dir -type d -exec chmod 775 {} \;  # chmod for directories
 echo "---------------------------------------------------"
 echo " chmod f + chmod d + setfacl dome "
+echo "---------------------------------------------------"
+
+# User www-data needs to have rwx permission in storage and cache directories
+chmod -R ug+rwx $www_new_app_dir/storage $www_new_app_dir/bootstrap/cache
+chgrp -R www-data $www_new_app_dir/storage $www_new_app_dir/bootstrap/cache
+# https://www.geeksforgeeks.org/access-control-listsacl-linux/
+setfacl -R -dm "g:www-data:rw" $www_new_app_dir/storage
+setfacl -R -dm "g:www-data:rw" $www_new_app_dir/bootstrap
+echo "---------------------------------------------------"
+echo " chmod + chgrp for storage ans cache done "
 echo "---------------------------------------------------"
 
 mv $www_dir/tatrytec.eu $www_old_app_dir
