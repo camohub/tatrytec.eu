@@ -37,8 +37,11 @@ echo "---------------------------------------------------"
 # User www-data needs to have rwx permission in storage and cache directories
 chmod -R ug+rwx $www_new_app_dir/storage $www_new_app_dir/bootstrap/cache
 chgrp -R www-data $www_new_app_dir/storage $www_new_app_dir/bootstrap/cache
+# https://www.geeksforgeeks.org/access-control-listsacl-linux/
+setfacl -R -dm "g:www-data:rw" $www_new_app_dir/storage
+setfacl -R -dm "g:www-data:rw" $www_new_app_dir/bootstrap
 echo "---------------------------------------------------"
-echo " chmod + chgrp for cache done "
+echo " chmod + chgrp for storage ans cache done "
 echo "---------------------------------------------------"
 
 # https://stackoverflow.com/questions/30639174/how-to-set-up-file-permissions-for-laravel
@@ -47,9 +50,6 @@ echo "---------------------------------------------------"
 # owner is jenkins group www-data
 find $www_new_app_dir -type f -not -path "${www_new_app_dir}/storage/*" -not -path "${www_new_app_dir}/bootstrap/cache/*" -exec chmod 664 {} \;  # chmod for files
 find $www_new_app_dir -type d -exec chmod 775 {} \;  # chmod for directories
-# https://www.geeksforgeeks.org/access-control-listsacl-linux/
-setfacl -R -dm "g:www-data:rw" $www_new_app_dir/storage
-setfacl -R -dm "g:www-data:rw" $www_new_app_dir/bootstrap
 echo "---------------------------------------------------"
 echo " chmod f + chmod d + setfacl dome "
 echo "---------------------------------------------------"
