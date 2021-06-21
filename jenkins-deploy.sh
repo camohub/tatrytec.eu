@@ -45,10 +45,11 @@ echo "---------------------------------------------------"
 # https://vijayasankarn.wordpress.com/2017/02/04/securely-setting-file-permissions-for-laravel-framework/
 # https://linuxconfig.org/how-to-explicitly-exclude-directory-from-find-command-s-search
 # owner is jenkins group www-data
-setfacl -dm "g:www-data:rw" $www_new_app_dir/storage  # https://www.geeksforgeeks.org/access-control-listsacl-linux/
-setfacl -dm "g:www-data:rw" $www_new_app_dir/bootstrap
 find $www_new_app_dir -type f -not -path "${www_new_app_dir}/storage/*" -not -path "${www_new_app_dir}/bootstrap/cache/*" -exec chmod 664 {} \;  # chmod for files
 find $www_new_app_dir -type d -exec chmod 775 {} \;  # chmod for directories
+# https://www.geeksforgeeks.org/access-control-listsacl-linux/
+setfacl -dm "g:www-data:rw" $www_new_app_dir/storage
+setfacl -dm "g:www-data:rw" $www_new_app_dir/bootstrap
 echo "---------------------------------------------------"
 echo " chmod f + chmod d + setfacl dome "
 echo "---------------------------------------------------"
