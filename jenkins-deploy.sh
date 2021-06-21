@@ -48,9 +48,8 @@ echo "---------------------------------------------------"
 find $www_new_app_dir -type f -not -path "${www_new_app_dir}/storage/*" -not -path "${www_new_app_dir}/bootstrap/cache/*" -exec chmod 664 {} \;  # chmod for files
 find $www_new_app_dir -type d -exec chmod 775 {} \;  # chmod for directories
 # https://www.geeksforgeeks.org/access-control-listsacl-linux/
-setfacl -dmR "g:www-data:rw" $www_new_app_dir/storage
-setfacl -dmR "g:www-data:rw" $www_new_app_dir/bootstrap
-exit 0
+setfacl -R -dm "g:www-data:rw" $www_new_app_dir/storage
+setfacl -R -dm "g:www-data:rw" $www_new_app_dir/bootstrap
 echo "---------------------------------------------------"
 echo " chmod f + chmod d + setfacl dome "
 echo "---------------------------------------------------"
