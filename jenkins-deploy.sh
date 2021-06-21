@@ -65,7 +65,7 @@ echo " new app folder rename done "
 echo "---------------------------------------------------"
 
 cd $www_dir/tatrytec.eu
-# After renamin to final destination name becasue cache stores the full paths
+# After rename to final destination name because cache stores the full paths
 php artisan migrate
 php artisan config:cache
 php artisan route:cache
