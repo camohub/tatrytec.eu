@@ -50,7 +50,7 @@ find $www_new_app_dir -type d -exec chmod 775 {} \;  # chmod for directories
 # https://www.geeksforgeeks.org/access-control-listsacl-linux/
 setfacl -dm "g:www-data:rw" $www_new_app_dir/storage
 setfacl -dm "g:www-data:rw" $www_new_app_dir/bootstrap
-return 0
+exit 0
 echo "---------------------------------------------------"
 echo " chmod f + chmod d + setfacl dome "
 echo "---------------------------------------------------"
