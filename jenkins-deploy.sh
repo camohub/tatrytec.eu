@@ -85,9 +85,10 @@ echo "---------------------------------------------------"
 #cd $www_old_app_dir
 #php artisan delete:generated-files
 
-# rm -rf does not work cause Laravel generates files ass www-data user with chmod 644
-# which are not possible to delete for jenkins although he belongs to wwwdata group
-#rm -rf $www_old_app_dir
+# Possible problem cause jenkins user as memeber of group www-data is not able to delete
+# files with chmod 644 and Laravel generates files with chmod 644 by default as www-data.
+# This should solve command setfacl above
+rm -rf $www_old_app_dir
 
 echo "---------------------------------------------------"
 echo " DEPLOY IS DONE. CHECK ERROR MESSAGES. "
