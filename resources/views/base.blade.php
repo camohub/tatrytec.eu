@@ -46,7 +46,7 @@
 
 
 <div id="footer">
-	<strong>Created & designed by Tatrytec.eu 2020</strong> &nbsp;&nbsp
+	<strong>Created & designed by <a href="{{route('welcome')}}">Tatrytec.eu</a> 2020</strong> &nbsp;&nbsp
 	<a href="{{route('page', ['page' => 'gdpr-ochrana-osobnych-udajov'])}}">GDPR</a>
 </div>
 
