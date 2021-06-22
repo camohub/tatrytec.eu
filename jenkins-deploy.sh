@@ -41,7 +41,7 @@ echo "---------------------------------------------------"
 find $www_new_app_dir -type f -not -path "${www_new_app_dir}/storage/*" -not -path "${www_new_app_dir}/bootstrap/cache/*" -exec chmod 664 {} \;  # chmod for files
 find $www_new_app_dir -type d -exec chmod 775 {} \;  # chmod for directories
 echo "---------------------------------------------------"
-echo " chmod f + chmod d + setfacl dome "
+echo " chmod f + chmod d dome "
 echo "---------------------------------------------------"
 
 # User www-data needs to have rwx permission in storage and cache directories
@@ -53,7 +53,7 @@ chgrp -R www-data $www_new_app_dir/storage $www_new_app_dir/bootstrap/cache
 setfacl -R -dm "g:www-data:rw" $www_new_app_dir/storage
 setfacl -R -dm "g:www-data:rw" $www_new_app_dir/bootstrap
 echo "---------------------------------------------------"
-echo " chmod + chgrp for storage ans cache done "
+echo " chmod + chgrp + setfacl for storage ans cache done "
 echo "---------------------------------------------------"
 
 mv $www_dir/tatrytec.eu $www_old_app_dir
