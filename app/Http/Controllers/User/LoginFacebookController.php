@@ -31,7 +31,7 @@ class LoginFacebookController extends BaseController
 	{
 		$googleUser = Socialite::driver(self::DRIVER)->user();
 
-		$user = User::where(['email' => $googleUser->getEmail(), 'resource' => self::DRIVER])->first();
+		$user = User::where(['email' => $googleUser->getEmail()])->first();
 
 		try
 		{

@@ -31,7 +31,7 @@ class LoginGithubController extends BaseController
 	{
 		$githubUser = Socialite::driver(self::DRIVER)->user();
 
-		$user = User::where(['email' => $githubUser->getEmail(), 'resource' => self::DRIVER])->first();
+		$user = User::where(['email' => $githubUser->getEmail()])->first();
 
 		try
 		{
