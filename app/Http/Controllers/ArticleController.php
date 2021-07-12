@@ -8,6 +8,8 @@ use App\Models\Entities\Article;
 use App\Models\Entities\Category;
 use App\Models\Entities\Comment;
 use App\Models\Services\CommentsService;
+use Camohub\Paginator\SimplePaginator;
+use Camohub\Paginator\Paginator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -20,18 +22,18 @@ class ArticleController extends BaseController
 	const PAGE_ITEMS = 7;
 
 
-	public function index(Request $request, $slug = NULL)
+	public function index(Request $request, $slug, $page = 1)
 	{
-		$slug = $slug ?: 'najnovsie';
-
 		if( $category = Category::where('slug', $slug)->first() )  // Displays category.
 		{
 			session([self::SESS_ID => $category->id]);
-
-			$articles = $this->getCategoryArticles($category);
+			$articles = $this->getCategoryArticles($category, $request);
+			$paginator = new SimplePaginator($request, $articles, 'articles', ['slug' => $slug]);
 
 			$view = [
-				'articles' => $articles,
+				//'articles' => $articles,
+				'articles' => $paginator->getItems(),
+				'paginator' => $paginator,
 				'category_id' => $category->id,
 				'metaDesc' => $category->name,
 				'title' => $category->name,
@@ -113,6 +115,8 @@ class ArticleController extends BaseController
 				->orderBy('id', 'DESC');
 		}
 
-		return $articles->paginate(self::PAGE_ITEMS, ['*'], 'strana')->onEachSide(1);
+		return $articles;
+
+		//return $articles->paginate(self::PAGE_ITEMS, ['*'], 'strana')->onEachSide(1);
 	}
 }
