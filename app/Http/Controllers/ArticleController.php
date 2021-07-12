@@ -28,7 +28,7 @@ class ArticleController extends BaseController
 		{
 			session([self::SESS_ID => $category->id]);
 			$articles = $this->getCategoryArticles($category, $request);
-			$paginator = new SimplePaginator($request, $articles, 'articles', ['slug' => $slug]);
+			$paginator = new Paginator($request, $articles, 'articles', ['slug' => $slug]);
 
 			$view = [
 				//'articles' => $articles,
