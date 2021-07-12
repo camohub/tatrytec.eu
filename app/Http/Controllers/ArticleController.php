@@ -19,7 +19,7 @@ class ArticleController extends BaseController
 
 	const SESS_ID = self::class . '_ID';
 
-	const PAGE_ITEMS = 7;
+	const PER_PAGE = 7;
 
 
 	public function index(Request $request, $slug, $page = 1)
@@ -28,7 +28,7 @@ class ArticleController extends BaseController
 		{
 			session([self::SESS_ID => $category->id]);
 			$articles = $this->getCategoryArticles($category, $request);
-			$paginator = new Paginator($request, $articles, 'articles', ['slug' => $slug]);
+			$paginator = new Paginator($request, $articles, 'articles', ['slug' => $slug], self::PER_PAGE);
 
 			$view = [
 				//'articles' => $articles,
@@ -117,6 +117,6 @@ class ArticleController extends BaseController
 
 		return $articles;
 
-		//return $articles->paginate(self::PAGE_ITEMS, ['*'], 'strana')->onEachSide(1);
+		//return $articles->paginate(self::PER_PAGE, ['*'], 'strana')->onEachSide(1);
 	}
 }
