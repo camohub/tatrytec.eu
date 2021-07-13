@@ -96,11 +96,11 @@ class ArticlesFilterService
 			case "user.name DESC":
 				return $articles->join('users', 'articles.user_id', '=', 'users.id')->orderBy('users.name', 'DESC');
 			case "created_at ASC":
-				return $articles->orderBy('articles.id', 'ASC');
+				return $articles->orderBy('articles.created_at', 'ASC');
 			case "created_at DESC":
-				return $articles->orderBy('articles.id', 'DESC');
+				return $articles->orderBy('articles.created_at', 'DESC');
 			default:
-				return $articles->orderBy('articles.id', 'DESC');
+				return $articles->orderBy('articles.created_at', 'DESC');
 		}
 	}
 

@@ -112,7 +112,7 @@ class ArticleController extends BaseController
 					$join->on('articles.id', '=', 'articles_categories.article_id')
 						->whereIn('articles_categories.category_id', $categoriesIds);
 				})
-				->orderBy('id', 'DESC');
+				->orderBy('created_at', 'DESC');
 		}
 
 		return $articles;
