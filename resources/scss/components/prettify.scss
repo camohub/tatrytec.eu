@@ -1,12 +1,12 @@
 /* Pretty printing styles. Used with prettify.js. */
 
 /* SPAN elements with the classes below are added by prettyprint. */
-.pln { color: #080; }  /* plain text */
+.pln { color: #be0004; }  /* plain text */
 
 @media screen {
-  .str { color: #be0004; }  /* string content */
+  .str { color: #080; }  /* string content */
   .kwd { color: #001298; nfont-weight:bold; }  /* a keyword */
-  .com { color: #d78400; }  /* a comment */
+  .com { color: #b9b9b9; }  /* a comment */
   .typ { color: #606 }  /* a type name */
   .lit { color: #066 }  /* a literal value */
   /* punctuation, lisp open bracket, lisp close bracket */
