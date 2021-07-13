@@ -14,7 +14,7 @@
 		<div id="content">
 			<div id="welcome" class="translateInit translate">
 				<h1>Tatrytec.eu</h1>
-				<div>Let the dream<br> come true...</div>
+				<div>Let your dreams <br>come true...</div>
 			</div>
 		</div>
 
