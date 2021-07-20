@@ -20,7 +20,7 @@ Route::namespace('User')->group(function () {
 
 Route::namespace('Api')->group(function () {
 	//Route::get('/articles', 'ArticlesController@index')->name('api-articles');
-	Route::middleware('auth:api')->group(function () {
+	Route::middleware('auth:sanctum')->group(function () {
 		Route::get('/articles', 'ArticlesController@index')->name('api-articles');
 	});
 });

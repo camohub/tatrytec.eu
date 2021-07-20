@@ -12,6 +12,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Laravel\Socialite\Contracts\User as SocialUser;
 use Laravel\Socialite\Facades\Socialite;
 use App\Exceptions\DuplicateUserEmailException;
@@ -30,8 +31,6 @@ class LoginVueController extends BaseController
 		//if (Auth::attempt($credentials))
 		if (Auth::attempt(['email' => $email, 'password' => $password, 'register_token' => NULL]))
 		{
-			$request->session()->regenerate();
-
 			$user = User::where('email', $email)->where('register_token', NULL)->first();
 
 			if ( !$user->can('create', Article::class) )
@@ -41,7 +40,11 @@ class LoginVueController extends BaseController
 				]);
 			}
 
-			return response()->json(['user' => new UserResource($user)]);
+			$token = Auth::user()->createToken('vue-admin');
+
+			return response()->json([
+				'user' => new UserResource($user, $token->plainTextToken),
+			]);
 		}
 		else if (User::where('email', $email)->whereNotNull('register_token')->first())
 		{
