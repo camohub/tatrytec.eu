@@ -14,13 +14,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::namespace('User')->group(function () {
-	Route::post( '/vue-admin/login', 'LoginVueController@authenticate' )->name( 'login-vue-admin' );
+	Route::post('/vue-admin/login', 'LoginVueController@authenticate')->name('login-vue-admin');
 });
 
-Route::namespace('Admin')->group(function () {
 
-});
-
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::namespace('Api')->group(function () {
+	//Route::get('/articles', 'ArticlesController@index')->name('api-articles');
+	Route::middleware('auth:api')->group(function () {
+		Route::get('/articles', 'ArticlesController@index')->name('api-articles');
+	});
 });
