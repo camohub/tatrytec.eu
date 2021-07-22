@@ -1,6 +1,7 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Resources\UserResource;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,8 +20,11 @@ Route::namespace('User')->group(function () {
 
 
 Route::namespace('Api')->group(function () {
-	//Route::get('/articles', 'ArticlesController@index')->name('api-articles');
 	Route::middleware('auth:sanctum')->group(function () {
+		Route::get('/auth-check', function () {
+			\Illuminate\Support\Facades\Log::debug(Auth::user());
+			return response()->json(['user' => new UserResource(Auth::user())]);  // Otherwise it returns error.
+		});
 		Route::get('/articles', 'ArticlesController@index')->name('api-articles');
 	});
 });
