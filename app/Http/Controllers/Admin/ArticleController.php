@@ -12,6 +12,7 @@ use App\Models\Services\ArticlesFilterService;
 use App\Models\Services\CategoriesService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use Camohub\LaravelDatagrid\Datagrid;
 use Camohub\LaravelDatagrid\Column;
 
@@ -61,7 +62,7 @@ class ArticleController extends BaseController
 				';
 			});
 
-		return view('admin.articles.index', ['articles' => $articles, 'grid' => $grid]);
+		return view('admin.articles.index', ['articles' => $articles]);
 	}
 
 

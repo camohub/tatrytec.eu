@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('welcome', 'HomepageController@index')->name('welcome');
+Route::get('', 'HomepageController@index')->name('welcome');
 Route::get('about', 'HomepageController@about')->name('about');
 Route::get('contact', 'HomepageController@contact')->name('contact');
 
@@ -56,6 +56,7 @@ Route::middleware('admin')->group(function() {
 				Route::post('/articles/store/{id?}', 'ArticleController@store')->name('articles.store');
 				Route::post('/articles/visibility/{id}', 'ArticleController@visibility')->name('articles.visibility');
 				Route::post('/articles/delete/{id}', 'ArticleController@delete')->name('articles.delete');
+				Route::get('/articles/export', 'ArticleController@exportArticles')->name('articles.export');
 				Route::get('/comments/{article_id}', 'CommentController@index')->name('comments');
 				Route::post('/comments/delete/{article_id}/{comment_id}', 'CommentController@delete')->name('comments.delete');
 
@@ -92,4 +93,4 @@ Route::get('/delete/test-data', 'TestDataController@index');
 ///////////////////////////////////////////////////////////////////////////////////
 // Placeholder routes ////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////
-Route::get('/{slug?}', 'ArticleController@index')->name('articles');
+Route::get('/{slug}/{page?}', 'ArticleController@index')->name('articles');

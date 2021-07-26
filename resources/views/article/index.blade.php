@@ -10,7 +10,9 @@
 			<div class="small1 pT10 pB20">{{$a->created_at->format('j. F Y')}}<span> / {{$a->user->name}}</span></div>
 		@endforeach
 
-		{{$articles->links()}}
+		{{--{{$articles->links()}}--}}
+
+		{{$paginator->render()}}
 
 	@endif
 

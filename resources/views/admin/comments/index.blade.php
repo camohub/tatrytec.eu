@@ -12,7 +12,7 @@
 	@forelse($comments as $comment)
 		<div class="p10 {{$loop->odd ? 'bgC7' : ''}}">
 			<a href="{{route('admin.comments.delete', ['article_id' => $article->id, 'comment_id' => $comment->id])}}"
-				class="fa fa-lg pull-right comment {{$comment->deleted_at ? 'fa-minus-circle' : 'fa-check-circle'}}"
+				class="fa fa-lg float-right comment {{$comment->deleted_at ? 'fa-minus-circle' : 'fa-check-circle'}}"
 				title="Delete/Undelete"> </a>
 
 			<div class="fS09 c1"><b>{{$comment->user->name}}</b> {{$comment->created_at->format('j.n.Y H:i')}}</div>

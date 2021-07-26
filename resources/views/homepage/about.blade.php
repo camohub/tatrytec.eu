@@ -14,8 +14,30 @@
 		<div id="content">
 			<div id="about" class="translateInit-3 translate">
 				<h1>O nás</h1>
-				<p class="mt-3 fs-30">Programovanie webových stránok, <br>e-commerce a custom riešení na mieru, automatizované testovanie, správa serverov.</p>
-				<p class="mt-3 fs-30">PHP, Mysql, Javascript, CSS, HTML, Elasticsearch, Bash, Selenide, ...</p>
+				<p class="mt-3 fs-30">
+					<span class="about-hover">Programovanie webových stránok</span>,
+					<span class="about-hover">eshopov</span> a <span class="about-hover">custom riešení na mieru</span>,
+					<span class="about-hover">správa serverov</span>,
+					<span class="about-hover">automatizované testovanie</span>.
+				</p>
+				<p class="mt-3 fs-30">
+					<span class="about-hover">PHP</span>,
+					<span class="about-hover">Mysql</span>,
+					<span class="about-hover">Postgresql</span>,
+					<span class="about-hover">Javascript</span>,
+					<span class="about-hover">CSS</span>,
+					<span class="about-hover">HTML</span>,
+					<span class="about-hover">Elasticsearch</span>,
+					<span class="about-hover">Laravel</span>,
+					<span class="about-hover">Nette</span>,
+					<span class="about-hover">Yii2</span>,
+					<span class="about-hover">Git</span>,
+					<span class="about-hover">Bash</span>,
+					<span class="about-hover">Linux</span>,
+					<span class="about-hover">Selenide</span>,
+					<span class="about-hover">Vue2</span>,
+					...
+				</p>
 			</div>
 		</div>
 

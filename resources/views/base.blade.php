@@ -21,7 +21,7 @@
 
 	<link rel="stylesheet" href="{{mix('css/app.css')}}">
 	<link rel='shortcut icon' type='image/x-icon' href="@assets('/favicon.ico')"/>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+	<script src="https://kit.fontawesome.com/6a9f67289a.js" crossorigin="anonymous"></script>
 
 	@if(isset($fb))
 		<meta property="og:url" content="{{Request::fullUrl()}}"/>
@@ -46,7 +46,7 @@
 
 
 <div id="footer">
-	<strong>Created & designed by Tatrytec.eu 2020</strong> &nbsp;&nbsp
+	<strong>Created & designed by <a href="{{route('welcome')}}">Tatrytec.eu</a> 2020</strong> &nbsp;&nbsp
 	<a href="{{route('page', ['page' => 'gdpr-ochrana-osobnych-udajov'])}}">GDPR</a>
 </div>
 

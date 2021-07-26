@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Entities\Article;
 use App\Models\Entities\Category;
+use App\Models\Entities\Comment;
 use App\Models\User;
 
 
@@ -25,10 +26,15 @@ class TestDataController extends BaseController
 		$article = Article::where('title', 'like', $this->articleTitle . '%')->first();
 		if($article) $article->forceDelete();
 
+
 		$category = Category::where('name', 'like', $this->categoryName . '%')->whereNotNull('parent_id')->first();
 		if( $category ) $category->forceDelete();
+
 		$category = Category::where('name', 'like', $this->categoryName . '%')->first();
 		if( $category ) $category->forceDelete();
+
+
+		Comment::where('user_id', 20)->forceDelete();
 
 		return response()->json(['success' => 'Test data was successfully deleted.']);
 	}

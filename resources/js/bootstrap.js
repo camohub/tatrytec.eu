@@ -9,6 +9,7 @@ window._ = require('lodash');
 window.axios = require('axios');
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+window.axios.defaults.headers.common['X-CSRF-TOKEN'] = $( 'meta[name="csrf-token"]' ).attr( 'content' );
 
 import 'popper.js';
 import 'bootstrap';
