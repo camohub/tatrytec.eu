@@ -62,7 +62,7 @@ class ArticleController extends BaseController
 				';
 			});
 
-		return view('admin.articles.index', ['articles' => $articles]);
+		return view('admin.articles.index', ['articles' => $articles, 'grid' => $grid]);
 	}
 
 
