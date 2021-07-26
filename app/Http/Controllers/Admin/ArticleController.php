@@ -12,6 +12,8 @@ use App\Models\Services\ArticlesFilterService;
 use App\Models\Services\CategoriesService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Camohub\LaravelDatagrid\Datagrid;
+use Camohub\LaravelDatagrid\Column;
 
 
 class ArticleController extends BaseController
@@ -24,7 +26,42 @@ class ArticleController extends BaseController
 	{
 		$articles = $articlesFilterService->getFilteredArticles()->get();
 
-		return view('admin.articles.index', ['articles' => $articles]);
+		$grid = new Datagrid(Article::with('user'));
+		$grid->addColumn('id')
+			->setSort();
+
+		$grid->addColumn('title')
+			->setSort();
+
+		$grid->addColumn('created_at', 'Created')
+			->setRender(function($value, $item) {
+				return '<b>' . $value->format('d.m.Y H:i') . '</b>';
+			})
+			->setNoEscape()
+			->setSort();
+
+		$grid->addColumn('visible', 'Visible')
+			->setOutherClass(function($value, $item) {
+				return $value ? 'bg-success' : 'bg-danger';
+			});
+
+		$grid->addColumn('user.name', 'User');
+		$grid->addColumn('user.roles', 'Roles')
+			->setRender(function($value, $item) {
+				return $value->map( function($value) { return $value->name; } )->join(', ');
+			});
+
+		$grid->addColumn('', '', Column::TYPE_CUSTOM)
+			->setNoEscape()
+			->setRender(function($value, $item) {
+				return '
+					<a href="' . route('admin.articles.edit', ['id' => $item->id]) . '">edit</a>
+					<a href="' . route('admin.articles.visibility', ['id' => $item->id]) . '">visibility</a>
+					<a href="' . route('admin.articles.delete', ['id' => $item->id]) . '" class="text-danger">visibility</a>
+				';
+			});
+
+		return view('admin.articles.index', ['articles' => $articles, 'grid' => $grid]);
 	}
 
 
