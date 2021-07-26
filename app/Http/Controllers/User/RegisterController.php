@@ -56,6 +56,6 @@ class RegisterController extends BaseController
 		// The intended method provided by Laravel's redirector will redirect the user to the URL they were attempting to access
 		// before being intercepted by the authentication middleware.
 		// A fallback URI may be given to this method in case the intended destination is not available.
-		return redirect()->route('articles');
+		return redirect()->route('articles', ['slug' => 'najnovsie']);
 	}
 }

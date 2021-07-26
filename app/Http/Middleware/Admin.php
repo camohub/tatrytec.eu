@@ -22,12 +22,12 @@ class Admin
 		if( !$user )
 		{
 			session()->flash('showModal', 'loginModal');
-			return redirect()->route('articles')->withErrors(['login' => 'You have to log in to access admin module.']);
+			return redirect()->route('articles', ['slug' => 'najnovsie'])->withErrors(['login' => 'You have to log in to access admin module.']);
 		}
 		elseif( !$user->hasRole([Role::ROLE_ADMIN, Role::ROLE_REDACTOR]) )
 		{
 			flash('Nemáte oprávnenie vstupovať do adminsitrácie.')->error()->important();
-			return redirect()->route('articles');
+			return redirect()->route('articles', ['slug' => 'najnovsie']);
 		}
 
 		return $next($request);
