@@ -135,6 +135,7 @@ class ArticleController extends BaseController
 
 		$grid->addColumn('title')
 			->setSort()
+			->setJSFilterPattern('lara')
 			->setFilter(function($model, $value) {
 				return $value ? $model->where('title', 'like', "%$value%") : $model;
 			});
@@ -166,6 +167,8 @@ class ArticleController extends BaseController
 					<a href="' . route('admin.articles.delete', ['id' => $item->id]) . '" class="text-danger">visibility</a>
 				';
 			});
+
+		return $grid;
 	}
 
 }
