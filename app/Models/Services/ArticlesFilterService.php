@@ -73,9 +73,9 @@ class ArticlesFilterService
 	}
 
 
-	private function addUserFilter($products, array $users)
+	private function addUserFilter($articles, array $users)
 	{
-		return $products->whereIn('user_id', $users);
+		return $articles->whereIn('user_id', $users);
 	}
 
 	private function addIntervalFilter($articles, int $interval)

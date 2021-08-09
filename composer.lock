@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "24ce23ecaeab3a0ff399969eef1694fc",
+    "content-hash": "2105c49ad222a4271e0500ef5bbdd52a",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -112,16 +112,16 @@
         },
         {
             "name": "camohub/laravel-datagrid",
-            "version": "1.2.5",
+            "version": "1.2.34",
             "source": {
                 "type": "git",
                 "url": "https://github.com/camohub/laravel-datagrid.git",
-                "reference": "e5c7c1948d58ca4b29e6a813e27d66bbb078ed00"
+                "reference": "4a4fad73c8affe60b9b166b622279d979e78f04c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/camohub/laravel-datagrid/zipball/e5c7c1948d58ca4b29e6a813e27d66bbb078ed00",
-                "reference": "e5c7c1948d58ca4b29e6a813e27d66bbb078ed00",
+                "url": "https://api.github.com/repos/camohub/laravel-datagrid/zipball/4a4fad73c8affe60b9b166b622279d979e78f04c",
+                "reference": "4a4fad73c8affe60b9b166b622279d979e78f04c",
                 "shasum": ""
             },
             "require": {
@@ -153,9 +153,9 @@
             "description": "Datagrid for Laravel",
             "support": {
                 "issues": "https://github.com/camohub/laravel-datagrid/issues",
-                "source": "https://github.com/camohub/laravel-datagrid/tree/1.2.5"
+                "source": "https://github.com/camohub/laravel-datagrid/tree/1.2.34"
             },
-            "time": "2021-07-27T21:31:58+00:00"
+            "time": "2021-08-02T13:04:01+00:00"
         },
         {
             "name": "camohub/paginator",
