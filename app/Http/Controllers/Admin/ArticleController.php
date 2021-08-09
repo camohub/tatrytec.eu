@@ -6,15 +6,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\BaseController;
 use App\Http\Requests\ArticleRequest;
 use App\Models\Entities\Article;
-use App\Models\Entities\Category;
 use App\Models\Services\ArticlesService;
 use App\Models\Services\ArticlesFilterService;
 use App\Models\Services\CategoriesService;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use Maatwebsite\Excel\Facades\Excel;
 
 
 class ArticleController extends BaseController
