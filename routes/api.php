@@ -22,9 +22,13 @@ Route::namespace('User')->group(function () {
 Route::namespace('Api')->group(function () {
 	Route::middleware('auth:sanctum')->group(function () {
 		Route::get('/auth-check', function () {
-			\Illuminate\Support\Facades\Log::debug(Auth::user());
+			//\Illuminate\Support\Facades\Log::debug(Auth::user());
 			return response()->json(['user' => new UserResource(Auth::user())]);  // Otherwise it returns error.
 		});
 		Route::get('/articles', 'ArticlesController@index')->name('api-articles');
+		Route::get('/article/visibility/{id}', 'ArticlesController@visibility')->name('api-article-visibility');
+		Route::get('/article/edit/{id}', 'ArticlesController@edit')->name('api-article-edit');
+		Route::get('/article/delete/{id}', 'ArticlesController@delete')->name('api-article-delete');
+		Route::post('/article/store/{id?}', 'ArticlesController@store')->name('api-article-store');
 	});
 });

@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Api;
 use App\Exports\ArticlesExport;
 use App\Http\Controllers\BaseController;
 use App\Http\Requests\ArticleRequest;
+use App\Http\Resources\ArticleResource;
 use App\Http\Resources\SlimArticleResource;
 use App\Models\Entities\Article;
 use App\Models\Services\ArticlesService;
@@ -64,8 +65,8 @@ class ArticlesController extends BaseController
 			return back();
 		}
 
-		return view('admin.articles.edit', [
-			'article' => $article,
+		return response()->json([
+			'article' => new ArticleResource($article),
 			'selectCategories' => $categoriesService->categoriesToSelect(),
 		]);
 	}
