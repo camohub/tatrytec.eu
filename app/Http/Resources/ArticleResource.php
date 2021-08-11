@@ -27,8 +27,8 @@ class ArticleResource extends JsonResource
 				'name' => $this->user->name,
 				'email' => $this->user->email,
 			],
-			'categories' => CategoryResource::collection($this->categories),
-			'categoriesIds' => $this->categories->map(function($cat) { return $cat->id; }),
+			'categories' => $this->categories->map(function($cat) { return $cat->id; }),
+			'fullCategories' => CategoryResource::collection($this->categories),
 		];
 	}
 }

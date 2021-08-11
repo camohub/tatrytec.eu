@@ -53,17 +53,9 @@ class ArticlesController extends BaseController
 	{
 		$article = Article::where('id', $id)->withTrashed()->first();
 
-		if( !$article )
-		{
-			flash()->error('Článok nebol nájdený.');
-			return back();
-		}
+		if( !$article ) return response()->json(['error' => 'Článok nebol nájdený.']);
 
-		if ( !$request->user()->can('update', $article) )
-		{
-			flash()->error('Nemáte oprávnenie upravovať vybraný článok.')->important();
-			return back();
-		}
+		if ( !$request->user()->can('update', $article) ) return response()->json(['error' => 'Nemáte oprávnenie upravovať vybraný článok.']);
 
 		return response()->json([
 			'article' => new ArticleResource($article),
@@ -74,23 +66,13 @@ class ArticlesController extends BaseController
 
 	public function store( ArticleRequest $request, ArticlesService $articlesService, $id = NULL )
 	{
-		if( !$id && !$request->user()->can('create', Article::class) )
-		{
-			flash()->error('Nemáte oprávnenie vytvárať články.')->important();
-			return back()->withInput();
-		}
-
-		if ( $id && !$request->user()->can('update', $article = Article::find($id)) )
-		{
-			flash()->error('Nemáte oprávnenie upravovať vybraný článok.')->important();
-			return back()->withInput();
-		}
+		if( !$id && !$request->user()->can('create', Article::class) ) return response()->json(['error' => 'Nemáte oprávnenie vytvárať články.']);
+		if ( $id && !$request->user()->can('update', $article = Article::find($id)) ) return response()->json(['error' => 'Nemáte oprávnenie upravovať vybraný článok.']);
 
 		$id ? $articlesService->update($request, $article)
 			: $articlesService->create($request);
 
-		flash()->success('Článok bol uložený do databázy.');
-		return redirect()->route('admin.articles');
+		return response()->json(['Článok bol uložený do databázy.']);
 	}
 
 
