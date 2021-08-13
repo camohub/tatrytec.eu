@@ -30,5 +30,6 @@ Route::namespace('Api')->group(function () {
 		Route::get('/article/edit/{id}', 'ArticlesController@edit')->name('api-article-edit');
 		Route::get('/article/delete/{id}', 'ArticlesController@delete')->name('api-article-delete');
 		Route::post('/article/store/{id?}', 'ArticlesController@store')->name('api-article-store');
+		Route::post('/images/add', 'ImageController@store')->name('api-images-add');
 	});
 });
