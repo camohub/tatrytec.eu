@@ -24,7 +24,9 @@ class ArticlesService
 
 		$article->categories()->attach($request->get('categories'));
 
-		return $article->save();
+		$article->save();
+
+		return $article;
 	}
 
 
