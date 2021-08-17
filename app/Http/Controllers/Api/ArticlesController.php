@@ -33,7 +33,7 @@ class ArticlesController extends BaseController
 
 
 
-	public function create( Request $request, CategoriesService $categoriesService )
+	/*public function create( Request $request, CategoriesService $categoriesService )
 	{
 		if( !$request->user()->can('create', Article::class) )
 		{
@@ -43,9 +43,8 @@ class ArticlesController extends BaseController
 
 		return view('admin.articles.edit', [
 			'article' => NULL,
-			'selectCategories' => $categoriesService->categoriesToSelect(),
 		]);
-	}
+	}*/
 
 
 
@@ -57,10 +56,7 @@ class ArticlesController extends BaseController
 
 		if ( !$request->user()->can('update', $article) ) return response()->json(['error' => 'Nemáte oprávnenie upravovať vybraný článok.']);
 
-		return response()->json([
-			'article' => new ArticleResource($article),
-			'selectCategories' => $categoriesService->categoriesToSelect(),
-		]);
+		return response()->json(['article' => new ArticleResource($article)]);
 	}
 
 
@@ -70,9 +66,9 @@ class ArticlesController extends BaseController
 		if ( $id && !$request->user()->can('update', $article = Article::find($id)) ) return response()->json(['error' => 'Nemáte oprávnenie upravovať vybraný článok.']);
 
 		$id ? $articlesService->update($request, $article)
-			: $articlesService->create($request);
+			: $article = $articlesService->create($request);
 
-		return response()->json(['Článok bol uložený do databázy.']);
+		return response()->json(['id' => $article->id]);
 	}
 
 
@@ -82,7 +78,7 @@ class ArticlesController extends BaseController
 
 		if( !$article ) return response()->json(['error' => 'Článok nebol nájdený.']);
 
-		if ( !$request->user()->can('update', $article) ) return response()->json(['error' => 'Nemáte oprávnenie meniť viditeľnosť článku.']);
+		if ( TRUE || !$request->user()->can('update', $article) ) return response()->json(['error' => 'Nemáte oprávnenie meniť viditeľnosť článku.']);
 
 		$article->visible = !$article->visible;
 		$article->save();
