@@ -20,10 +20,7 @@ class CategoryController extends BaseController
 	{
 		if ( !$request->user()->can('create', Category::class) ) return response()->json(['error' => 'Nemáte oprávnenie upravovať kategórie.']);
 
-		$categories = Category::whereNull('parent_id')
-			->with('allChildren')
-			->without('children')
-			->orderBy('sort', 'ASC')->get();
+		$categories = Category::whereNull('parent_id')->orderBy('sort', 'ASC')->get();
 
 		return response()->json(['categories' => $categories]);
 	}

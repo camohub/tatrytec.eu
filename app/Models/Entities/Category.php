@@ -17,7 +17,7 @@ class Category extends Model
 
 	protected $casts = [];
 
-	protected $with = ['children'];
+	protected $with = ['children', 'allChildren'];
 
 
 	public function children()
