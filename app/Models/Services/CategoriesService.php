@@ -47,8 +47,11 @@ class CategoriesService
 		$category->sort = 0;
 		$category->parent_id = $request->get('parent_id', NULL);
 		$category->visible = FALSE;
+		$category->user_id = Auth::id();
 
-		return $category->save();
+		$category->save();
+
+		return $category;
 	}
 
 
@@ -81,6 +84,23 @@ class CategoriesService
 
 			if ( $category->allChildren->count() ) $result = $this->categoriesToSelect( $category->allChildren, $result, $lev + 1 );
 		}
+
+		return $result;
+	}
+
+
+	/**
+	 * @desc Javascript lost numeric keys order so keys has to be string.
+	 * @param null|Collection $categories
+	 * @param array $result
+	 * @param int $lev
+	 * @return array
+	 */
+	public function categoriesToApiSelect( $categories = NULL, $result = [], $lev = 0 )
+	{
+		$select = $this->categoriesToSelect();
+		$result = [];
+		foreach ( $select as $key => $value ) $result['id_'. $key] = $value;
 
 		return $result;
 	}
