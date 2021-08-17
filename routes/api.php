@@ -26,10 +26,17 @@ Route::namespace('Api')->group(function () {
 			return response()->json(['user' => new UserResource(Auth::user())]);  // Otherwise it returns error.
 		});
 		Route::get('/articles', 'ArticlesController@index')->name('api-articles');
-		Route::get('/article/visibility/{id}', 'ArticlesController@visibility')->name('api-article-visibility');
-		Route::get('/article/edit/{id}', 'ArticlesController@edit')->name('api-article-edit');
-		Route::get('/article/delete/{id}', 'ArticlesController@delete')->name('api-article-delete');
 		Route::post('/article/store/{id?}', 'ArticlesController@store')->name('api-article-store');
+		Route::get('/article/edit/{id}', 'ArticlesController@edit')->name('api-article-edit');
+		Route::get('/article/visibility/{id}', 'ArticlesController@visibility')->name('api-article-visibility');
+		Route::get('/article/delete/{id}', 'ArticlesController@delete')->name('api-article-delete');
 		Route::post('/images/add', 'ImageController@store')->name('api-images-add');
+
+		Route::get('/categories', 'CategoryController@index')->name('api-categories');
+		Route::post('/category/store/{id?}', 'CategoryController@store')->name('api-category-store');
+		Route::get('/category/edit/{id}', 'CategoryController@edit')->name('api-category-edit');
+		Route::get('/category/delete/{id}', 'CategoryController@delete')->name('api-category-delete');
+		Route::get('/category/visibility/{id}', 'CategoryController@visibility')->name('api-category-delete');
+		Route::get('/category/select-categories', 'CategoryController@getSelectCategories')->name('api-category-select-categories');
 	});
 });
