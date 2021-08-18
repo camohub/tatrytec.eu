@@ -78,7 +78,7 @@ class ArticlesController extends BaseController
 
 		if( !$article ) return response()->json(['error' => 'Článok nebol nájdený.']);
 
-		if ( TRUE || !$request->user()->can('update', $article) ) return response()->json(['error' => 'Nemáte oprávnenie meniť viditeľnosť článku.']);
+		if ( !$request->user()->can('update', $article) ) return response()->json(['error' => 'Nemáte oprávnenie meniť viditeľnosť článku.']);
 
 		$article->visible = !$article->visible;
 		$article->save();
