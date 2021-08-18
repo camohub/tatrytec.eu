@@ -5,11 +5,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\BaseController;
 use App\Http\Requests\CategoryRequest;
-use App\Http\Resources\CategoryResource;
 use App\Models\Entities\Category;
+use App\Models\Entities\Role;
 use App\Models\Services\CategoriesService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
 
@@ -52,13 +51,11 @@ class CategoryController extends BaseController
 
 	public function visibility( Request $request, $id )
 	{
-		$category = Category::where('id', $id)->first();
+		$category = Category::find($id);
 
 		if( !$category ) return response()->json(['error' => 'Kategória nebola nájdená.']);
 
-		return response()->json(['error' => 'Nemáte oprávnenie meniť viditeľnosť kategorií.']);
-
-		if ( !$request->user()->can('create', Category::class) ) return response()->json(['error' => 'Nemáte oprávnenie meniť viditeľnosť kategorií.']);
+		if( !$request->user()->hasRole(Role::ROLE_ADMIN) ) return response()->json(['error' => 'Nemáte oprávnenie upravovať viditeľnosť kategórií.']);
 
 		$category->visible = !$category->visible;
 		$category->save();
@@ -69,9 +66,9 @@ class CategoryController extends BaseController
 
 	public function delete( Request $request, $id )
 	{
-		$category = Category::where('id', $id)->first();
+		$category = Category::find($id);
 
-		if ( !$request->user()->can('create', Category::class) ) return response()->json(['error' => 'Nemáte oprávnenie zmazať kategóriu.']);
+		if ( !$request->user()->can('update', $category) ) return response()->json(['error' => 'Nemáte oprávnenie zmazať vybranú kategóriu.']);
 
 		$category->delete();
 
@@ -83,6 +80,8 @@ class CategoryController extends BaseController
 	{
 		try
 		{
+			if( !$request->user()->hasRole(Role::ROLE_ADMIN) ) return response()->json(['error' => 'Nemáte oprávnenie meniť poradie kategórií.']);
+
 			$categoriesService->updateCategoriesSort( $_GET['menuItem'] );
 			//$this->cleanCache();
 			return response()->json(['success' => 'Poradie položiek bolo upravené.']);

@@ -37,6 +37,12 @@ Route::namespace('Api')->group(function () {
 		Route::get('/category/edit/{id}', 'CategoryController@edit')->name('api-category-edit');
 		Route::get('/category/delete/{id}', 'CategoryController@delete')->name('api-category-delete');
 		Route::get('/category/visibility/{id}', 'CategoryController@visibility')->name('api-category-delete');
+		Route::get('/categories/sort', 'CategoryController@sort')->name('categories.sort');
 		Route::get('/category/select-categories', 'CategoryController@getSelectCategories')->name('api-category-select-categories');
+
+		Route::get('/users', 'UserController@index')->name('api-users');
+		Route::post('/user/store/{id?}', 'UserController@store')->name('api-user-store');
+		Route::get('/user/edit/{id}', 'UserController@edit')->name('api-user-edit');
+		Route::get('/user/toggle-delete/{id}', 'UserController@toggleDelete')->name('api-user-toggle-delete');
 	});
 });

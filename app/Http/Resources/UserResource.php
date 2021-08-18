@@ -30,6 +30,7 @@ class UserResource extends JsonResource
 			'email' => $this->email,
 			'token' => $this->token,
 			'created_at' => $this->created_at->getTimestamp(),
+			'deleted_at' => $this->deleted_at ? $this->deleted_at->getTimestamp() : NULL,
 			'roles' => array_map(
 				function ($role) {
 					return $role['name'];
