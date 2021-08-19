@@ -31,12 +31,7 @@ class UserResource extends JsonResource
 			'token' => $this->token,
 			'created_at' => $this->created_at->getTimestamp(),
 			'deleted_at' => $this->deleted_at ? $this->deleted_at->getTimestamp() : NULL,
-			'roles' => array_map(
-				function ($role) {
-					return $role['name'];
-				},
-				$this->roles->toArray()
-			)
+			'roles' => $this->roles->map(function ($role) { return $role->id; }),
 		];
 	}
 }

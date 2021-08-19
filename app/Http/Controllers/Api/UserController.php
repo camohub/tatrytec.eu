@@ -76,7 +76,7 @@ class UserController extends BaseController
 
 		if ( !$request->user()->hasrole(Role::ROLE_ADMIN) ) return response()->json(['error' => 'Nemáte oprávnenie upravovať profil uživateľa.']);
 
-		return response()->json(['user' => $user]);
+		return response()->json(['user' => new UserResource($user)]);
 	}
 
 
