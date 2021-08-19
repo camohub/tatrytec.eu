@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Models\Entities\Role;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -52,7 +53,7 @@ class UserPolicy
      */
     public function update(User $user, User $model)
     {
-        //
+        return  $user->hasRole(Role::ROLE_ADMIN);
     }
 
     /**

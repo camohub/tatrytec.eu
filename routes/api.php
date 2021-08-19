@@ -44,5 +44,6 @@ Route::namespace('Api')->group(function () {
 		Route::post('/user/store/{id?}', 'UserController@store')->name('api-user-store');
 		Route::get('/user/edit/{id}', 'UserController@edit')->name('api-user-edit');
 		Route::get('/user/toggle-delete/{id}', 'UserController@toggleDelete')->name('api-user-toggle-delete');
+		Route::get('/user/select-roles', 'UserController@getSelectRoles')->name('api-user-select-roles');
 	});
 });

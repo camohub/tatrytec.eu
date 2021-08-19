@@ -4,13 +4,15 @@ namespace App\Http\Controllers\Api;
 
 
 use App\Http\Controllers\BaseController;
+use App\Http\Requests\RegisterApiUser;
 use App\Http\Resources\UserResource;
 use App\Mail\RegisterEmailConfirmation;
 use App\Models\Entities\Role;
+use App\Models\Services\RolesService;
+use App\Models\Services\UsersService;
 use App\Models\User;
 use DateTimeImmutable;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -29,6 +31,29 @@ class UserController extends BaseController
 	}
 
 
+	public function store(RegisterApiUser $request, $id = NULL)
+	{
+		$name = $request->get('name');
+		$email = $request->get('email');
+		$password = $request->get('password');
+		$roles = $request->get('roles');
+
+		$user = $id ? User::find($id) : new User();
+
+		$user->name = $name;
+		$user->email = $email;
+		if( $password ) $user->password = Hash::make($password);
+		if( $id ) $user->register_token = sha1($password . time() . $name);
+		$user->save();
+		$user->roles()->sync($roles);
+		$user->save();
+
+		if( !$id ) Mail::mailer('smtp')->to($user)->send(new RegisterEmailConfirmation($user));
+
+		return response()->json(['id' => $user->id]);
+	}
+
+
 	public function toggleDelete( Request $request, $id )
 	{
 		if( !$request->user()->hasRole(Role::ROLE_ADMIN) ) return response()->json(['error' => 'Nemáte oprávnenie upravovať uživateľov.']);
@@ -43,22 +68,15 @@ class UserController extends BaseController
 
 
 
-
-	public function edit(Request $request)
+	public function edit(Request $request, $id)
 	{
-		$user = User::withTrashed()->where('id', $request->get('id') )->first();
+		$user = User::where('id', $id)->withTrashed()->first();
 
-		if ( !$user ) return response()->json(['error', 'Uživateľa sa nepodarilo nájsť.']);
+		if( !$user ) return response()->json(['error' => 'Uživateľ nebol nájdený.']);
 
-		if ( !$request->user()->hasRole(Role::ROLE_ADMIN) ) return response()->json(['error' => 'Nemáte oprávnenie upravovať uživateľov.']);
+		if ( !$request->user()->hasrole(Role::ROLE_ADMIN) ) return response()->json(['error' => 'Nemáte oprávnenie upravovať profil uživateľa.']);
 
-		$user->name = $request->get('name', $user->name);
-		$user->email = $request->get('email', $user->email);
-
-		$user->roles()->sync($request->get('roles'));
-		$user->save();
-
-		return response()->json(['success' => 'Údaje boli uložené do databázy.']);
+		return response()->json(['user' => $user]);
 	}
 
 
@@ -79,6 +97,12 @@ class UserController extends BaseController
 		}
 
 		return response()->json(['success' => 'Bol odoslaný konfirmačný email.']);
+	}
+
+
+	public function getSelectRoles()
+	{
+		return response()->json(['selectRoles' => Role::all()]);
 	}
 
 }
