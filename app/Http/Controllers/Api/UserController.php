@@ -23,7 +23,7 @@ class UserController extends BaseController
 
 	public function index(Request $request)
 	{
-		if( $request->user()->hasRole(Role::ROLE_ADMIN) ) return response()->json(['error' => 'Nemáte oprávnenie editovať uživateľov.']);
+		if( !$request->user()->hasRole(Role::ROLE_ADMIN) ) return response()->json(['error' => 'Nemáte oprávnenie editovať uživateľov.']);
 
 		$users = User::withTrashed()->orderBy('name', 'ASC')->get();
 
@@ -38,7 +38,7 @@ class UserController extends BaseController
 		$password = $request->get('password');
 		$roles = $request->get('roles');
 
-		$user = $id ? User::find($id) : new User();
+		$user = $id ? User::where('id', $id)->withTrashed()->first() : new User();
 
 		$user->name = $name;
 		$user->email = $email;
