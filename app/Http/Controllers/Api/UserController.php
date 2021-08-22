@@ -33,6 +33,8 @@ class UserController extends BaseController
 
 	public function store(RegisterApiUser $request, $id = NULL)
 	{
+		if( !$request->user()->hasRole(Role::ROLE_ADMIN) ) return response()->json(['error' => 'Nemáte oprávnenie editovať uživateľov.']);
+
 		$name = $request->get('name');
 		$email = $request->get('email');
 		$password = $request->get('password');
@@ -56,7 +58,7 @@ class UserController extends BaseController
 
 	public function toggleDelete( Request $request, $id )
 	{
-		if( !$request->user()->hasRole(Role::ROLE_ADMIN) ) return response()->json(['error' => 'Nemáte oprávnenie upravovať uživateľov.']);
+		if( !$request->user()->hasRole(Role::ROLE_ADMIN) ) return response()->json(['error' => 'Nemáte oprávnenie editovať uživateľov.']);
 
 		$user = User::withTrashed()->where('id', $id)->first();
 
