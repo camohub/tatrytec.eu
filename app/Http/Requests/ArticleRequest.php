@@ -31,7 +31,7 @@ class ArticleRequest extends FormRequest
 			'meta_desc.required' => 'Vyplňte prosím meta desc.',
 			'meta_desc.max' => 'Pole meta desc môže mať max. 255 znakov.',
 			'perex.required' => 'Vyplňte prosím perex.',
-			'conten.requiredt' => 'Vyplňte prosím text.',
+			'content.required' => 'Vyplňte prosím text.',
 			'categories.required' => 'Vyberte prosím aspoň jednu kategóriu.',
 		];
 	}
