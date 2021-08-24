@@ -14,16 +14,11 @@ use App\Models\Services\ArticlesService;
 use App\Models\Services\ArticlesFilterService;
 use App\Models\Services\CategoriesService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
 
 
 class ArticlesController extends BaseController
 {
-
-	const SESS_FILTER = self::class . '_filter';
-
 
 	public function index(ArticlesFilterService $articlesFilterService)
 	{
@@ -31,22 +26,6 @@ class ArticlesController extends BaseController
 
 		return response()->json(['articles' => SlimArticleResource::collection($articles)]);
 	}
-
-
-
-	/*public function create( Request $request, CategoriesService $categoriesService )
-	{
-		if( !$request->user()->can('create', Article::class) )
-		{
-			flash()->error('Nemáte oprávnenie vytvárať články.')->important();
-			return back();
-		}
-
-		return view('admin.articles.edit', [
-			'article' => NULL,
-		]);
-	}*/
-
 
 
 	public function edit( Request $request, CategoriesService $categoriesService, $id )
