@@ -44,14 +44,11 @@ class ArticleRequest extends FormRequest
 		$validator->after(function ($validator)
 		{
 			$id = $this->route('id');
-			if ( $id && Article::where( 'title', $this->get('title') )->where('id', '!=', $id)->first() )
-			{
-				$validator->errors()->add('title', 'Článok s rovnakým názvom už existuje.');
-			}
-			if ( ! $id && Article::where('title', $this->get('title') )->first() )
-			{
-				$validator->errors()->add('title', 'Článok s rovnakým názvom už existuje.');
-			}
+			$article = $id
+				? Article::where('title', $this->get('title'))->where('id', '!=', $id)->first()
+				: Article::where('title', $this->get('title'))->first();
+
+			if ( $article ) $validator->errors()->add('title', 'Článok s rovnakým názvom už existuje.');
 		});
 
 		if( $validator->fails() ) session()->flash('showModal', 'editCategoryFormModal');
