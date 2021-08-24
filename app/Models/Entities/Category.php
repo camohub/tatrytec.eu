@@ -61,7 +61,7 @@ class Category extends Model
 
 		if ( $this->children->count() )
 		{
-			foreach ( $this->children as $child ) $ids[] = $this->getCategoryIds( $child, $ids );
+			foreach ( $this->children as $child ) $ids = $child->getCategoryIds( $ids );
 		}
 
 		return $ids;
