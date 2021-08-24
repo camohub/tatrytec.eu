@@ -9,6 +9,7 @@ use App\Http\Requests\ArticleRequest;
 use App\Http\Resources\ArticleResource;
 use App\Http\Resources\SlimArticleResource;
 use App\Models\Entities\Article;
+use App\Models\Entities\Role;
 use App\Models\Services\ArticlesService;
 use App\Models\Services\ArticlesFilterService;
 use App\Models\Services\CategoriesService;
@@ -78,7 +79,7 @@ class ArticlesController extends BaseController
 
 		if( !$article ) return response()->json(['error' => 'Článok nebol nájdený.']);
 
-		if ( !$request->user()->can('update', $article) ) return response()->json(['error' => 'Nemáte oprávnenie meniť viditeľnosť článku.']);
+		if ( !$request->user()->hasRole(Role::ROLE_ADMIN) ) return response()->json(['error' => 'Nemáte oprávnenie meniť viditeľnosť článku.']);
 
 		$article->visible = !$article->visible;
 		$article->save();
